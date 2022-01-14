@@ -5,7 +5,6 @@ import { User as UserBaseDto } from '~shared/types/base'
 
 const USER_MODEL_NAME = 'user'
 
-// TODO (#225): Remove this and replace ModelCtor below with ModelDefined
 export interface User extends Model, UserBaseDto {}
 
 interface Settable {
@@ -18,28 +17,36 @@ export const defineUser = (
   { emailValidator }: { emailValidator: IMinimatch },
 ): { User: ModelCtor<User> } => {
   const User: ModelCtor<User> = sequelize.define(USER_MODEL_NAME, {
-    username: {
+    sgid: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+    },
+    displayname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    fullname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
       unique: true,
       validate: {
         isEmail: true,
         isLowercase: true,
         is: emailValidator.makeRe(),
       },
-      set(this: Settable, username: string) {
+      allowNull: true,
+      set(this: Settable, email: string) {
         // save email as lowercase for ease of checks
-        this.setDataValue('username', username.trim().toLowerCase())
+        this.setDataValue('email', email.trim().toLowerCase())
       },
     },
-    displayname: {
-      type: DataTypes.STRING,
+    active: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      unique: true,
-    },
-    views: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
     },
   })
 

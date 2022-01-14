@@ -1,6 +1,6 @@
 import passport from 'passport'
 import { Strategy, Issuer, TokenSet, UserinfoResponse } from 'openid-client'
-import { PublicUser } from '../../models'
+import { User } from '../../models'
 import { ModelCtor } from 'sequelize/dist'
 import { AuthUserDto, UserAuthType } from '~shared/types/api'
 import * as jose from 'jose'
@@ -26,10 +26,7 @@ const sgidClient = new Client({
   response_types: ['code'], // default
 })
 
-const sgidCallback = (
-  PublicUser: ModelCtor<PublicUser>,
-  privKeyPem: string,
-) => {
+const sgidCallback = (User: ModelCtor<User>, privKeyPem: string) => {
   return async (
     tokenset: TokenSet,
     userinfo: UserinfoResponse,
@@ -55,7 +52,7 @@ const sgidCallback = (
         .then(({ plaintext }) => decoder.decode(plaintext))
 
       // Note: findOrCreate returns [user, created]
-      const [user] = await PublicUser.findOrCreate({
+      const [user] = await User.findOrCreate({
         where: { sgid: tokenset.claims().sub },
         defaults: {
           active: true,
@@ -75,7 +72,7 @@ const sgidCallback = (
 }
 
 export const sgidStrategy = (
-  PublicUser: ModelCtor<PublicUser>,
+  User: ModelCtor<User>,
   privateKeyPem: string,
 ): void => {
   passport.use(
@@ -96,7 +93,7 @@ export const sgidStrategy = (
         passReqToCallback: false,
         usePKCE: false,
       },
-      sgidCallback(PublicUser, privateKeyPem),
+      sgidCallback(User, privateKeyPem),
     ),
   )
 }

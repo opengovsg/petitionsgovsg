@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { Answer, Post, User } from '~shared/types/base'
-import { PostCreation } from '../models/posts.model'
+import { Signature, Post, User } from '~shared/types/base'
 import { Message } from '../types/message-type'
 import { ControllerHandler } from '../types/response-handler'
 import { ModelDef } from '../types/sequelize'
 
-type AnswerWithRelations = Answer & {
+type SignatureWithRelations = Signature & {
   userId: number
   post: Post
 }
@@ -19,12 +18,12 @@ export type OwnershipCheck = ControllerHandler<
   any
 >
 export const checkOwnershipUsing = ({
-  Answer,
+  Signature,
   Post,
   User,
 }: {
-  Answer: ModelDef<Answer>
-  Post: ModelDef<Post, PostCreation>
+  Signature: ModelDef<Signature>
+  Post: ModelDef<Post>
   User: ModelDef<User>
 }): OwnershipCheck => {
   const checkOwnership: OwnershipCheck = async (
@@ -32,7 +31,7 @@ export const checkOwnershipUsing = ({
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const results = (await Answer.findOne({
+    const results = (await Signature.findOne({
       where: { id: req.params.id },
       attributes: ['userId'],
       include: [
@@ -40,7 +39,7 @@ export const checkOwnershipUsing = ({
           model: Post,
         },
       ],
-    })) as unknown as AnswerWithRelations
+    })) as unknown as SignatureWithRelations
     if (!results) {
       return res
         .status(StatusCodes.BAD_REQUEST)
@@ -58,11 +57,6 @@ export const checkOwnershipUsing = ({
       return res.status(StatusCodes.FORBIDDEN).json({
         message: `User ${req.user.id} does not exist`,
       })
-    }
-
-    if (user?.agencyId !== results.post.agencyId) {
-      const message = `User ${req.user.id} is not authorized to manage this question`
-      return res.status(StatusCodes.FORBIDDEN).json({ message: message })
     }
 
     next()
