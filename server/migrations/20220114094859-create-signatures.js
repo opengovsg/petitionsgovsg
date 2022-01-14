@@ -2,23 +2,15 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('answers', {
+    return queryInterface.createTable('signatures', {
       id: {
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      body: {
+      comment: {
         type: Sequelize.TEXT,
         allowNull: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
       },
       userId: {
         allowNull: true,
@@ -38,12 +30,20 @@ module.exports = {
           key: 'id', // key in Target model that we're referencing
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
       },
     })
   },
 
   down: async (queryInterface) => {
-    return queryInterface.dropTable('answers')
+    return queryInterface.dropTable('signatures')
   },
 }

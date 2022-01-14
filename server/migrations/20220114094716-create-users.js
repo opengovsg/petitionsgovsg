@@ -2,34 +2,31 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable('agencies', {
+    await queryInterface.createTable('users', {
       id: {
+        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      shortname: {
-        type: Sequelize.STRING,
+      sgid: {
         allowNull: false,
-        unique: true,
+        type: Sequelize.STRING,
       },
-      longname: {
+      displayname: {
+        allowNull: true,
         type: Sequelize.STRING,
+      },
+      fullname: {
         allowNull: false,
+        type: Sequelize.STRING,
       },
       email: {
+        allowNull: true,
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          isEmail: true,
-        },
       },
-      logo: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          isUrl: true,
-        },
+      active: {
+        type: Sequelize.BOOLEAN,
       },
       createdAt: {
         allowNull: false,
@@ -42,7 +39,7 @@ module.exports = {
     })
   },
 
-  down: async (queryInterface) => {
-    return queryInterface.dropTable('agencies')
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('users')
   },
 }
