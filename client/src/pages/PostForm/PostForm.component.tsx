@@ -1,19 +1,13 @@
 import { Spacer } from '@chakra-ui/react'
 import { Fragment } from 'react'
-import { useQuery } from 'react-query'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
-import Spinner from '../../components/Spinner/Spinner.component'
 import { useStyledToast } from '../../components/StyledToast/StyledToast'
-import { useAuth } from '../../contexts/AuthContext'
-import * as AnswerService from '../../services/AnswerService'
+import * as SignatureService from '../../services/SignatureService'
 import * as PostService from '../../services/PostService'
-import {
-  getTopicsUsedByAgency,
-  GET_TOPICS_USED_BY_AGENCY_QUERY_KEY,
-} from '../../services/TopicService'
-import AskForm, { AskFormSubmission } from './AskForm/AskForm.component'
+import AskForm, { FormSubmission } from './FormFields/FormFields.component'
 import './PostForm.styles.scss'
+import { useAuth } from '../../contexts/AuthContext'
 
 const PostForm = (): JSX.Element => {
   const { user } = useAuth()
@@ -22,23 +16,23 @@ const PostForm = (): JSX.Element => {
   if (!user) {
     return <Navigate replace to="/login" />
   } else {
-    const { isLoading, data: topicData } = useQuery(
-      GET_TOPICS_USED_BY_AGENCY_QUERY_KEY,
-      () => getTopicsUsedByAgency(user.agencyId),
-      {
-        staleTime: Infinity,
-      },
-    )
-    const onSubmit = async (data: AskFormSubmission) => {
+    // const { isLoading, data: topicData } = useQuery(
+    //   GET_TOPICS_USED_BY_AGENCY_QUERY_KEY,
+    //   () => getTopicsUsedByAgency(user.agencyId),
+    //   {
+    //     staleTime: Infinity,
+    //   },
+    // )
+    const onSubmit = async (data: FormSubmission) => {
       try {
         const { data: postId } = await PostService.createPost({
-          description: data.postData.description,
           title: data.postData.title,
-          agencyId: user.agencyId,
-          tagname: null, //TODO: Update when tags are re-introduced
-          topicId: data.topic,
+          summary: '',
+          reason: '',
+          request: '',
+          references: '',
         })
-        await AnswerService.createAnswer(postId, data.answerData)
+        await SignatureService.createSignature(postId)
         toast({
           status: 'success',
           description: 'Your post has been created.',
@@ -52,9 +46,7 @@ const PostForm = (): JSX.Element => {
       }
     }
 
-    return isLoading ? (
-      <Spinner centerHeight="200px" />
-    ) : (
+    return (
       <Fragment>
         <div className="post-form-container">
           <div className="post-form-content">
@@ -68,7 +60,7 @@ const PostForm = (): JSX.Element => {
               <div className="postform" style={{ width: '100%' }}>
                 {/* Undefined checks to coerce types. In reality all data should have loaded. */}
                 <AskForm
-                  topicOptions={topicData ?? []}
+                  topicOptions={[]}
                   onSubmit={onSubmit}
                   submitButtonText="Post your question"
                 />

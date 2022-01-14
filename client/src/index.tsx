@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import ScrollToTop from './components/ScrollToTop/ScrollToTop.component'
 import { HelmetProvider } from 'react-helmet-async'
 
 import App from './App'
@@ -16,7 +15,6 @@ ReactDOM.render(
       {/* ReactQueryDevtools will not appear in production builds */}
       <ReactQueryDevtools initialIsOpen={false} />
       <BrowserRouter>
-        <ScrollToTop />
         <HelmetProvider>
           <App />
         </HelmetProvider>
