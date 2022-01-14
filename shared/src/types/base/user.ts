@@ -2,10 +2,11 @@ import { z } from 'zod'
 import { BaseModel } from './common'
 
 export const User = BaseModel.extend({
-  username: z.string(),
+  sgid: z.string(),
   displayname: z.string(),
-  views: z.number().nonnegative(),
-  agencyId: z.number(),
+  fullname: z.string(),
+  email: z.string(),
+  active: z.boolean(),
 })
 
 export type User = z.infer<typeof User>

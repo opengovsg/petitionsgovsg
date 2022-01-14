@@ -1,18 +1,11 @@
-import { Agency, User, PublicUser } from '../base'
+import { User } from '../base'
 
 export enum UserAuthType {
   Public = 'public',
-  Agency = 'agency',
+  Agency = 'agency', // For future implementation
 }
 
-export type LoadUserDto =
-  | (User & {
-      agency: Agency
-    })
-  | null
-
-export type LoadPublicUserDto = PublicUser | null
-
+export type LoadPublicUserDto = User | null
 export interface AuthUserDto {
   id: number
   type: UserAuthType

@@ -1,10 +1,10 @@
 import { z } from 'zod'
 import { BaseModel } from './common'
 
-export const Answer = BaseModel.extend({
-  body: z.string(),
+export const Signature = BaseModel.extend({
+  comment: z.string().nullable(),
   userId: z.number().nonnegative(),
   postId: z.number().nonnegative(),
 })
 
-export type Answer = z.infer<typeof Answer>
+export type Signature = z.infer<typeof Signature>
