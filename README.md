@@ -1,5 +1,4 @@
-# AskGov
-Answers from the Singapore Government 
+# PetitionsGov
 
 ## Tech Stack
 
@@ -12,8 +11,9 @@ Answers from the Singapore Government
 
 - For handling server requests: `Node.js with Express.js Framework`
 - Database: `MySQL`
-  
+
 ## Prerequisites
+
 [Node, NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 [Git](https://git-scm.com/download/mac)
@@ -28,15 +28,15 @@ Optionally [DBeaver](https://dbeaver.io/download/) to view database with GUI
 
 ## Setup
 
-* Make a copy of `.env.example` and name it `.env`
+- Make a copy of `.env.example` and name it `.env`
 
-* [Hook](https://github.com/direnv/direnv/blob/master/docs/hook.md) direnv onto your appropriate shell. Load the environment variables:
+- [Hook](https://github.com/direnv/direnv/blob/master/docs/hook.md) direnv onto your appropriate shell. Load the environment variables:
 
   ```
   direnv allow .
   ```
 
-* Install and audit node dependencies
+- Install and audit node dependencies
 
   ```
   npm install
@@ -44,48 +44,39 @@ Optionally [DBeaver](https://dbeaver.io/download/) to view database with GUI
   npm run audit-dep
   ```
 
-* Spin up docker containers (this will create the `askgov` database):
-  
+- Spin up docker containers (this will create the `petitionsgov` database):
+
   ```
   docker-compose up
   ```
 
-* Create tables in database:
+- Create tables in database:
 
   ```
   npm run seq-cli db:migrate
   ```
-  
-* Seed the database with a sample dataset:
+
+- Seed the database with a sample dataset:
 
   ```
   npm run seq-cli db:seed:all
   ```
 
-* Run search_entries index backfill script for OpenSearch integration:
+- Optional: Use Dbeaver to connect to the local MySQL server at `127.0.0.1:3306`, using the username and password in `.env`
 
-  ```
-  cd server/src/bootstrap && npx ts-node search-backfill-trigger.ts
-  ```
+- Check that your Database ER Diagram looks like this:
 
-* To verify that the search_entries index has been successfully built, run `curl -HEAD 'https://localhost:9200/search_entries' --insecure -u 'admin:admin'`
+![image](https://user-images.githubusercontent.com/41635847/149442414-5a5e8966-3949-43d8-801b-4195a9c771df.png)
 
-* Optional: Use Dbeaver to connect to the local MySQL server at `127.0.0.1:3306`, using the username and password in `.env`
+- Stop docker compose (`npm run dev` will spin it up again):
 
-* Check that your Database ER Diagram looks like this:
-  
-![image](https://user-images.githubusercontent.com/56983748/144220333-29ce7c06-09dc-4f0c-85cb-899920bf6518.png)
-
-
-* Stop docker compose (`npm run dev` will spin it up again):
-
- ```
- docker-compose stop
- ```
+```
+docker-compose stop
+```
 
 ## Running in Development
 
-* Start running frontend, backend, maildev, localstack and mysql simultaneously (requires Docker)
+- Start running frontend, backend, localstack and mysql simultaneously (requires Docker)
 
   ```
   npm run dev
@@ -103,26 +94,25 @@ Optionally [DBeaver](https://dbeaver.io/download/) to view database with GUI
   # for frontend server only
   npm run client
   ```
-  
+
   Frontend server accessible on `localhost:3000`
-  
+
   Backend server accessible on `localhost:6174/api/v1`
-  
-  Local mail server `MailDev` accessible on `localhost:1080`
 
-* Default home page is not authorised. To become authorised user, login via `localhost:3000/login`, enter `enquiries@was.gov.sg`. Then go to the mail server to obtain the OTP
-
-* To view UI components on storybook (accessible on `localhost:6006`): `npm run storybook`
+- Default home page is not authorised. To become authorised user, login via `localhost:3000/login`, and sign in using mockpass while on local development.
 
 ## Common Problems
 
 ### SQL Related
+
 - Password Auth Error
-  
+
   Ensure `.env` is correct and check it is sourced by either `direnv` or do
+
   ```
   source .env
   ```
+
 - Public Key Retrieval Not Allowed
 
   Change `allowPublicKeyRetrieval=true` on `DBeaver`
@@ -153,48 +143,27 @@ Optionally [DBeaver](https://dbeaver.io/download/) to view database with GUI
 
   Try using Node.js 16.
 
-### OpenSearch Related
-
-- If you need to delete search_entries index, run `curl -XDELETE 'https://localhost:9200/search_entries' --insecure -u 'admin:admin'`
-
 ## API Endpoints
 
 #### Base Url - `http://localhost:6174/api/v1`
 
-#### Agencies
-- `GET /agencies?<longname, shortname>`
-- `GET /agencies/:agencyId`
-
 #### Auth
+
 - `GET /auth`
-- `GET /auth/verifyotp`
-- `GET /auth/sendotp`
+- `GET /auth/sgid/login`
+- `GET /auth/callback`
 - `GET /auth/logout`
-
-#### Users
-
-- `POST /users/:id`
-- `GET /users/:id`
 
 #### Posts
 
 - `GET /posts`
-- `GET /posts/top`
-- `GET /posts/tag/:tagname`
 - `GET /posts/:id`
-- `POST /posts/`
+- `GET /posts/basic`
+- `POST /posts`
 - `DELETE /posts/:id`
 
-#### Answers
+#### Signatures
 
-- `GET /posts/answers/:id`
-- `POST /posts/answers/:id`
-- `PUT /posts/answers/:id`
-- `DELETE /posts/answers/:id`
-
-#### Tags
-
-- `GET /tags`
-- `GET /tags/user`
-- `GET /tags/agency/:agencyId`
-- `GET /tags/:tagname`
+- `GET /posts/signatures/:id`
+- `POST /posts/signatures/:id`
+- `DELETE /posts/signatures/:id`
