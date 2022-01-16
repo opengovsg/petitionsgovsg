@@ -51,9 +51,9 @@ export const routePosts = ({
         min: 15,
         max: 150,
       }),
-      check('summary', 'Enter a summary with minimum 90 characters')
+      check('summary', 'Enter a summary with minimum 50 characters')
         .isLength({
-          min: 90,
+          min: 50,
         })
         .optional({ nullable: true, checkFalsy: true }),
     ],

@@ -3,13 +3,11 @@ import { StatusCodes } from 'http-status-codes'
 import { Post } from '~shared/types/base'
 import { createLogger } from '../../bootstrap/logging'
 import { Message } from '../../types/message-type'
-import { UpdatePostRequestDto } from '../../types/post-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { SortType } from '../../types/sort-type'
-import { createValidationErrMessage } from '../../util/validation-error'
 import { AuthService } from '../auth/auth.service'
 import { UserService } from '../user/user.service'
-import { PostService, PostWithUser } from './post.service'
+import { PostService, PostWithUserAndSignatures } from './post.service'
 
 const logger = createLogger(module)
 
@@ -84,7 +82,7 @@ export class PostController {
    */
   getSinglePost: ControllerHandler<
     { id: number },
-    PostWithUser | Message,
+    PostWithUserAndSignatures | Message,
     undefined,
     { relatedPosts?: number }
   > = async (req, res) => {
@@ -169,6 +167,13 @@ export class PostController {
           .json({ message: 'User not signed in' })
       }
 
+      const user = await this.userService.loadUser(req.user?.id)
+      if (!user) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ message: 'User id not found in database' })
+      }
+
       const data = await this.postService.createPost({
         title: req.body.title,
         summary: req.body.summary,
@@ -216,7 +221,7 @@ export class PostController {
           .status(StatusCodes.UNAUTHORIZED)
           .json({ message: 'You must be logged in to delete posts.' })
       }
-      const hasPermission = await this.authService.hasPermissionToAnswer(
+      const hasPermission = await this.authService.hasPermissionToEditPost(
         userId,
         postId,
       )

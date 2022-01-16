@@ -11,7 +11,12 @@ import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import { MissingPublicPostError, PostUpdateError } from './post.errors'
 
-export type PostWithUser = Model & Post & Pick<User, 'displayname'>
+export type PostWithUserAndSignatures = Model &
+  Post & {
+    user: Pick<User, 'displayname'>
+    countAnswers: () => number
+    signatures: Signature[]
+  }
 export class PostService {
   private Signature: ModelCtor<Signature>
   private Post: ModelDef<Post>
@@ -35,10 +40,10 @@ export class PostService {
     this.sequelize = sequelize
   }
 
-  private answerCountLiteral: ProjectionAlias = [
+  private signatureCountLiteral: ProjectionAlias = [
     Sequelize.literal(`(
       SELECT COUNT(*)
-      FROM signatures AS signataure
+      FROM signatures AS signature
       WHERE
         signature.postId = post.id
     )`),
@@ -104,7 +109,6 @@ export class PostService {
     }
 
     const orderarray = this.sortFunction(sort)
-
     //return posts filtered by agency, topics and tags
     const posts = (await this.Post.findAll({
       where: whereobj,
@@ -114,15 +118,18 @@ export class PostService {
         this.Signature,
       ],
       attributes: [
-        'id',
-        'userId',
-        'title',
-        'description',
         'createdAt',
-        'views',
-        'displayname',
+        'updatedAt',
+        'status',
+        'title',
+        'summary',
+        'reason',
+        'request',
+        'userId',
+        'references',
+        this.signatureCountLiteral,
       ],
-    })) as PostWithUser[]
+    })) as PostWithUserAndSignatures[]
 
     if (!posts) {
       return { posts: [], totalItems: 0 }
@@ -136,26 +143,31 @@ export class PostService {
    * @param postId Id of the post
    * @param noOfRelatedPosts number of related posts to show
    */
-  getSinglePost = async (postId: number): Promise<PostWithUser> => {
+  getSinglePost = async (
+    postId: number,
+  ): Promise<PostWithUserAndSignatures> => {
     const post = (await this.Post.findOne({
       where: {
         status: PostStatus.Open,
         id: postId,
       },
-      include: [{ model: this.User, attributes: ['displayname'] }],
+      include: [
+        { model: this.User, attributes: ['displayname'] },
+        this.Signature,
+      ],
       attributes: [
-        'id',
-        'userId',
-        'agencyId',
-        'title',
-        'description',
         'createdAt',
         'updatedAt',
-        'views',
         'status',
-        'displayname',
+        'title',
+        'summary',
+        'reason',
+        'request',
+        'userId',
+        'references',
+        this.signatureCountLiteral,
       ],
-    })) as PostWithUser
+    })) as PostWithUserAndSignatures
     if (!post) {
       throw new MissingPublicPostError()
     } else {
