@@ -73,7 +73,7 @@ export class PostController {
   }
 
   /**
-   * Get a single post and all the tags, topic and users associated with it
+   * Get a single post and all the users associated with it
    * @param postId Id of the post
    * @query relatedPosts if true, return related posts
    * @return 200 with post
@@ -130,9 +130,10 @@ export class PostController {
   /**
    * Create a new post
    * @body title title of post
-   * @body tagname tags of post
-   * @body description description of post
-   * @body topicId topic id of post
+   * @body summary summary of post
+   * @body reason reason of post
+   * @body request request of post
+   * @body references references of post
    * @return 200 if post is created
    * @return 400 if title and description is too short or long
    * @return 401 if user is not signed in

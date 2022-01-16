@@ -60,7 +60,7 @@ export class AuthController {
       }
     }
 
-    if (type === UserAuthType.Agency) {
+    if (type === UserAuthType.Public) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
     }
   }

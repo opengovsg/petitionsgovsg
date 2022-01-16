@@ -28,14 +28,14 @@ describe('PostController', () => {
   })
 
   // Set up auth middleware to inject user
-  let user: Express.User | undefined = { id: 1, type: UserAuthType.Agency }
+  let user: Express.User | undefined = { id: 1, type: UserAuthType.Public }
   const middleware: ControllerHandler = (req, res, next) => {
     req.user = user
     next()
   }
 
   beforeEach(() => {
-    user = { id: 1, type: UserAuthType.Agency }
+    user = { id: 1, type: UserAuthType.Public }
   })
   afterEach(async () => {
     jest.clearAllMocks()
@@ -87,11 +87,11 @@ describe('PostController', () => {
   })
 
   describe('createPost', () => {
-    const agencyId = 21
+    const userId = 21
     const postId = 13
 
     beforeEach(() => {
-      userService.loadUser.mockResolvedValue({ agencyId })
+      userService.loadUser.mockResolvedValue({ userId })
       postService.createPost.mockResolvedValue(postId)
     })
     it('returns 401 on no user', async () => {

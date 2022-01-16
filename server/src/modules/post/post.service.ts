@@ -86,9 +86,6 @@ export class PostService {
   /**
    * Lists all post
    * @param sort Sort by popularity or recent
-   * @param agencyId Agency id to filter by
-   * @param tags Tags to filter by
-   * @param topics Topics to filter by
    * @param size Number of posts to return
    * @param page If size is given, specify which page to return
    */
@@ -109,7 +106,6 @@ export class PostService {
     }
 
     const orderarray = this.sortFunction(sort)
-    //return posts filtered by agency, topics and tags
     const posts = (await this.Post.findAll({
       where: whereobj,
       order: [orderarray],
@@ -139,9 +135,8 @@ export class PostService {
   }
 
   /**
-   * Get a single post and all the tags, topic and users associated with it
+   * Get a single post and all users associated with it
    * @param postId Id of the post
-   * @param noOfRelatedPosts number of related posts to show
    */
   getSinglePost = async (
     postId: number,

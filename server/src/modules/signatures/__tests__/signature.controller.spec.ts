@@ -21,7 +21,7 @@ describe('SignatureController', () => {
   })
 
   // Set up auth middleware to inject user
-  const goodUser = { id: 1, type: UserAuthType.Agency }
+  const goodUser = { id: 1, type: UserAuthType.Public }
   let user: Express.User | undefined = goodUser
   const middleware: ControllerHandler = (req, _res, next) => {
     req.user = user

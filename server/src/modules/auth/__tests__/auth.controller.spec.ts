@@ -74,7 +74,7 @@ afterAll(async () => {
 
 describe('auth.controller', () => {
   describe('loadUser', () => {
-    it('should return 200 when agency user id is valid', async () => {
+    it('should return 200 when public user id is valid', async () => {
       // Arrange
       const userData = {
         sgid: 'u=35',

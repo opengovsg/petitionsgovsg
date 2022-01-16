@@ -83,7 +83,7 @@ describe('/signatures', () => {
   })
 
   beforeEach(async () => {
-    authUser = { id: user.id, type: UserAuthType.Agency }
+    authUser = { id: user.id, type: UserAuthType.Public }
     await Post.destroy({ truncate: true })
     await Signature.destroy({ truncate: true })
     post = await Post.create({

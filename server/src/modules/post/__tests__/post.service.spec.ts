@@ -73,28 +73,6 @@ describe('PostService', () => {
       expect(result.totalItems).toStrictEqual(mockPosts.length)
     })
 
-    it('should return all data with no tags query', async () => {
-      // Act
-      const result = await postService.listPosts({
-        sort: SortType.Top,
-      })
-
-      // Assert
-      expect(result.posts.length).toStrictEqual(mockPosts.length)
-      expect(result.totalItems).toStrictEqual(mockPosts.length)
-    })
-
-    it('should return all data with no topics query', async () => {
-      // Act
-      const result = await postService.listPosts({
-        sort: SortType.Top,
-      })
-
-      // Assert
-      expect(result.posts.length).toStrictEqual(mockPosts.length)
-      expect(result.totalItems).toStrictEqual(mockPosts.length)
-    })
-
     it('should return first 10 posts with query on page 1, size 10', async () => {
       // Act
       const result = await postService.listPosts({
@@ -125,7 +103,7 @@ describe('PostService', () => {
   })
 
   describe('getSinglePost', () => {
-    it('gets single post with associated tags, topics, user and related posts', async () => {
+    it('gets single post with associated user', async () => {
       const post = await postService.getSinglePost(mockPosts[0].id)
       expect(post.title).toBe(mockPosts[0].title)
     })

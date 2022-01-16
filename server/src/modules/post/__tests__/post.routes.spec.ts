@@ -38,7 +38,7 @@ describe('/posts', () => {
   }
 
   const authenticate: ControllerHandler = (req, res, next) => {
-    req.user = { id: mockUser.id, type: UserAuthType.Agency }
+    req.user = { id: mockUser.id, type: UserAuthType.Public }
     next()
   }
 
