@@ -56,7 +56,7 @@ const sgidCallback = (User: ModelCtor<User>, privKeyPem: string) => {
         where: { sgid: tokenset.claims().sub },
         defaults: {
           active: true,
-          displayname: name,
+          fullname: name,
         },
       })
 

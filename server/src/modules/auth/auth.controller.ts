@@ -1,8 +1,6 @@
-import { validationResult } from 'express-validator'
 import { StatusCodes } from 'http-status-codes'
 import { isEmpty } from 'lodash'
 import passport from 'passport'
-import { ModelCtor } from 'sequelize'
 import {
   callbackRedirectUnauthorisedURL,
   callbackRedirectURL,
@@ -12,10 +10,6 @@ import { ErrorDto, LoadPublicUserDto, UserAuthType } from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
 import { UserService } from '../../modules/user/user.service'
 import { ControllerHandler } from '../../types/response-handler'
-import { generateRandomDigits, hashData } from '../../util/hash'
-import { createValidationErrMessage } from '../../util/validation-error'
-
-const OTP_LENGTH = 6
 
 const logger = createLogger(module)
 

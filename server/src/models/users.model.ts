@@ -24,7 +24,7 @@ export const defineUser = (
     },
     displayname: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     fullname: {
       type: DataTypes.STRING,

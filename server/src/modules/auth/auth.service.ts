@@ -24,19 +24,22 @@ export class AuthService {
   }
 
   /**
-   * Check if a user has permission to answer a post
+   * Check if a user has permission to edit a post
    * @param userId of user
    * @param postId of post
    * @returns true if user has permission to answer post
    */
-  hasPermissionToAnswer = async (
+  hasPermissionToEditPost = async (
     userId: number,
     postId: number,
   ): Promise<boolean> => {
     const user = await this.User.findByPk(userId)
     const post = await this.Post.findByPk(postId)
 
-    return Boolean(post && user)
+    if (user && post) {
+      return user.id === post.id
+    }
+    return false
   }
 
   /**
@@ -59,7 +62,7 @@ export class AuthService {
 
     if (user) {
       // If officer, they may have permission to answer
-      if (await this.hasPermissionToAnswer(user.id, post.id)) return
+      if (await this.hasPermissionToEditPost(user.id, post.id)) return
 
       // If none of the above, they must have created the post
       if (user.id === post.userId) return
