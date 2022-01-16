@@ -4,7 +4,6 @@ import express from 'express'
 import fs from 'fs'
 import helmet from 'helmet'
 import { StatusCodes } from 'http-status-codes'
-import { createTransport } from 'nodemailer'
 import path from 'path'
 import { checkOwnershipUsing } from '../middleware/checkOwnership'
 import { SignatureController } from '../modules/signatures/signature.controller'
@@ -17,7 +16,6 @@ import { PostService } from '../modules/post/post.service'
 import { UserService } from '../modules/user/user.service'
 import { api } from '../routes'
 import { baseConfig, Environment } from './config/base'
-import { mailConfig } from './config/mail'
 import { emailValidator } from './email-validator'
 import { helmetOptions } from './helmet-options'
 import { requestLoggingMiddleware } from './logging/request-logging'
@@ -51,12 +49,6 @@ app.use(sessionMiddleware(sequelize))
 passportConfig(app, User)
 
 // all the api routes
-const mailOptions = {
-  ...mailConfig.smtpConfig,
-  ignoreTLS: baseConfig.nodeEnv !== Environment.Prod,
-}
-const transport = createTransport(mailOptions)
-
 const authService = new AuthService({
   emailValidator,
   User,
