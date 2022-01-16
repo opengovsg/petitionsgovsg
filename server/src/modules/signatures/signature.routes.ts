@@ -31,7 +31,6 @@ export const routeSignatures = ({
    * @returns 200 with new signature id
    * @returns 400 if invalid request
    * @returns 401 if user not signed in
-   * @returns 403 if user is not authorized to sign
    * @returns 500 if database error
    * @access  Private
    */

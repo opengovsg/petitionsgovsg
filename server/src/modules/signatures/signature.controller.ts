@@ -16,7 +16,7 @@ export class SignatureController {
     signatureService,
   }: {
     signatureService: Public<SignatureService>
-    authService: Pick<AuthService, 'hasPermissionToAnswer'>
+    authService: Pick<AuthService, 'hasPermissionToEditPost'>
   }) {
     this.signatureService = signatureService
   }
@@ -59,7 +59,7 @@ export class SignatureController {
    * @returns 403 if user is not authorized to answer question
    * @returns 500 if database error
    */
-  createAnswer: ControllerHandler<
+  createSignature: ControllerHandler<
     { id: string },
     number | Message,
     { text: string },

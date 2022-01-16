@@ -29,7 +29,7 @@ export const api = (options: ApiRouterOptions): express.Router => {
 
   router.use('/auth', routeAuth(options.auth))
   router.use('/posts', routePosts(options.post))
-  router.use('/posts/signatures', routeSignatures(options.answers))
+  router.use('/posts/signatures', routeSignatures(options.signature))
 
   return router
 }
