@@ -13,7 +13,7 @@ import { routeAuth } from '../auth.routes'
 import { parse } from 'querystring'
 import passport from 'passport'
 import passportCustom from 'passport-custom'
-import { UserAuthType } from '../../../../../shared/src/types/api'
+import { UserAuthType } from '~shared/types/api'
 
 describe('/auth', () => {
   const path = '/auth'
