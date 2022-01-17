@@ -11,10 +11,8 @@ import {
   HStack,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
-import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import Select from 'react-select'
 import { RichTextEditor } from '../../../components/RichText/RichTextEditor.component'
 
 export type FormSubmission = {
@@ -53,10 +51,6 @@ const AskForm = ({
   inputAnswerData = {
     text: '',
   },
-  inputTopic = {
-    value: 0,
-    label: '',
-  },
   onSubmit,
   submitButtonText,
 }: AskFormProps): JSX.Element => {
@@ -72,10 +66,6 @@ const AskForm = ({
       },
     })
   const { errors: formErrors } = formState
-
-  const isTopicChosen = (selectedTopics: TopicOption) => {
-    return Boolean(selectedTopics?.value)
-  }
 
   const replaceEmptyRichTextInput = (value: string): string =>
     value === '<p></p>\n' ? '' : value

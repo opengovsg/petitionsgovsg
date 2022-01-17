@@ -19,10 +19,7 @@ import styles from './RichTextEditor.module.scss'
 import { RefCallBack } from 'react-hook-form'
 
 import { LinkControl } from './LinkControl'
-import { ApiClient, getApiErrorMessage } from '../../api'
-import { useStyledToast } from '../StyledToast/StyledToast'
 import { PreviewLinkDecorator } from './LinkDecorator'
-import { ImageControl } from './ImageControl'
 import { ImageBlock } from './ImageBlock'
 
 export type UploadCallback = (
@@ -43,17 +40,10 @@ const TOOLBAR_OPTIONS = {
   },
 }
 
-const toolbarWithImageUpload = (uploadCallback: UploadCallback) => {
+const toolbar = () => {
   return {
     ...TOOLBAR_OPTIONS,
     options: TOOLBAR_OPTIONS.options.concat('image'),
-    image: {
-      uploadEnabled: true,
-      uploadCallback,
-      previewImage: true,
-      alt: { present: true, mandatory: true },
-      component: ImageControl,
-    },
   }
 }
 
@@ -91,7 +81,6 @@ export const RichTextEditor: FC<{
   wrapperStyle = {},
   editorStyle = {},
 }) => {
-  const toast = useStyledToast()
   // usage of context in the future for subcomponents?
   const [editorState, setEditorState] = useState(() => {
     if (value) return createEditorStateFromHTML(value)
@@ -138,6 +127,7 @@ export const RichTextEditor: FC<{
         // Prop styles override CSS styles
         wrapperStyle={wrapperStyle}
         editorStyle={editorStyle}
+        toolbar={toolbar}
         readOnly={readOnly ? readOnly : false}
         stripPastedStyles
         editorRef={editorRef}
