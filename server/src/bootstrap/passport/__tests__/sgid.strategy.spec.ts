@@ -3,7 +3,7 @@ import { ModelCtor, Sequelize } from 'sequelize/dist'
 import { AuthUserDto, UserAuthType } from '~shared/types/api'
 import { _sgidStrategy } from '../sgid.strategy'
 import { createTestDatabase, getModel, ModelName } from '../../../util/jest-db'
-import { PublicUser as PublicUserModel } from '../../../models'
+import { User as UserModel } from '../../../models'
 import { JWEInvalid } from 'jose/dist/types/util/errors'
 
 describe('sgidStrategy', () => {
@@ -33,20 +33,22 @@ describe('sgidStrategy', () => {
 
   let db: Sequelize
   let verifySgidCallback: StrategyVerifyCallbackUserInfo<AuthUserDto>
-  let PublicUser: ModelCtor<PublicUserModel>
+  let User: ModelCtor<UserModel>
 
   const mockDone = jest.fn()
 
   beforeAll(async () => {
     // Create DB stuff
     db = await createTestDatabase()
-    PublicUser = getModel<PublicUserModel>(db, ModelName.PublicUser)
-    await PublicUser.create({
+    User = getModel<UserModel>(db, ModelName.User)
+    await User.create({
       sgid: 'u=35',
       displayname: 'LIM YONG XIANG',
+      fullname: 'LIM YONG XIANG',
+      email: 'limyongxiang@test.gov.sg',
       active: true,
     })
-    verifySgidCallback = _sgidStrategy.sgidCallback(PublicUser, privateKeyPem)
+    verifySgidCallback = _sgidStrategy.sgidCallback(User, privateKeyPem)
   })
 
   afterEach(async () => {
@@ -55,9 +57,9 @@ describe('sgidStrategy', () => {
 
   it('finds user if user already exists', async () => {
     //Arrange
-    const mockPublicUser = await PublicUser.findOne()
+    const mockUser = await User.findOne()
     const mockAuthUserDto = {
-      id: mockPublicUser?.id,
+      id: mockUser?.id,
       type: UserAuthType.Public,
     }
     mockTokenset.claims.mockReturnValue({
@@ -81,11 +83,11 @@ describe('sgidStrategy', () => {
     await verifySgidCallback(mockTokenset, mockUserInfo, mockDone)
 
     //Assert
-    const mockPublicUser = await PublicUser.findOne({
+    const mockUser = await User.findOne({
       where: { sgid: 'u=36' },
     })
     const mockAuthUserDto = {
-      id: mockPublicUser?.id,
+      id: mockUser?.id,
       type: UserAuthType.Public,
     }
     expect(mockDone).toBeCalledWith(null, mockAuthUserDto)
@@ -109,7 +111,7 @@ describe('sgidStrategy', () => {
       '-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC/GXROmdTcNrwK\n33HSXiUoDESBvdekfmuuF4jeu/pxp+QCG4Lt4LcfACi8YBwmq2ZTkVzhmdd9sTpI\nSJzR+YqzliJtWtqpjTYKwPiJMGt50Ng+xfyuu9zKQdVZh+4htwrSexNLDF8Vy+Gd\nOAnVmHlryJLeOrmmm7ZeTwSiRe6s2S1EYH0yIaNWfvVCf9Ca737z04yU0HudaKPI\nFES7XMfVzCaXuOHNzEY0oGY4bvzqmoRNdIikkYp4TGZdWJfHsbXgcCBt67IMwgny\nB8L8kmvVc5vGnTM/aVnB5KPWwACN3+ij5evl01ACZFxFotxHGyRgpuD1U0cnkaS3\ngWVZ1Kn3AgMBAAECggEBALxM16cPu4gWQuovzJcuf0xb8jEpoFAM5gvQUuSus5PE\njE5rT3MYJzjbzkf4KCUOZTDZHn2KOqU2uig5rJTWYA6fVGMO0EGbzHGCPiPoWy7Y\nVAxeyKJgqKl/fzvOTh5Yn8hQz+z2TsdKc5CYhFA9Av/qzpU9pmt+KY/6KqW/ZPRZ\nADNb8/DCh6hieBYIB2UlVqykj3j1cHVFVsHiBOQ7tLaHxQiWWQck6fYfLVxvZEvc\nbz8i+aEzf2bU5TrSJgKXOQNmgrby3VZEOi0clSVsbHYcWhGXEyZh6+kNh8BUN14O\nFS0zwrf6i0XKAcRelfXwMiSk/ryvT25s6xVqJMXHtzECgYEA+fQZG1U73PV3Ldy2\nQ+BO0GxtLp6xWmNJQuXb8Kg5mqy2yOLzLdtkgFWzvRjian/6lcQr6iRJbv/E/XKh\nkN17YABrDR5z4Q4Mca8Xu1ryjyKWQOpZnEJD4c9HVCg8RDMeK1BS9O/S1IW+veHe\nGkD2mXLC6tUGXeeNg2A5O894pt8CgYEAw7jjGeabrmZJV4g6dEDDbuQGHEJ6QSwU\n++rEkqte28oFxr3jeNmHpSlbWk2rl+TkOUGe8RuOqCc1evCDXpHWCYdlj6PB/pZf\nLBJPGodpF6QiXC5EpDAiZyvLEUjpJpFe4L/9KNssuPacOaT9vCKO1QSX3rLb4rra\n8o6xgwCRV+kCgYEAhHkYrWHZHlyCU648c3D4lIJCw4ib2pnwhCIrFTszfIS5Q3L1\nC4LRmyrQ3hHIPkWh26pi0+9zc/7euqz8cDjSYKkYE5XmOIsnkUEJROUI1U+xbqpF\n4AlGzPD8jt/cQREOlko2DVbl2HkiBKUm/6cai21FXQyWGULVv6FJ9CcbfOUCgYAb\nYrlUHHJYGrPUbZlQPueZkopQVfTpPZPKE/VhWF0zf7cDMfqsJDPYpkrD/e4umLZe\nVJI6xlJVsPbItvKKvvkl6C4LxSwVxVCXyBANdDj+N9ce8tJj7uBBc108k+kbnmea\nJwLzPoepccg2QKHIO0WlBLmDTZ96wA52tgScge3UUQKBgQDS9gQguNjvElMAVkYV\n13ipDMg+zC24r4QgKQIS5myMagKT6Vri0OzdRGMbTjs9stfK2KOyZn8+P3RAgTnk\neJWKIA52fKgYXlsxlRFy9/R09Ebc1mUVqFdfNHjmlGUzoE+acB+X8vgKZDTK77Yp\nh3EcGdCy39kkNllXZtYzBN1cNA==\n-----END PRIVATE KEY-----'
 
     const verifySgidCallbackWithWrongPrivateKey = _sgidStrategy.sgidCallback(
-      PublicUser,
+      User,
       invalidPrivateKeyPem,
     )
 

@@ -3,14 +3,9 @@ import { StatusCodes } from 'http-status-codes'
 import { format, transports, transport as TransportStream } from 'winston'
 
 import { baseConfig, Environment } from '../config/base'
-import { getDatadogTransport } from './datadog'
 import { formatLogMessage } from './helpers'
 
 const winstonTransports: TransportStream[] = [new transports.Console()]
-
-if (baseConfig.nodeEnv === Environment.Prod) {
-  winstonTransports.push(getDatadogTransport())
-}
 
 export const requestLoggingMiddleware = expressWinston.logger({
   transports: winstonTransports,

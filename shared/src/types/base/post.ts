@@ -2,19 +2,19 @@ import { z } from 'zod'
 import { BaseModel } from './common'
 
 export enum PostStatus {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE',
-  Archived = 'ARCHIVED',
+  Open = 'OPEN',
+  Closed = 'CLOSED',
+  Draft = 'DRAFT',
 }
 
 export const Post = BaseModel.extend({
   title: z.string(),
-  description: z.string().nullable(),
-  views: z.number().nonnegative(),
-  status: z.nativeEnum(PostStatus),
+  summary: z.string(),
+  reason: z.string().nullable(),
+  request: z.string().nullable(),
   userId: z.number().nonnegative(),
-  agencyId: z.number().nonnegative(),
-  topicId: z.number().nonnegative().nullable(),
+  references: z.string().nullable(),
+  status: z.nativeEnum(PostStatus),
 })
 
 export type Post = z.infer<typeof Post>

@@ -1,27 +1,12 @@
 import minimatch from 'minimatch'
 import { Model, ModelCtor, Sequelize } from 'sequelize'
 import { Creation, ModelDef } from '../types/sequelize'
-import {
-  defineAgency,
-  defineAnswer,
-  definePostAndPostTag,
-  defineTag,
-  defineToken,
-  defineUser,
-  defineTopic,
-  definePublicUser,
-} from '../models'
+import { defineSignature, defineUser, definePost } from '../models'
 
 export enum ModelName {
-  Answer = 'answer',
-  Agency = 'agency',
+  Signature = 'signature',
   Post = 'post',
-  PostTag = 'posttag',
-  Tag = 'tag',
   User = 'user',
-  Token = 'token',
-  Topic = 'topic',
-  PublicUser = 'publicuser',
 }
 
 /**
@@ -30,21 +15,14 @@ export enum ModelName {
 export const createTestDatabase = async (): Promise<Sequelize> => {
   const sequelize = new Sequelize('sqlite::memory:', { logging: false })
   const emailValidator = new minimatch.Minimatch('*')
-  const Token = defineToken(sequelize)
-  const Tag = defineTag(sequelize)
+
   const { User } = defineUser(sequelize, {
     emailValidator,
   })
-  const Agency = defineAgency(sequelize, { User })
-  const Topic = defineTopic(sequelize, { Agency })
-  const { Post, PostTag } = definePostAndPostTag(sequelize, {
-    Agency,
+  const { Post } = definePost(sequelize, {
     User,
-    Tag,
-    Topic,
   })
-  const Answer = defineAnswer(sequelize, { User, Post })
-  const PublicUser = definePublicUser(sequelize, { emailValidator })
+  const Signature = defineSignature(sequelize, { User, Post })
 
   await sequelize.sync()
 

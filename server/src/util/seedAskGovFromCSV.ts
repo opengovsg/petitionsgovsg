@@ -1,11 +1,4 @@
-import sequelize, {
-  Post,
-  Answer,
-  Tag,
-  Agency,
-  User,
-  Topic,
-} from '../bootstrap/sequelize'
+import sequelize, { Post, Signature, User } from '../bootstrap/sequelize'
 import { PostStatus } from '~shared/types/base'
 
 import neatCsv from 'neat-csv'
@@ -43,74 +36,34 @@ const fileName = 'example_data.csv'
 
   await sequelize.transaction(async (t) => {
     // PRE-UPDATE CHECKS
-    const agencyCount = await Agency.count()
-    const tagCount = await Tag.count()
     const userCount = await User.count()
-    const topicCount = await Topic.count()
-
-    // Check that user has permissions to add every row's topics
-    const checkPermissionTopics = async (topicname: string) => {
-      // Find topic
-      const topic = await Topic.findAll({
-        where: {
-          name: topicname,
-        },
-      })
-
-      if (topic.length !== 1) {
-        // Topic does not exist. Throw error to rollback
-        throw new Error()
-      }
-
-      if (user.agencyId !== topic[0].agencyId) {
-        // User does not have permission to add topic. Throw error to rollback
-        throw new Error()
-      }
-    }
-
-    for (const row of data) {
-      await checkPermissionTopics(row.topic)
-    }
 
     // UPDATE
-    const processOneRow = async (
-      question: string,
-      answerInput: string,
-      topicName: string,
-    ) => {
+    const processOneRow = async (question: string, signatureInput: string) => {
       // console.log('Creating: ', tagname, question, answer)
-
-      // find topic id
-      const topic = await Topic.findOne({
-        where: {
-          name: topicName,
-        },
-      })
 
       // Create post
       // If title length exceeds 147 char, cut at 147 and add it to description
       let title = question
-      let description = ''
+      let summary = ''
       if (title.length > 147) {
         title = question.slice(0, 147) + '...'
-        description = question
+        summary = question
       }
       const post = await Post.create(
         {
           title: title,
-          description: description,
-          status: PostStatus.Public,
+          summary: summary,
+          status: PostStatus.Open,
           userId: user.id,
-          agencyId,
-          topicId: topic?.id || null,
         },
         { transaction: t },
       )
 
       // Create answer
-      const answer = await Answer.create(
+      const signature = await Signature.create(
         {
-          body: answerInput,
+          comment: signatureInput,
           userId: user.id,
           postId: post.id,
         },
@@ -120,13 +73,10 @@ const fileName = 'example_data.csv'
 
     // Run it for every row
     for (const row of data) {
-      await processOneRow(row.question, row.answer, row.topic)
+      await processOneRow(row.question, row.signature)
     }
 
     // POST-UPDATE CHECKS
-    if (agencyCount !== (await Agency.count())) throw new Error()
-    if (tagCount !== (await Tag.count())) throw new Error()
     if (userCount !== (await User.count())) throw new Error()
-    if (topicCount !== (await Topic.count())) throw new Error()
   })
 })()

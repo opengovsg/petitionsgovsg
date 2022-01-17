@@ -9,7 +9,6 @@ import {
   transport as TransportStream,
 } from 'winston'
 import { baseConfig, Environment } from '../config/base'
-import { getDatadogTransport } from './datadog'
 import { formatLogMessage } from './helpers'
 
 /**
@@ -45,10 +44,6 @@ export const createLoggerOptions = (label: string): LoggerOptions => {
       silent: baseConfig.nodeEnv === Environment.Test,
     }),
   ]
-
-  if (baseConfig.nodeEnv === Environment.Prod) {
-    winstonTransports.push(getDatadogTransport())
-  }
 
   return {
     level: 'debug',
