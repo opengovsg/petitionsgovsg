@@ -55,11 +55,13 @@ describe('AnswersService', () => {
       request: null,
       references: null,
       status: PostStatus.Closed,
+      fullname: 'Mr. Tan',
     })
     signature = await Signature.create({
       comment: 'The reason why I support',
       userId: user.id,
       postId: post.id,
+      fullname: 'Mr. Tan',
     })
   })
 
@@ -77,11 +79,13 @@ describe('AnswersService', () => {
         request: null,
         references: null,
         status: PostStatus.Closed,
+        fullname: 'Mr. Tan',
       })
       const otherSignature = await Signature.create({
         comment: 'Other Signature Body',
         userId: user.id,
         postId: otherPost.id,
+        fullname: 'Mr. Tan',
       })
 
       const signatures = await service.listSignatures(post.id)
@@ -99,6 +103,7 @@ describe('AnswersService', () => {
         comment,
         postId: post.id,
         userId: user.id,
+        fullname: null,
       }
 
       searchSyncService.updatePost.mockResolvedValue(okAsync({}))

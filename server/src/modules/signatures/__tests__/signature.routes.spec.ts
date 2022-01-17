@@ -94,11 +94,13 @@ describe('/signatures', () => {
       request: null,
       references: null,
       status: PostStatus.Closed,
+      fullname: 'Mr. Tan',
     })
     signature = await Signature.create({
       comment: 'Comment Body',
       userId: user.id,
       postId: post.id,
+      fullname: 'Mr. Tan',
     })
     jest.resetAllMocks()
     authService.hasPermissionToEditPost.mockResolvedValue(true)

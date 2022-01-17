@@ -148,6 +148,7 @@ export class PostController {
       reason: string | null
       request: string | null
       references: string | null
+      fullname: string
     },
     undefined
   > = async (req, res) => {
@@ -182,6 +183,7 @@ export class PostController {
         request: req.body.request,
         userId: req.user?.id,
         references: req.body.references,
+        fullname: req.body.fullname,
       })
 
       return res.status(StatusCodes.OK).json({ data: data })

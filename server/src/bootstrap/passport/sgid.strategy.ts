@@ -47,16 +47,15 @@ const sgidCallback = (User: ModelCtor<User>, privKeyPem: string) => {
         .then(jose.importJWK)
 
       // Decrypt encrypted myinfo details
-      const name = await jose
-        .compactDecrypt(userinfo.data['myinfo.name'], decryptedPayloadKey)
-        .then(({ plaintext }) => decoder.decode(plaintext))
+      // const name = await jose
+      //   .compactDecrypt(userinfo.data['myinfo.name'], decryptedPayloadKey)
+      //   .then(({ plaintext }) => decoder.decode(plaintext))
 
       // Note: findOrCreate returns [user, created]
       const [user] = await User.findOrCreate({
         where: { sgid: tokenset.claims().sub },
         defaults: {
           active: true,
-          fullname: name,
         },
       })
 

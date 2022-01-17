@@ -60,7 +60,6 @@ const PostForm = (): JSX.Element => {
               <div className="postform" style={{ width: '100%' }}>
                 {/* Undefined checks to coerce types. In reality all data should have loaded. */}
                 <AskForm
-                  topicOptions={[]}
                   onSubmit={onSubmit}
                   submitButtonText="Post your question"
                 />

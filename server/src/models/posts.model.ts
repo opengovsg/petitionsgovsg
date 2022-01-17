@@ -42,6 +42,10 @@ export const definePost = (
       ),
       allowNull: false,
     },
+    fullname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   })
 
   // Define associations for Post

@@ -72,7 +72,7 @@ const Post = (): JSX.Element => {
               )}
             </Flex>
             <Text sx={styles.title}>{post?.title}</Text>
-            {post?.status === PostStatus.Private ? (
+            {post?.status === PostStatus.Closed ? (
               <Box sx={styles.subtitle} className="subtitle-bar">
                 <Flex sx={styles.private}>
                   <BiXCircle

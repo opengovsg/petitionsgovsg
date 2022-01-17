@@ -15,6 +15,7 @@ export const Post = BaseModel.extend({
   userId: z.number().nonnegative(),
   references: z.string().nullable(),
   status: z.nativeEnum(PostStatus),
+  fullname: z.string(),
 })
 
 export type Post = z.infer<typeof Post>

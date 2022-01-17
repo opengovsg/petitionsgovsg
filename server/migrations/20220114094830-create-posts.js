@@ -50,6 +50,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      fullname: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
     })
   },
 

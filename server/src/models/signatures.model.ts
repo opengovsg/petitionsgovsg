@@ -16,6 +16,10 @@ export const defineSignature = (
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    fullname: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
 
   // Define associations for Signature

@@ -13,7 +13,7 @@ import { MissingPublicPostError, PostUpdateError } from './post.errors'
 
 export type PostWithUserAndSignatures = Model &
   Post & {
-    user: Pick<User, 'displayname'>
+    user: Pick<User, 'email'>
     countAnswers: () => number
     signatures: Signature[]
   }
@@ -110,7 +110,7 @@ export class PostService {
       where: whereobj,
       order: [orderarray],
       include: [
-        { model: this.User, required: true, attributes: ['displayname'] },
+        { model: this.User, required: true, attributes: ['email'] },
         this.Signature,
       ],
       attributes: [
@@ -146,10 +146,7 @@ export class PostService {
         status: PostStatus.Open,
         id: postId,
       },
-      include: [
-        { model: this.User, attributes: ['displayname'] },
-        this.Signature,
-      ],
+      include: [{ model: this.User, attributes: ['email'] }, this.Signature],
       attributes: [
         'createdAt',
         'updatedAt',
@@ -182,6 +179,7 @@ export class PostService {
     request: string | null
     userId: number
     references: string | null
+    fullname: string
   }): Promise<number> => {
     try {
       const postId = await this.sequelize.transaction(async (transaction) => {

@@ -22,14 +22,6 @@ export const defineUser = (
       allowNull: false,
       unique: true,
     },
-    displayname: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    fullname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     email: {
       type: DataTypes.STRING,
       unique: true,
