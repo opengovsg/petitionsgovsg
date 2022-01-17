@@ -5,14 +5,10 @@ import {
   CitizenPrivacy,
   CitizenTerms,
 } from './components/PrivacyTerms'
-import EditForm from './pages/EditForm/EditForm.component'
 import HomePage from './pages/HomePage/HomePage.component'
-import InvalidUserLogin from './pages/Login/InvalidUserLogin.component'
-import Login from './pages/Login/Login.component'
 import NotFound from './pages/NotFound/NotFound.component'
 import Post from './pages/Post/Post.component'
 import PostForm from './pages/PostForm/PostForm.component'
-import SearchResults from './pages/SearchResults/SearchResults.component'
 import UserLogin from './pages/UserLogin/UserLogin.component'
 import withPageTitle from './services/withPageTitle'
 
@@ -20,24 +16,9 @@ const HomePageComponent = withPageTitle({
   component: HomePage,
 })
 
-const SearchResultsComponent = withPageTitle({
-  component: SearchResults,
-  title: 'Search Results - AskGov',
-})
-
-const LoginComponent = withPageTitle({
-  component: Login,
-  title: 'Log In - AskGov',
-})
-
 const PostFormComponent = withPageTitle({
   component: PostForm,
   title: 'Ask a Question - AskGov',
-})
-
-const EditFormComponent = withPageTitle({
-  component: EditForm,
-  title: 'Edit Question - AskGov',
 })
 
 const NotFoundComponent = withPageTitle({
@@ -74,27 +55,18 @@ const UserLoginComponent = withPageTitle({
   title: 'User Login',
 })
 
-const InvalidUserLoginComponent = withPageTitle({
-  component: InvalidUserLogin,
-  title: 'User Unauthorised',
-})
-
 const Routes = (): JSX.Element => {
   return (
     <ReactRoutes>
       <Route path="/" element={<HomePageComponent />} />
       <Route path="/agency/:agency" element={<HomePageComponent />} />
-      <Route path="/questions" element={<SearchResultsComponent />} />
-      <Route path="/login" element={<LoginComponent />} />
       <Route path="/questions/:id" element={<PostComponent />} />
       <Route path="/add/question" element={<PostFormComponent />} />
-      <Route path="/edit/question/:id" element={<EditFormComponent />} />
       <Route path="/terms" element={<CitizenTermsComponent />} />
       <Route path="/agency-terms" element={<AgencyTermsComponent />} />
       <Route path="/privacy" element={<CitizenPrivacyComponent />} />
       <Route path="/agency-privacy" element={<AgencyPrivacyComponent />} />
       <Route path="/user-login" element={<UserLoginComponent />} />
-      <Route path="/unauthorised" element={<InvalidUserLoginComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </ReactRoutes>
   )

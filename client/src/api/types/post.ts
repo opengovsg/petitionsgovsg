@@ -1,21 +1,18 @@
 import { BaseModelParams, MessageResponse } from './common'
-import { BaseTagDto } from './tag'
 import { User, PostStatus } from '~shared/types/base'
 
 export type BasePostDto = BaseModelParams & {
   userId: number
-  agencyId: number
   title: string
-  description: string
-  views: number
+  summary: string
+  reason: string | null
+  request: string | null
+  references: string | null
   status: PostStatus
-  topicId: number | null
-  tags: BaseTagDto[]
 }
 
 // Backend does not select updatedAt
 export type GetSinglePostDto = BasePostDto & {
-  tags: BaseTagDto[]
   user: Pick<User, 'displayname'>
   relatedPosts: BasePostDto[]
 }
@@ -27,10 +24,8 @@ export type GetPostsDto = {
 
 export type CreatePostReqDto = Pick<
   BasePostDto,
-  'title' | 'description' | 'agencyId' | 'topicId'
-> & {
-  tagname: string[] | null
-}
+  'title' | 'summary' | 'reason' | 'request' | 'references'
+>
 
 export type CreatePostResDto = MessageResponse & { data: number }
 

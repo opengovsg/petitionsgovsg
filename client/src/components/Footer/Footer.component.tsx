@@ -1,7 +1,6 @@
 import { FaLinkedinIn, FaFacebookF } from 'react-icons/fa'
 import OGPLogo from '../../assets/ogp-logo.svg'
 import { OGP } from '../Icons'
-import { useAuth } from '../../contexts/AuthContext'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Divider,
@@ -18,7 +17,6 @@ import { format } from 'date-fns-tz'
 // Credits: CheckFirst
 
 const Footer = (): JSX.Element => {
-  const { user } = useAuth()
   return (
     <Container
       maxW="1504px"
@@ -47,7 +45,7 @@ const Footer = (): JSX.Element => {
           direction={{ base: 'column', md: 'row' }}
           spacing={{ base: '16px', md: '22px' }}
         >
-          <RouterLink to={user ? '/agency-privacy' : '/privacy'}>
+          <RouterLink to="/privacy">
             <Text
               _hover={{
                 color: 'primary.500',
@@ -56,7 +54,7 @@ const Footer = (): JSX.Element => {
               Privacy
             </Text>
           </RouterLink>
-          <RouterLink to={user ? '/agency-terms' : '/terms'}>
+          <RouterLink to="/terms">
             <Text
               _hover={{
                 color: 'primary.500',

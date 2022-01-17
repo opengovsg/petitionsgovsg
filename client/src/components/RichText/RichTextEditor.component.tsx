@@ -23,7 +23,6 @@ import { ApiClient, getApiErrorMessage } from '../../api'
 import { useStyledToast } from '../StyledToast/StyledToast'
 import { PreviewLinkDecorator } from './LinkDecorator'
 import { FileUploadDto } from '~shared/types/api'
-
 import { ImageControl } from './ImageControl'
 import { ImageBlock } from './ImageBlock'
 
