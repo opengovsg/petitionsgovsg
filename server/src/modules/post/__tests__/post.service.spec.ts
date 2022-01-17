@@ -34,8 +34,6 @@ describe('PostService', () => {
     })
     mockUser = await User.create({
       sgid: 'u=34',
-      fullname: 'Tan Ah Wee',
-      displayname: 'Mr. Tan',
       email: 'tanahwee@test.gov.sg',
       active: true,
     })
@@ -48,7 +46,7 @@ describe('PostService', () => {
         reason: null,
         request: null,
         references: null,
-        fullname: 'Mr. Tan',
+        fullname: 'Lim Yong Xiang',
       })
       mockPosts.push(mockPost)
     }
@@ -126,6 +124,7 @@ describe('PostService', () => {
         reason: null,
         request: null,
         references: null,
+        fullname: 'Lim Yong Xiang',
       }
 
       const postId = await postService.createPost(postParams)

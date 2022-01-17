@@ -42,8 +42,6 @@ describe('/auth', () => {
     User = getModel<UserModel>(db, ModelName.User)
     mockUser = await User.create({
       sgid: 'u=35',
-      displayname: 'LIM YONG XIANG',
-      fullname: 'LIM YONG XIANG',
       email: 'limyongxiang@test.gov.sg',
       active: true,
     })
@@ -116,7 +114,6 @@ describe('/auth', () => {
       // Body should be an user object.
       expect(result.body).toMatchObject({
         // Required since that's how the data is sent out from the application.
-        fullname: mockUser.fullname,
         id: mockUser.id,
       })
     })

@@ -78,8 +78,6 @@ describe('auth.controller', () => {
       // Arrange
       const userData = {
         sgid: 'u=35',
-        displayname: 'LIM YONG XIANG',
-        fullname: 'LIM YONG XIANG',
         email: 'limyongxiang@test.gov.sg',
         active: true,
       }

@@ -60,8 +60,6 @@ describe('/posts', () => {
     })
     mockUser = await User.create({
       sgid: 'u=34',
-      fullname: 'Tan Ah Wee',
-      displayname: 'Mr. Tan',
       email: 'tanahwee@test.gov.sg',
       active: true,
     })
@@ -121,6 +119,7 @@ describe('/posts', () => {
         title: 'A title of at least 15 characters',
         summary:
           'A summary of at least 50 characters is the minimum requirement.',
+        fullname: 'Lim Yong Xiang',
       }
 
       // Act

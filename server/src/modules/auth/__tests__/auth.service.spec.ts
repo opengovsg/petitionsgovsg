@@ -26,8 +26,6 @@ describe('AuthService', () => {
     Post = getModelDef<Post>(db, ModelName.Post)
     mockUser = await User.create({
       sgid: 'u=35',
-      displayname: 'LIM YONG XIANG',
-      fullname: 'LIM YONG XIANG',
       email: 'limyongxiang@test.gov.sg',
       active: true,
     })
@@ -50,6 +48,7 @@ describe('AuthService', () => {
         reason: null,
         request: null,
         references: null,
+        fullname: 'Lim Yong Xiang',
       })
 
       const hasPermission = await authService.hasPermissionToEditPost(
@@ -69,6 +68,7 @@ describe('AuthService', () => {
         reason: null,
         request: null,
         references: null,
+        fullname: 'Lim Yong Xiang',
       })
 
       const diffMockUser = mockUser.id + 1
