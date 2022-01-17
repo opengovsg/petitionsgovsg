@@ -62,7 +62,7 @@ export class SignatureController {
   createSignature: ControllerHandler<
     { id: string },
     number | Message,
-    { text: string },
+    { text: string; fullname: string },
     undefined
   > = async (req, res) => {
     const errors = validationResult(req)
@@ -83,6 +83,7 @@ export class SignatureController {
         comment: req.body.text,
         userId: Number(req.user.id),
         postId: Number(req.params.id),
+        fullname: req.body.fullname,
       })
 
       return res.status(StatusCodes.OK).json(data)

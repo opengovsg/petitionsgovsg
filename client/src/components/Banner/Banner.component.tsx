@@ -8,14 +8,8 @@ type bannerDataType =
     }
   | undefined
 
-export const Banner = ({
-  data,
-  isSuccess,
-}: {
-  data: bannerDataType
-  isSuccess: boolean
-}): JSX.Element | null => {
-  return isSuccess && data?.bannerMessage ? (
+export const Banner = (): JSX.Element | null => {
+  return (
     <Box
       h="50px"
       minH="50px"
@@ -27,7 +21,7 @@ export const Banner = ({
       alignItems="center"
       className="banner"
     >
-      {data.bannerMessage}
+      Banner
     </Box>
-  ) : null
+  )
 }

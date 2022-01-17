@@ -3,11 +3,11 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { useMutation, UseMutationResult } from 'react-query'
 import { ApiClient, getApiErrorMessage } from '../api'
 import * as AuthService from '../services/AuthService'
-import { LoadUserDto } from '~shared/types/api'
+import { LoadPublicUserDto } from '~shared/types/api'
 import { useStyledToast } from '../components/StyledToast/StyledToast'
 
 interface AuthContextProps {
-  user: LoadUserDto
+  user: LoadPublicUserDto
   verifyOtp: UseMutationResult<void, unknown, { email: string; otp: string }>
   logout: () => void
 }
@@ -26,10 +26,10 @@ export const AuthProvider = ({
   children: JSX.Element
 }): JSX.Element => {
   const toast = useStyledToast()
-  const [user, setUser] = useState<LoadUserDto>(null)
+  const [user, setUser] = useState<LoadPublicUserDto>(null)
 
   const whoami = () => {
-    ApiClient.get<LoadUserDto>('/auth')
+    ApiClient.get<LoadPublicUserDto>('/auth')
       .then(({ data }) => {
         if (data) {
           setUser(data)

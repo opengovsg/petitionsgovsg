@@ -74,6 +74,7 @@ describe('/posts', () => {
         reason: null,
         request: null,
         references: null,
+        fullname: 'Mr. Tan',
       })
       mockPosts.push(mockPost)
     }

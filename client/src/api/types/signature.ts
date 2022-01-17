@@ -1,16 +1,11 @@
 import { BaseModelParams, MessageResponse } from './common'
 
 export type BaseSignatureDto = BaseModelParams & {
-  comment: string
+  comment: string | null
   userId: number
   postId: number
+  fullname: string | null
 }
-
-export type GetSignaturesForPostDto = (BaseSignatureDto & {
-  userId: number
-  displayname: string
-  fullname: string
-})[]
 
 export type CreateSignatureReqDto = { text: string }
 

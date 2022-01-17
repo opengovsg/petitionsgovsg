@@ -15,13 +15,11 @@ import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import Select from 'react-select'
-import { Topic } from '~shared/types/base'
 import { RichTextEditor } from '../../../components/RichText/RichTextEditor.component'
 
 export type FormSubmission = {
   postData: { title: string; description: string }
   answerData: { text: string }
-  topic: number
 }
 
 type TopicOption = { value: number; label: string }
@@ -35,7 +33,6 @@ interface AskFormProps {
     text: string
   }
   inputTopic?: TopicOption
-  topicOptions: Topic[]
   onSubmit: (formData: FormSubmission) => Promise<void>
   submitButtonText: string
 }
@@ -44,7 +41,6 @@ interface AskFormInput {
   postTitle: string
   postDescription: string
   answerBody: string
-  topic: TopicOption
 }
 
 const TITLE_MAX_LEN = 150
@@ -61,7 +57,6 @@ const AskForm = ({
     value: 0,
     label: '',
   },
-  topicOptions,
   onSubmit,
   submitButtonText,
 }: AskFormProps): JSX.Element => {
@@ -74,19 +69,9 @@ const AskForm = ({
         postTitle: inputPostData.title,
         postDescription: inputPostData.description,
         answerBody: inputAnswerData.text,
-        topic: inputTopic,
       },
     })
   const { errors: formErrors } = formState
-
-  const optionsForTopicSelect: TopicOption[] = useMemo(
-    () =>
-      topicOptions.map((topic) => ({
-        value: topic.id,
-        label: topic.name,
-      })),
-    [topicOptions],
-  )
 
   const isTopicChosen = (selectedTopics: TopicOption) => {
     return Boolean(selectedTopics?.value)
@@ -111,7 +96,6 @@ const AskForm = ({
       answerData: {
         text: replaceEmptyRichTextInput(formData.answerBody),
       },
-      topic: formData.topic.value,
     }),
   )
 
@@ -171,33 +155,6 @@ const AskForm = ({
           <Alert status="error" sx={styles.alert}>
             <AlertIcon />
             Please enter at least 30 characters.
-          </Alert>
-        )}
-      </FormControl>
-      <FormControl sx={styles.formControl}>
-        <FormLabel sx={styles.formLabel}>Topic</FormLabel>
-        <FormHelperText sx={styles.formHelperText}>
-          Choose a topic for the question
-        </FormHelperText>
-        <Controller
-          name="topic"
-          control={control}
-          rules={{ validate: isTopicChosen }}
-          render={({ field: { onChange, value } }) => (
-            <Select
-              options={optionsForTopicSelect}
-              value={optionsForTopicSelect.find(
-                (topic) => topic.value === value.value,
-              )}
-              onChange={(topic) => onChange(topic)}
-              menuPortalTarget={document.body}
-            />
-          )}
-        />
-        {formState.errors.topic && (
-          <Alert status="error" sx={styles.alert}>
-            <AlertIcon />
-            Please select a topic.
           </Alert>
         )}
       </FormControl>

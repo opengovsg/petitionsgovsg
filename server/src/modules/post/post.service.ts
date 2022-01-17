@@ -182,6 +182,7 @@ export class PostService {
     request: string | null
     userId: number
     references: string | null
+    fullname: string
   }): Promise<number> => {
     try {
       const postId = await this.sequelize.transaction(async (transaction) => {

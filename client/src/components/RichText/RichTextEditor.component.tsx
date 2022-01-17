@@ -22,7 +22,6 @@ import { LinkControl } from './LinkControl'
 import { ApiClient, getApiErrorMessage } from '../../api'
 import { useStyledToast } from '../StyledToast/StyledToast'
 import { PreviewLinkDecorator } from './LinkDecorator'
-import { FileUploadDto } from '~shared/types/api'
 import { ImageControl } from './ImageControl'
 import { ImageBlock } from './ImageBlock'
 
@@ -126,23 +125,6 @@ export const RichTextEditor: FC<{
     }
   }
 
-  const uploadCallback = async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file, file.name)
-    try {
-      return ApiClient.post<FormData, { data: FileUploadDto }>(
-        '/files',
-        formData,
-      )
-    } catch (error) {
-      toast({
-        status: 'error',
-        description: getApiErrorMessage(error),
-      })
-      return undefined
-    }
-  }
-
   return (
     <EditorContext.Provider value={{ editorState, setEditorState }}>
       <ExtendedEditor
@@ -156,7 +138,6 @@ export const RichTextEditor: FC<{
         // Prop styles override CSS styles
         wrapperStyle={wrapperStyle}
         editorStyle={editorStyle}
-        toolbar={toolbarWithImageUpload(uploadCallback)}
         readOnly={readOnly ? readOnly : false}
         stripPastedStyles
         editorRef={editorRef}
