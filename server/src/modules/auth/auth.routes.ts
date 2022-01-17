@@ -1,5 +1,4 @@
 import express from 'express'
-import passport from 'passport'
 import { AuthController } from './auth.controller'
 import { AuthMiddleware } from './auth.middleware'
 
@@ -36,7 +35,7 @@ export const routeAuth = ({
    * @returns 302 with sgid oidc link
    * @access  private
    */
-  router.get('/sgid/login', passport.authenticate('sgid'))
+  router.get('/sgid/login', controller.handleSgidLogin)
 
   /**
    * Sgid Callback
@@ -46,7 +45,7 @@ export const routeAuth = ({
    * @returns 302 to sgid auth page if no state or code params received
    * @access  private
    */
-  router.get('/callback', controller.handleSgidLogin)
+  router.get('/callback', controller.handleSgidCallback)
 
   return router
 }

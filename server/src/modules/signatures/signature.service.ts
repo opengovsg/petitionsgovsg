@@ -80,4 +80,15 @@ export class SignatureService {
   deleteSignature = async (id: number): Promise<void> => {
     await this.Signature.destroy({ where: { id } })
   }
+
+  checkUserHasSigned = async (
+    postId: number,
+    userId: number,
+  ): Promise<Signature | null> => {
+    // Hash user id / sgid with salt
+    const signature = await this.Signature.findOne({
+      where: { userId: userId, postId: postId },
+    })
+    return signature
+  }
 }

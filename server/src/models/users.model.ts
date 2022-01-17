@@ -36,6 +36,10 @@ export const defineUser = (
         this.setDataValue('email', email.trim().toLowerCase())
       },
     },
+    fullname: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     active: {
       type: DataTypes.BOOLEAN,
       allowNull: false,

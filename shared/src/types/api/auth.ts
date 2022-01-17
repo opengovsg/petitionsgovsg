@@ -5,7 +5,7 @@ export enum UserAuthType {
   Agency = 'agency', // For future implementation
 }
 
-export type LoadPublicUserDto = User | null
+export type LoadPublicUserDto = Pick<User, 'id'> | null
 export interface AuthUserDto {
   id: number
   type: UserAuthType

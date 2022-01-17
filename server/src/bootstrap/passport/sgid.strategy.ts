@@ -26,7 +26,39 @@ const sgidClient = new Client({
   response_types: ['code'], // default
 })
 
-const sgidCallback = (User: ModelCtor<User>, privKeyPem: string) => {
+const exchangeBody = {
+  client_id: process.env.SGID_CLIENT_ID,
+  client_secret: process.env.SGID_CLIENT_SECRET,
+  grant_type: 'authorization_code',
+}
+
+const sgidCallback = (User: ModelCtor<User>) => {
+  return async (
+    tokenset: TokenSet,
+    userinfo: UserinfoResponse,
+    done: (err: unknown, user?: AuthUserDto) => void,
+  ) => {
+    try {
+      // Note: findOrCreate returns [user, created]
+      const [user] = await User.findOrCreate({
+        where: { sgid: tokenset.claims().sub },
+        defaults: {
+          active: true,
+        },
+      })
+
+      const authUser: AuthUserDto = {
+        id: user.id,
+        type: UserAuthType.Public,
+      }
+      return done(null, authUser)
+    } catch (error) {
+      return done(error)
+    }
+  }
+}
+
+const sgidCallbackWithName = (User: ModelCtor<User>, privKeyPem: string) => {
   return async (
     tokenset: TokenSet,
     userinfo: UserinfoResponse,
@@ -47,15 +79,16 @@ const sgidCallback = (User: ModelCtor<User>, privKeyPem: string) => {
         .then(jose.importJWK)
 
       // Decrypt encrypted myinfo details
-      // const name = await jose
-      //   .compactDecrypt(userinfo.data['myinfo.name'], decryptedPayloadKey)
-      //   .then(({ plaintext }) => decoder.decode(plaintext))
+      const name = await jose
+        .compactDecrypt(userinfo.data['myinfo.name'], decryptedPayloadKey)
+        .then(({ plaintext }) => decoder.decode(plaintext))
 
       // Note: findOrCreate returns [user, created]
       const [user] = await User.findOrCreate({
         where: { sgid: tokenset.claims().sub },
         defaults: {
           active: true,
+          fullname: name,
         },
       })
 
@@ -75,7 +108,24 @@ export const sgidStrategy = (
   privateKeyPem: string,
 ): void => {
   passport.use(
-    'sgid',
+    'sgid-anon',
+    new Strategy(
+      {
+        client: sgidClient,
+        params: {
+          scope: 'openid',
+        },
+        extras: {
+          exchangeBody,
+        },
+        passReqToCallback: false,
+        usePKCE: false,
+      },
+      sgidCallback(User),
+    ),
+  )
+  passport.use(
+    'sgid-with-name',
     new Strategy(
       {
         client: sgidClient,
@@ -83,20 +133,16 @@ export const sgidStrategy = (
           scope: 'openid myinfo.name',
         },
         extras: {
-          exchangeBody: {
-            client_id: process.env.SGID_CLIENT_ID,
-            client_secret: process.env.SGID_CLIENT_SECRET,
-            grant_type: 'authorization_code',
-          },
+          exchangeBody,
         },
         passReqToCallback: false,
         usePKCE: false,
       },
-      sgidCallback(User, privateKeyPem),
+      sgidCallbackWithName(User, privateKeyPem),
     ),
   )
 }
 
 export const _sgidStrategy = {
-  sgidCallback,
+  sgidCallbackWithName,
 }

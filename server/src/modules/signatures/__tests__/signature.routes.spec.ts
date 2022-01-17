@@ -75,7 +75,6 @@ describe('/signatures', () => {
     user = await User.create({
       sgid: 'u=34',
       fullname: 'Tan Ah Wee',
-      displayname: 'Mr. Tan',
       email: 'tanahwee@test.gov.sg',
       active: true,
     })

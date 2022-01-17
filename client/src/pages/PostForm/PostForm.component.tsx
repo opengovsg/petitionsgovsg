@@ -3,7 +3,6 @@ import { Fragment } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
 import { useStyledToast } from '../../components/StyledToast/StyledToast'
-import * as SignatureService from '../../services/SignatureService'
 import * as PostService from '../../services/PostService'
 import AskForm, { FormSubmission } from './FormFields/FormFields.component'
 import './PostForm.styles.scss'
@@ -32,7 +31,7 @@ const PostForm = (): JSX.Element => {
           request: '',
           references: '',
         })
-        await SignatureService.createSignature(postId)
+        // await SignatureService.createSignature(postId)
         toast({
           status: 'success',
           description: 'Your post has been created.',

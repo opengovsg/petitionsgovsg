@@ -43,6 +43,7 @@ describe('/auth', () => {
     mockUser = await User.create({
       sgid: 'u=35',
       email: 'limyongxiang@test.gov.sg',
+      fullname: 'Tan Ah Wee',
       active: true,
     })
     authController = new AuthController({

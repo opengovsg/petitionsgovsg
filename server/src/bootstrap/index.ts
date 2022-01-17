@@ -72,6 +72,7 @@ const apiOptions = {
   signature: {
     controller: new SignatureController({
       authService,
+      userService,
       signatureService,
     }),
     authMiddleware,

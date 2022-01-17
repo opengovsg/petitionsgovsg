@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom'
-import { ReactComponent as Ask } from '../../assets/ask.svg'
+import { ReactComponent as Petitions } from '../../assets/petitions.svg'
 import { useAuth } from '../../contexts/AuthContext'
 
 import LinkButton from '../LinkButton/LinkButton.component'
@@ -30,25 +30,26 @@ const Header = (): JSX.Element => {
   // if post is linked to multiple agencies via agencyTag
   // take the first agencyTag found as agency
   const AuthLinks = () => (
-    <Flex align="center" mx={6}>
+    <Flex mx={6} flexDirection="column" alignItems="flex-end">
       {user === null ? (
         <Spinner centerWidth="50px" centerHeight="50px" />
       ) : (
-        <>
-          <Text textStyle="body-2" mr={2} color="secondary.700">
-            {user.displayname}
-          </Text>
+        <HStack>
+          {/* <Text textStyle="body-2" mr={2} color="secondary.700">
+            {user.fullname}
+          </Text> */}
           <Image
             alt="user-logo"
             boxSize={8}
             borderRadius="3px"
             mr={4}
+            alignItems="right"
             src={`https://secure.gravatar.com/avatar/${user.id}?s=164&d=identicon`}
             loading="lazy"
           />
-        </>
+          <LinkButton text={'Log out'} link={'/'} handleClick={logout} />
+        </HStack>
       )}
-      <LinkButton text={'Log out'} link={'/'} handleClick={logout} />
     </Flex>
   )
 
@@ -118,7 +119,7 @@ const Header = (): JSX.Element => {
       <Link sx={styles.logoBarRouterLink} as={RouterLink} to="/">
         <HStack>
           <Box sx={styles.logoBarAsk}>
-            <Ask />
+            <Petitions />
           </Box>
         </HStack>
       </Link>

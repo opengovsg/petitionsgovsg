@@ -11,11 +11,8 @@ export const Post = makeMultiStyleConfig({
     maxW: '1188px',
     px: { base: '24px', sm: '88px' },
   },
-  breadcrumb: {
-    mt: { base: '32px', sm: '60px' },
-    mb: { base: '32px', sm: '50px' },
-  },
   title: {
+    mt: { base: '32px', sm: '60px' },
     textStyle: 'h2',
     color: 'secondary.800',
   },
@@ -41,20 +38,31 @@ export const Post = makeMultiStyleConfig({
     pr: '20px',
   },
   relatedSection: {
-    w: { base: 'auto', lg: '240px' },
-    minW: { base: 'auto', lg: '240px' },
-    pt: { base: '36px', sm: '60px', lg: '152px' },
+    w: { base: 'auto', lg: '300px' },
+    minW: { base: 'auto', lg: '300px' },
+    pt: { base: '36px', sm: '60px', lg: '96px' },
     color: 'secondary.800',
   },
   relatedHeading: {
-    color: 'primary.500',
     mb: { base: '16px', sm: '0px' },
-    textStyle: 'subhead-3',
+    textStyle: 'h2',
   },
   relatedLink: {
     py: { base: '24px', sm: '32px' },
     textStyle: 'subhead-2',
     fontWeight: 'normal',
     borderBottomWidth: '1px',
+  },
+  caption: {
+    fontSize: '12px',
+    lineheight: '16px',
+  },
+  signed: {
+    mt: '16px',
+    backgroundColor: 'secondary.800',
+    w: '300px',
+    h: '56px',
+    borderRadius: '4px',
+    color: 'white',
   },
 })

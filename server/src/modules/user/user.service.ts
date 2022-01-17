@@ -12,6 +12,10 @@ export class UserService {
     return this.User.findByPk(userId) as Promise<LoadPublicUserDto>
   }
 
+  loadFullUser = async (userId: number): Promise<User> => {
+    return this.User.findByPk(userId) as Promise<User>
+  }
+
   loadUserBySgid = async (sgid: string): Promise<LoadPublicUserDto> => {
     return this.User.findOne({ where: { sgid: sgid } })
   }

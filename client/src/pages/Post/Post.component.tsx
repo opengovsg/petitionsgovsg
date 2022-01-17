@@ -9,21 +9,24 @@ import {
 } from '@chakra-ui/layout'
 import { useMultiStyleConfig } from '@chakra-ui/system'
 import { format, utcToZonedTime } from 'date-fns-tz'
-import { useRef } from 'react'
 import { BiXCircle } from 'react-icons/bi'
 import { useQuery } from 'react-query'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
-import EditButton from '../../components/EditButton/EditButton.component'
-import { NavBreadcrumb } from '../../components/NavBreadcrumb/NavBreadcrumb'
 import PageTitle from '../../components/PageTitle/PageTitle.component'
 import Spinner from '../../components/Spinner/Spinner.component'
 import {
   getPostById,
   GET_POST_BY_ID_QUERY_KEY,
 } from '../../services/PostService'
+import {
+  getUserSignatureForPost,
+  GET_USER_SIGNATURE_FOR_POST_QUERY_KEY,
+} from '../../services/SignatureService'
 import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
+import SgidButton from '../../components/SgidButton/SgidButton'
+import SignForm from '../../components/SignForm/SignForm.component'
 
 const Post = (): JSX.Element => {
   const styles = useMultiStyleConfig('Post', {})
@@ -31,22 +34,27 @@ const Post = (): JSX.Element => {
   const { id: postId } = useParams()
   const { isLoading: isPostLoading, data: post } = useQuery(
     [GET_POST_BY_ID_QUERY_KEY, postId],
-    () => getPostById(Number(postId), 3),
+    () => getPostById(Number(postId)),
     { enabled: !!postId },
   )
 
-  // User can edit if it is authenticated whose agency tags intersect with
-  // those found on posts
+  const location = useLocation()
+
+  // If user is signed in, don't need to resign in through SP app
   const { user } = useAuth()
+
+  const { isLoading: isSignatureLoading, data: userSignature } = useQuery(
+    [GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
+    () => getUserSignatureForPost(Number(postId)),
+    { enabled: !!postId && !!user },
+  )
 
   const formattedTimeString = format(
     utcToZonedTime(post?.updatedAt ?? Date.now(), 'Asia/Singapore'),
     'dd MMM yyyy HH:mm, zzzz',
   )
 
-  const breadcrumbContentRef = useRef<{ text: string; link: string }[]>([])
-
-  const isLoading = isPostLoading
+  const isLoading = isPostLoading || isSignatureLoading
 
   return isLoading ? (
     <Spinner centerHeight={`${styles.spinner.height}`} />
@@ -60,17 +68,6 @@ const Post = (): JSX.Element => {
           sx={styles.content}
         >
           <Box className="post-page">
-            <Flex align="center">
-              <Flex sx={styles.breadcrumb}>
-                {breadcrumbContentRef.current.length > 0 ? (
-                  <NavBreadcrumb navOrder={breadcrumbContentRef.current} />
-                ) : null}
-              </Flex>
-              <Spacer />
-              {user && (
-                <EditButton postId={Number(postId)} onDeleteLink={`/agency`} />
-              )}
-            </Flex>
             <Text sx={styles.title}>{post?.title}</Text>
             {post?.status === PostStatus.Closed ? (
               <Box sx={styles.subtitle} className="subtitle-bar">
@@ -96,11 +93,38 @@ const Post = (): JSX.Element => {
             </Box>
           </Box>
           <VStack sx={styles.relatedSection} align="left">
-            <Text sx={styles.relatedHeading}>Related Questions</Text>
-            {post?.relatedPosts.map((relatedPost) => (
-              <Link to={`/questions/${relatedPost.id}`}>
-                <Text sx={styles.relatedLink}>{relatedPost.title}</Text>
-              </Link>
+            <Text sx={styles.relatedHeading}>{post?.signatureCount}</Text>
+            <Text>have signed this petition</Text>
+            <Center>
+              {!user && (
+                <SgidButton
+                  text="Sign this petition"
+                  redirect={location.pathname}
+                />
+              )}
+              {user && !userSignature && <SignForm postId={postId} />}
+              {user && userSignature && (
+                <Center sx={styles.signed}>
+                  You have signed this petition.
+                </Center>
+              )}
+            </Center>
+            {!userSignature && (
+              <Text sx={styles.caption}>
+                By signing, you accept the{' '}
+                <Link to="/terms" style={{ textDecoration: 'underline' }}>
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link to="/privacy" style={{ textDecoration: 'underline' }}>
+                  Privacy Policy
+                </Link>
+              </Text>
+            )}
+            {post?.signatures.map((signature) => (
+              <Box>
+                <Text> {signature.fullname ?? 'anon'} has signed</Text>
+              </Box>
             ))}
           </VStack>
         </Stack>

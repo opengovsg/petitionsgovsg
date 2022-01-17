@@ -38,8 +38,8 @@ const Footer = (): JSX.Element => {
           direction={{ base: 'column', md: 'row' }}
           spacing={{ base: '4px', md: '16px' }}
         >
-          <Text textStyle="h4">AskGov</Text>
-          <Text>Answers from the Singapore Government</Text>
+          <Text textStyle="h4">PetitionsGov</Text>
+          <Text>Petitions to the Singapore Government</Text>
         </Stack>
         <Stack
           direction={{ base: 'column', md: 'row' }}
