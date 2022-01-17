@@ -1,13 +1,5 @@
 import { Box } from '@chakra-ui/layout'
 
-type bannerDataType =
-  | {
-      bannerMessage: string
-      googleAnalyticsId: string
-      fullStoryOrgId: string
-    }
-  | undefined
-
 export const Banner = (): JSX.Element | null => {
   return (
     <Box
