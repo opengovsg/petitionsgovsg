@@ -8,18 +8,11 @@ import {
 import { Message } from 'src/types/message-type'
 import { ErrorDto, LoadPublicUserDto, UserAuthType } from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
-import { UserService } from '../../modules/user/user.service'
 import { ControllerHandler } from '../../types/response-handler'
 
 const logger = createLogger(module)
 
 export class AuthController {
-  private userService: Public<UserService>
-
-  constructor({ userService }: { userService: Public<UserService> }) {
-    this.userService = userService
-  }
-
   /**
    * Fetch logged in user details after being authenticated.
    * @returns 200 with user details
@@ -45,19 +38,7 @@ export class AuthController {
 
     if (type === UserAuthType.Public) {
       try {
-        const user = await this.userService.loadUser(id)
-        if (user) {
-          return res.status(StatusCodes.OK).json({ id: user.id })
-        } else {
-          logger.error({
-            message: 'User not found',
-            meta: {
-              function: 'loadUser',
-              userId: req.user?.id,
-            },
-          })
-          return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
-        }
+        return res.status(StatusCodes.OK).json({ id: id })
       } catch (error) {
         logger.error({
           message: 'Database Error while loading public user',
@@ -121,13 +102,9 @@ export class AuthController {
     const { redirect } = req.query
     // store redirect to post in state
     if (redirect) {
-      passport.authenticate('sgid-with-name', { state: redirect })(
-        req,
-        res,
-        next,
-      )
+      passport.authenticate('sgid', { state: redirect })(req, res, next)
     } else {
-      passport.authenticate('sgid-with-name')(req, res, next)
+      passport.authenticate('sgid')(req, res, next)
     }
   }
   /**
@@ -145,13 +122,30 @@ export class AuthController {
     { code: string; state: string | undefined }
   > = async (req, res, next) => {
     const { state } = req.query
-    passport.authenticate(
-      'sgid-with-name',
-      {},
-      (error, user, info: Message) => {
+    passport.authenticate('sgid', {}, (error, user, info: Message) => {
+      if (error) {
+        logger.error({
+          message: 'Error while authenticating',
+          meta: {
+            function: 'handleSgidCallback',
+          },
+          error,
+        })
+        return res.redirect(callbackRedirectUnauthorisedURL)
+      }
+      if (!user) {
+        logger.warn({
+          message: info.message,
+          meta: {
+            function: 'handleSgidCallback',
+          },
+        })
+        res.redirect(callbackRedirectUnauthorisedURL)
+      }
+      req.logIn(user, (error) => {
         if (error) {
           logger.error({
-            message: 'Error while authenticating',
+            message: 'Error while logging in',
             meta: {
               function: 'handleSgidCallback',
             },
@@ -159,19 +153,17 @@ export class AuthController {
           })
           return res.redirect(callbackRedirectUnauthorisedURL)
         }
-        if (!user) {
-          logger.warn({
-            message: info.message,
-            meta: {
-              function: 'handleSgidCallback',
-            },
-          })
-          res.redirect(callbackRedirectUnauthorisedURL)
-        }
-        req.logIn(user, (error) => {
+        //
+        /**
+         * Regenerate session to mitigate session fixation
+         * We regenerate the session upon logging in so an
+         * anonymous session cookie cannot be used
+         */
+        const passportSession = req.session.passport
+        req.session.regenerate(function (error) {
           if (error) {
             logger.error({
-              message: 'Error while logging in',
+              message: 'Error while regenerating session',
               meta: {
                 function: 'handleSgidCallback',
               },
@@ -179,17 +171,12 @@ export class AuthController {
             })
             return res.redirect(callbackRedirectUnauthorisedURL)
           }
-          //
-          /**
-           * Regenerate session to mitigate session fixation
-           * We regenerate the session upon logging in so an
-           * anonymous session cookie cannot be used
-           */
-          const passportSession = req.session.passport
-          req.session.regenerate(function (error) {
+          //req.session.passport is now undefined
+          req.session.passport = passportSession
+          req.session.save(function (error) {
             if (error) {
               logger.error({
-                message: 'Error while regenerating session',
+                message: 'Error while saving regenerated session',
                 meta: {
                   function: 'handleSgidCallback',
                 },
@@ -197,24 +184,10 @@ export class AuthController {
               })
               return res.redirect(callbackRedirectUnauthorisedURL)
             }
-            //req.session.passport is now undefined
-            req.session.passport = passportSession
-            req.session.save(function (error) {
-              if (error) {
-                logger.error({
-                  message: 'Error while saving regenerated session',
-                  meta: {
-                    function: 'handleSgidCallback',
-                  },
-                  error,
-                })
-                return res.redirect(callbackRedirectUnauthorisedURL)
-              }
-              return res.redirect(callbackRedirectURL(state))
-            })
+            return res.redirect(callbackRedirectURL(state))
           })
         })
-      },
-    )(req, res, next)
+      })
+    })(req, res, next)
   }
 }

@@ -32,32 +32,6 @@ const exchangeBody = {
   grant_type: 'authorization_code',
 }
 
-const sgidCallback = (User: ModelCtor<User>) => {
-  return async (
-    tokenset: TokenSet,
-    userinfo: UserinfoResponse,
-    done: (err: unknown, user?: AuthUserDto) => void,
-  ) => {
-    try {
-      // Note: findOrCreate returns [user, created]
-      const [user] = await User.findOrCreate({
-        where: { sgid: tokenset.claims().sub },
-        defaults: {
-          active: true,
-        },
-      })
-
-      const authUser: AuthUserDto = {
-        id: user.id,
-        type: UserAuthType.Public,
-      }
-      return done(null, authUser)
-    } catch (error) {
-      return done(error)
-    }
-  }
-}
-
 const sgidCallbackWithName = (User: ModelCtor<User>, privKeyPem: string) => {
   return async (
     tokenset: TokenSet,
@@ -83,18 +57,10 @@ const sgidCallbackWithName = (User: ModelCtor<User>, privKeyPem: string) => {
         .compactDecrypt(userinfo.data['myinfo.name'], decryptedPayloadKey)
         .then(({ plaintext }) => decoder.decode(plaintext))
 
-      // Note: findOrCreate returns [user, created]
-      const [user] = await User.findOrCreate({
-        where: { sgid: tokenset.claims().sub },
-        defaults: {
-          active: true,
-          fullname: name,
-        },
-      })
-
       const authUser: AuthUserDto = {
-        id: user.id,
+        id: tokenset.claims().sub,
         type: UserAuthType.Public,
+        fullname: name,
       }
       return done(null, authUser)
     } catch (error) {
@@ -108,24 +74,7 @@ export const sgidStrategy = (
   privateKeyPem: string,
 ): void => {
   passport.use(
-    'sgid-anon',
-    new Strategy(
-      {
-        client: sgidClient,
-        params: {
-          scope: 'openid',
-        },
-        extras: {
-          exchangeBody,
-        },
-        passReqToCallback: false,
-        usePKCE: false,
-      },
-      sgidCallback(User),
-    ),
-  )
-  passport.use(
-    'sgid-with-name',
+    'sgid',
     new Strategy(
       {
         client: sgidClient,

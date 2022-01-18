@@ -5,7 +5,6 @@ import { StatusCodes } from 'http-status-codes'
 import { ControllerHandler } from '../../types/response-handler'
 import { Message } from '../../types/message-type'
 import { Signature } from '~shared/types/base'
-import { UserService } from '../user/user.service'
 import { PostService } from '../post/post.service'
 import { hashData } from '../../util/hash'
 
@@ -13,20 +12,16 @@ const logger = createLogger(module)
 
 export class SignatureController {
   private signatureService: Public<SignatureService>
-  private userService: Public<UserService>
   private postService: Public<PostService>
 
   constructor({
     signatureService,
-    userService,
     postService,
   }: {
     signatureService: Public<SignatureService>
-    userService: Public<UserService>
     postService: Public<PostService>
   }) {
     this.signatureService = signatureService
-    this.userService = userService
     this.postService = postService
   }
 
@@ -87,9 +82,9 @@ export class SignatureController {
         .json({ message: 'User not signed in' })
     }
 
-    const user = await this.userService.loadFullUser(req.user.id)
+    // const user = await this.userService.loadFullUser(req.user.id)
     const post = await this.postService.getSinglePost(Number(req.params.id))
-    const hashedUserSgid = await hashData(user.sgid, post.salt)
+    const hashedUserSgid = await hashData(req.user.id, post.salt)
     const signed = await this.signatureService.checkUserHasSigned(
       Number(req.params.id),
       hashedUserSgid,
@@ -104,8 +99,7 @@ export class SignatureController {
       // Save Signature in the database
       let name: string | null = null
       if (req.body.useName) {
-        const user = await this.userService.loadFullUser(req.user.id)
-        name = user.fullname
+        name = req.user.fullname
       }
       const data = await this.signatureService.createSignature({
         comment: req.body.comment,
@@ -170,9 +164,8 @@ export class SignatureController {
           .status(StatusCodes.UNAUTHORIZED)
           .json({ message: 'User not signed in' })
       }
-      const user = await this.userService.loadFullUser(req.user.id)
       const post = await this.postService.getSinglePost(Number(req.params.id))
-      const hashedUserSgid = await hashData(user.sgid, post.salt)
+      const hashedUserSgid = await hashData(req.user.id, post.salt)
       const signature = await this.signatureService.checkUserHasSigned(
         Number(req.params.id),
         hashedUserSgid,

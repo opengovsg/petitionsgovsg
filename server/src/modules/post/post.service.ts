@@ -175,7 +175,7 @@ export class PostService {
     summary: string
     reason: string | null
     request: string | null
-    userId: number
+    userId: string
     references: string | null
     fullname: string
   }): Promise<number> => {

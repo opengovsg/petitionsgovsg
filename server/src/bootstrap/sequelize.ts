@@ -13,6 +13,6 @@ export const { User } = defineUser(sequelize, {
 export const { Post } = definePost(sequelize, {
   User,
 })
-export const Signature = defineSignature(sequelize, { User, Post })
+export const Signature = defineSignature(sequelize, { Post })
 
 export default sequelize

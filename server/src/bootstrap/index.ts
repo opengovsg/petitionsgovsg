@@ -66,12 +66,10 @@ const signatureService = new SignatureService({
   Signature,
   sequelize,
 })
-const userService = new UserService({ User })
 
 const apiOptions = {
   signature: {
     controller: new SignatureController({
-      userService,
       signatureService,
       postService,
     }),
@@ -79,16 +77,13 @@ const apiOptions = {
     checkOwnership: checkOwnershipUsing({ Post, Signature, User }),
   },
   auth: {
-    controller: new AuthController({
-      userService,
-    }),
+    controller: new AuthController(),
     authMiddleware,
   },
   post: {
     controller: new PostController({
       authService,
       postService,
-      userService,
     }),
     authMiddleware,
   },

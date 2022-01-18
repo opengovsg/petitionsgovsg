@@ -12,7 +12,7 @@ export const Post = BaseModel.extend({
   summary: z.string(),
   reason: z.string().nullable(),
   request: z.string().nullable(),
-  userId: z.number().nonnegative(),
+  userId: z.string(),
   references: z.string().nullable(),
   status: z.nativeEnum(PostStatus),
   fullname: z.string(),

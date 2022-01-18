@@ -58,15 +58,18 @@ export class AuthService {
     // If private or archived, must be logged in
     if (!userId)
       throw new Error('User must be logged in to access private post')
-    const user = await this.User.findOne({ where: { id: userId } })
 
-    if (user) {
-      // If officer, they may have permission to answer
-      if (await this.hasPermissionToEditPost(user.id, post.id)) return
+    // TODO
+    // const user = await this.User.findOne({ where: { id: userId } })
 
-      // If none of the above, they must have created the post
-      if (user.id === post.userId) return
-      throw new Error('User does not have permission to access post')
-    }
+    // if (user) {
+    //   // If officer, they may have permission to answer
+    //   if (await this.hasPermissionToEditPost(user.id, post.id)) return
+
+    //   // If none of the above, they must have created the post
+    //   if (user.id === post.userId) return
+    //   throw new Error('User does not have permission to access post')
+
+    return
   }
 }

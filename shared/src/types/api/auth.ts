@@ -1,12 +1,11 @@
-import { User } from '../base'
-
 export enum UserAuthType {
   Public = 'public',
   Agency = 'agency', // For future implementation
 }
-
-export type LoadPublicUserDto = Pick<User, 'id'> | null
 export interface AuthUserDto {
-  id: number
+  id: string
   type: UserAuthType
+  fullname: string
 }
+
+export type LoadPublicUserDto = Pick<AuthUserDto, 'id'> | null
