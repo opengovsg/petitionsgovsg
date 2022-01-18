@@ -1,6 +1,5 @@
 import passport from 'passport'
 import { Strategy, Issuer, TokenSet, UserinfoResponse } from 'openid-client'
-import { User } from '../../models'
 import { ModelCtor } from 'sequelize/dist'
 import { AuthUserDto, UserAuthType } from '~shared/types/api'
 import * as jose from 'jose'
@@ -32,7 +31,7 @@ const exchangeBody = {
   grant_type: 'authorization_code',
 }
 
-const sgidCallbackWithName = (User: ModelCtor<User>, privKeyPem: string) => {
+const sgidCallbackWithName = (privKeyPem: string) => {
   return async (
     tokenset: TokenSet,
     userinfo: UserinfoResponse,
@@ -69,10 +68,7 @@ const sgidCallbackWithName = (User: ModelCtor<User>, privKeyPem: string) => {
   }
 }
 
-export const sgidStrategy = (
-  User: ModelCtor<User>,
-  privateKeyPem: string,
-): void => {
+export const sgidStrategy = (privateKeyPem: string): void => {
   passport.use(
     'sgid',
     new Strategy(
@@ -87,7 +83,7 @@ export const sgidStrategy = (
         passReqToCallback: false,
         usePKCE: false,
       },
-      sgidCallbackWithName(User, privateKeyPem),
+      sgidCallbackWithName(privateKeyPem),
     ),
   )
 }

@@ -7,7 +7,7 @@ import Sequelize, {
 } from 'sequelize'
 import { generateSalt } from 'src/util/hash'
 import { Post, PostStatus } from '~shared/types/base'
-import { Signature, User } from '../../models'
+import { Signature } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import { MissingPublicPostError, PostUpdateError } from './post.errors'
@@ -20,23 +20,19 @@ export type PostWithUserAndSignatures = Model &
 export class PostService {
   private Signature: ModelCtor<Signature>
   private Post: ModelDef<Post>
-  private User: ModelCtor<User>
   private sequelize: SequelizeType
 
   constructor({
     Signature,
     Post,
-    User,
     sequelize,
   }: {
     Signature: ModelCtor<Signature>
     Post: ModelDef<Post>
-    User: ModelCtor<User>
     sequelize: SequelizeType
   }) {
     this.Signature = Signature
     this.Post = Post
-    this.User = User
     this.sequelize = sequelize
   }
 

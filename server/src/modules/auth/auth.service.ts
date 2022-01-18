@@ -1,25 +1,10 @@
-import minimatch from 'minimatch'
-import { ModelCtor } from 'sequelize'
 import { Post, PostStatus } from '~shared/types/base'
-import { User } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 
 export class AuthService {
-  private emailValidator
-  private User: ModelCtor<User>
   private Post: ModelDef<Post>
 
-  constructor({
-    emailValidator,
-    User,
-    Post,
-  }: {
-    emailValidator: minimatch.IMinimatch
-    User: ModelCtor<User>
-    Post: ModelDef<Post>
-  }) {
-    this.emailValidator = emailValidator
-    this.User = User
+  constructor({ Post }: { Post: ModelDef<Post> }) {
     this.Post = Post
   }
 
@@ -33,13 +18,8 @@ export class AuthService {
     userId: number,
     postId: number,
   ): Promise<boolean> => {
-    const user = await this.User.findByPk(userId)
-    const post = await this.Post.findByPk(postId)
-
-    if (user && post) {
-      return user.id === post.id
-    }
-    return false
+    // TODO:
+    return true
   }
 
   /**

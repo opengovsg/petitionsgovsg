@@ -3,21 +3,6 @@
 module.exports = {
   up: async (queryInterface) => {
     await queryInterface.bulkInsert(
-      'users',
-      [
-        {
-          id: 1,
-          sgid: 'u=34',
-          email: 'tan@public.opinions.sg',
-          fullname: 'Tan Ah Wee',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          active: true,
-        },
-      ],
-      {},
-    )
-    await queryInterface.bulkInsert(
       'posts',
       [
         {
