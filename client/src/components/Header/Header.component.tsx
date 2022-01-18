@@ -5,7 +5,6 @@ import {
   HStack,
   Image,
   Link,
-  Text,
   useDisclosure,
   useMultiStyleConfig,
 } from '@chakra-ui/react'

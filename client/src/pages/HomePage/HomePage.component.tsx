@@ -4,22 +4,13 @@ import {
   HStack,
   VStack,
   Spacer,
-  Stack,
   Text,
   Button,
-  useMultiStyleConfig,
 } from '@chakra-ui/react'
-import { useAuth } from '../../contexts/AuthContext'
 import PageTitle from '../../components/PageTitle/PageTitle.component'
-import PostQuestionButton from '../../components/PostQuestionButton/PostQuestionButton.component'
-import QuestionsListComponent from '../../components/QuestionsList/QuestionsList.component'
 import PetitionGridComponent from '../../components/PetitionGrid/PetitionGrid.component'
 
 const HomePage = (): JSX.Element => {
-  const { user } = useAuth()
-
-  const isAuthenticatedOfficer = user !== null
-
   // const device = {
   //   mobile: 'mobile',
   //   tablet: 'tablet',

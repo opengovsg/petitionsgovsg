@@ -8,34 +8,14 @@ import {
   Divider,
 } from '@chakra-ui/react'
 import { GetSinglePostDto } from '../../api'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const PetitionCard = ({
-  post: {
-    id,
-    userId,
-    title,
-    summary,
-    reason,
-    request,
-    references,
-    status,
-    fullname,
-    signatureCount,
-  },
+  post: { id, title, request, status, fullname, signatureCount },
 }: {
   post: Pick<
     GetSinglePostDto,
-    | 'id'
-    | 'userId'
-    | 'title'
-    | 'summary'
-    | 'reason'
-    | 'request'
-    | 'references'
-    | 'status'
-    | 'fullname'
-    | 'signatureCount'
+    'id' | 'title' | 'request' | 'status' | 'fullname' | 'signatureCount'
   >
 }): JSX.Element => {
   // const { user } = useAuth()

@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios'
 import {
   ApiClient,
-  BasePostDto,
   GetSinglePostDto,
   CreatePostReqDto,
   CreatePostResDto,
