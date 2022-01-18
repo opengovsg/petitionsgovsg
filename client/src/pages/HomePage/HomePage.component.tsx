@@ -68,6 +68,7 @@ const HomePage = (): JSX.Element => {
                   fontSize={'32px'}
                   pb="7px"
                   d="block"
+                  mt="52px"
                 >
                   petitions.gov.sg
                 </Text>
@@ -95,7 +96,7 @@ const HomePage = (): JSX.Element => {
                   py="24px"
                   justifyContent="center"
                 >
-                  <Text>How do petitions.gov.sg work?</Text>
+                  <Text>How does petitions.gov.sg work?</Text>
                 </Flex>
               </VStack>
             </Flex>
