@@ -1,11 +1,11 @@
-import { Sequelize, DataTypes, Model, ModelCtor } from 'sequelize'
-
+import { Sequelize, DataTypes } from 'sequelize'
+import { ModelDef } from '../types/sequelize'
 import { IMinimatch } from 'minimatch'
-import { User as UserBaseDto } from '~shared/types/base'
+import { User } from '~shared/types/base'
 
 const USER_MODEL_NAME = 'user'
 
-export interface User extends Model, UserBaseDto {}
+// export interface User extends Model, UserBaseDto {}
 
 interface Settable {
   setDataValue(key: string, value: unknown): void
@@ -15,8 +15,8 @@ interface Settable {
 export const defineUser = (
   sequelize: Sequelize,
   { emailValidator }: { emailValidator: IMinimatch },
-): { User: ModelCtor<User> } => {
-  const User: ModelCtor<User> = sequelize.define(USER_MODEL_NAME, {
+): { User: ModelDef<User> } => {
+  const User: ModelDef<User> = sequelize.define(USER_MODEL_NAME, {
     sgid: {
       type: DataTypes.STRING,
       allowNull: false,

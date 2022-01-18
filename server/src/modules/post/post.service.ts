@@ -1,10 +1,5 @@
-import type { Sequelize as SequelizeType } from 'sequelize'
-import Sequelize, {
-  Model,
-  ModelCtor,
-  OrderItem,
-  ProjectionAlias,
-} from 'sequelize'
+import type { Sequelize as SequelizeType, Model } from 'sequelize'
+import Sequelize, { OrderItem, ProjectionAlias } from 'sequelize'
 import { Post, PostStatus } from '~shared/types/base'
 import { Signature, User } from '../../models'
 import { ModelDef } from '../../types/sequelize'
@@ -14,13 +9,13 @@ import { MissingPublicPostError, PostUpdateError } from './post.errors'
 export type PostWithUserAndSignatures = Model &
   Post & {
     user: Pick<User, 'email'>
-    countAnswers: () => number
+    signatureCount: () => number
     signatures: Signature[]
   }
 export class PostService {
-  private Signature: ModelCtor<Signature>
+  private Signature: ModelDef<Signature>
   private Post: ModelDef<Post>
-  private User: ModelCtor<User>
+  private User: ModelDef<User>
   private sequelize: SequelizeType
 
   constructor({
@@ -29,9 +24,9 @@ export class PostService {
     User,
     sequelize,
   }: {
-    Signature: ModelCtor<Signature>
+    Signature: ModelDef<Signature>
     Post: ModelDef<Post>
-    User: ModelCtor<User>
+    User: ModelDef<User>
     sequelize: SequelizeType
   }) {
     this.Signature = Signature
@@ -123,6 +118,7 @@ export class PostService {
         'request',
         'userId',
         'references',
+        'fullname',
         this.signatureCountLiteral,
       ],
     })) as PostWithUserAndSignatures[]

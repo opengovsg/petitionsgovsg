@@ -6,6 +6,8 @@ import { Pagination } from './Pagination'
 import { Post } from './Post'
 import { PostItem } from './PostItem'
 import { StyledToast } from './StyledToast'
+import { PetitionCard } from './PetitionCard'
+import { PetitionGrid } from './PetitionGrid'
 
 export const components = {
   Button,
@@ -16,4 +18,6 @@ export const components = {
   PostItem,
   ImageControl,
   ImageBlock,
+  PetitionCard,
+  PetitionGrid,
 }

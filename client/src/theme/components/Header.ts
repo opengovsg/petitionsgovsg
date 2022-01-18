@@ -69,7 +69,7 @@ export const Header: ComponentMultiStyleConfig = {
         textDecoration: 'none',
       },
     },
-    logoBarAsk: { marginRight: '-2px' },
+    logoBarPetition: { marginRight: '-2px' },
     logoBarText: {
       // Force margins here to override stubborn and temperamental
       // Chakra defaults for content within HStack

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom'
-import { ReactComponent as Ask } from '../../assets/ask.svg'
+import { ReactComponent as Petition } from '../../assets/petitions.svg'
 import { useAuth } from '../../contexts/AuthContext'
 
 import LinkButton from '../LinkButton/LinkButton.component'
@@ -117,8 +117,8 @@ const Header = (): JSX.Element => {
     return (
       <Link sx={styles.logoBarRouterLink} as={RouterLink} to="/">
         <HStack>
-          <Box sx={styles.logoBarAsk}>
-            <Ask />
+          <Box sx={styles.logoBarPetition}>
+            <Petition />
           </Box>
         </HStack>
       </Link>

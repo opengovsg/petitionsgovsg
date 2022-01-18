@@ -23,7 +23,6 @@ import {
   GET_POST_BY_ID_QUERY_KEY,
 } from '../../services/PostService'
 import { useAuth } from '../../contexts/AuthContext'
-import PostSection from './PostSection/PostSection.component'
 
 const Post = (): JSX.Element => {
   const styles = useMultiStyleConfig('Post', {})
@@ -88,21 +87,13 @@ const Post = (): JSX.Element => {
                 </Flex>
               </Box>
             ) : null}
-            <PostSection post={post} />
             <Box sx={styles.lastUpdated}>
               <time dateTime={formattedTimeString}>
                 Last updated {formattedTimeString}
               </time>
             </Box>
           </Box>
-          <VStack sx={styles.relatedSection} align="left">
-            <Text sx={styles.relatedHeading}>Related Questions</Text>
-            {post?.relatedPosts.map((relatedPost) => (
-              <Link to={`/questions/${relatedPost.id}`}>
-                <Text sx={styles.relatedLink}>{relatedPost.title}</Text>
-              </Link>
-            ))}
-          </VStack>
+          <VStack sx={styles.relatedSection} align="left"></VStack>
         </Stack>
       </Center>
       <Spacer />

@@ -84,12 +84,7 @@ const HomePage = (): JSX.Element => {
               </Stack>
             </Flex>
             {/* List of Posts depending on whether user is citizen or agency officer */}
-            <QuestionsListComponent
-              sort=""
-              topics=""
-              pageSize={50}
-              listAnswerable={false}
-            />
+            <QuestionsListComponent sort="" pageSize={50} />
           </Box>
         </Flex>
       </HStack>

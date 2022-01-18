@@ -1,5 +1,5 @@
 import { BaseModelParams, MessageResponse } from './common'
-import { User, PostStatus } from '~shared/types/base'
+import { PostStatus } from '~shared/types/base'
 
 export type BasePostDto = BaseModelParams & {
   userId: number
@@ -10,13 +10,14 @@ export type BasePostDto = BaseModelParams & {
   references: string | null
   status: PostStatus
   fullname: string
+  signatureCount: number
 }
 
 // Backend does not select updatedAt
-export type GetSinglePostDto = BasePostDto & {
-  user: Pick<User, 'displayname'>
-  relatedPosts: BasePostDto[]
-}
+// export type GetSinglePostDto = BasePostDto & {
+//   user: Pick<User, 'displayname'>
+//   relatedPosts: BasePostDto[]
+// }
 
 export type GetPostsDto = {
   posts: BasePostDto[]
