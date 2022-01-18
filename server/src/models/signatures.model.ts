@@ -1,9 +1,9 @@
-import { Sequelize, DataTypes } from 'sequelize'
+import { Sequelize, DataTypes, Model } from 'sequelize'
 import { ModelDef } from '../types/sequelize'
-import { Post, Signature } from '~shared/types/base'
+import { Post, Signature as SignatureBaseDto } from '~shared/types/base'
 
 // TODO (#225): Remove this and replace ModelCtor below with ModelDefined
-// export interface Signature extends Model, SignatureBaseDto {}
+export interface Signature extends Model, SignatureBaseDto {}
 
 // constructor
 export const defineSignature = (

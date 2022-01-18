@@ -165,9 +165,9 @@ export class PostService {
    */
   createPost = async (newPost: {
     title: string
-    summary: string
-    reason: string | null
-    request: string | null
+    summary: string | null
+    reason: string
+    request: string
     userId: string
     references: string | null
     fullname: string

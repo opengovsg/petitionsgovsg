@@ -139,9 +139,9 @@ export class PostController {
     { data: number } | Message,
     {
       title: string
-      summary: string
-      reason: string | null
-      request: string | null
+      summary: string | null
+      reason: string
+      request: string
       references: string | null
       fullname: string
     },
