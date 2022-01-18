@@ -13,15 +13,15 @@ export const definePost = (sequelize: Sequelize): { Post: ModelDef<Post> } => {
     },
     summary: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     reason: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     request: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     references: {
       type: DataTypes.TEXT,

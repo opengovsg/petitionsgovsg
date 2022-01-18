@@ -69,6 +69,5 @@ module.exports = {
     await queryInterface.bulkDelete('subscriptions', null, {})
     await queryInterface.bulkDelete('signatures', null, {})
     await queryInterface.bulkDelete('posts', null, {})
-    await queryInterface.bulkDelete('users', null, {})
   },
 }

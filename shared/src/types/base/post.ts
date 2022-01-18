@@ -9,9 +9,9 @@ export enum PostStatus {
 
 export const Post = BaseModel.extend({
   title: z.string(),
-  summary: z.string(),
-  reason: z.string().nullable(),
-  request: z.string().nullable(),
+  summary: z.string().nullable(),
+  reason: z.string(),
+  request: z.string(),
   userId: z.string(),
   references: z.string().nullable(),
   status: z.nativeEnum(PostStatus),

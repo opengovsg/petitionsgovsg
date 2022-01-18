@@ -52,7 +52,7 @@ export const Header: ComponentMultiStyleConfig = {
       width: {
         base: '90%',
         sm: '77vw',
-        xl: '100%',
+        xl: '80%',
       },
       mx: 'auto',
       py: 4,
@@ -61,7 +61,6 @@ export const Header: ComponentMultiStyleConfig = {
       display: 'grid',
       gridTemplateColumns: {
         base: '1fr 1fr',
-        xl: '1fr 2fr 1fr',
       },
     },
     logoBarRouterLink: {

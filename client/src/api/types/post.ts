@@ -6,9 +6,9 @@ export type BasePostDto = BaseModelParams & {
   id: number
   userId: number
   title: string
-  summary: string
-  reason: string | null
-  request: string | null
+  summary: string | null
+  reason: string
+  request: string
   references: string | null
   status: PostStatus
   fullname: string
