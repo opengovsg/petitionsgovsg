@@ -1,29 +1,33 @@
 import { validationResult } from 'express-validator'
 import { SignatureService } from './signature.service'
-import { AuthService } from '../auth/auth.service'
 import { createLogger } from '../../bootstrap/logging'
 import { StatusCodes } from 'http-status-codes'
 import { ControllerHandler } from '../../types/response-handler'
 import { Message } from '../../types/message-type'
 import { Signature } from '~shared/types/base'
 import { UserService } from '../user/user.service'
+import { PostService } from '../post/post.service'
+import { hashData } from '../../util/hash'
 
 const logger = createLogger(module)
 
 export class SignatureController {
   private signatureService: Public<SignatureService>
   private userService: Public<UserService>
+  private postService: Public<PostService>
 
   constructor({
     signatureService,
     userService,
+    postService,
   }: {
     signatureService: Public<SignatureService>
     userService: Public<UserService>
-    authService: Pick<AuthService, 'hasPermissionToEditPost'>
+    postService: Public<PostService>
   }) {
     this.signatureService = signatureService
     this.userService = userService
+    this.postService = postService
   }
 
   /**
@@ -83,9 +87,12 @@ export class SignatureController {
         .json({ message: 'User not signed in' })
     }
 
+    const user = await this.userService.loadFullUser(req.user.id)
+    const post = await this.postService.getSinglePost(Number(req.params.id))
+    const hashedUserSgid = await hashData(user.sgid, post.salt)
     const signed = await this.signatureService.checkUserHasSigned(
       Number(req.params.id),
-      Number(req.user.id),
+      hashedUserSgid,
     )
     if (signed) {
       return res
@@ -102,7 +109,7 @@ export class SignatureController {
       }
       const data = await this.signatureService.createSignature({
         comment: req.body.comment,
-        userId: Number(req.user.id),
+        hashedUserSgid,
         postId: Number(req.params.id),
         fullname: name,
       })
@@ -158,9 +165,17 @@ export class SignatureController {
     Signature | Message | null
   > = async (req, res) => {
     try {
+      if (!req.user) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: 'User not signed in' })
+      }
+      const user = await this.userService.loadFullUser(req.user.id)
+      const post = await this.postService.getSinglePost(Number(req.params.id))
+      const hashedUserSgid = await hashData(user.sgid, post.salt)
       const signature = await this.signatureService.checkUserHasSigned(
         Number(req.params.id),
-        Number(req.user?.id),
+        hashedUserSgid,
       )
       return res.status(StatusCodes.OK).json(signature)
     } catch (error) {

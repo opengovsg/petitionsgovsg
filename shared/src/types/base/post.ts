@@ -16,6 +16,7 @@ export const Post = BaseModel.extend({
   references: z.string().nullable(),
   status: z.nativeEnum(PostStatus),
   fullname: z.string(),
+  salt: z.string(),
 })
 
 export type Post = z.infer<typeof Post>

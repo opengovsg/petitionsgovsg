@@ -11,6 +11,7 @@ export type BasePostDto = BaseModelParams & {
   references: string | null
   status: PostStatus
   fullname: string
+  salt: string
 }
 
 // Backend does not select updatedAt

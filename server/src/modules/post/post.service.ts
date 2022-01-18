@@ -5,6 +5,7 @@ import Sequelize, {
   OrderItem,
   ProjectionAlias,
 } from 'sequelize'
+import { generateSalt } from 'src/util/hash'
 import { Post, PostStatus } from '~shared/types/base'
 import { Signature, User } from '../../models'
 import { ModelDef } from '../../types/sequelize'
@@ -13,7 +14,6 @@ import { MissingPublicPostError, PostUpdateError } from './post.errors'
 
 export type PostWithUserAndSignatures = Model &
   Post & {
-    user: Pick<User, 'email'>
     countAnswers: () => number
     signatures: Signature[]
   }
@@ -109,10 +109,7 @@ export class PostService {
     const posts = (await this.Post.findAll({
       where: whereobj,
       order: [orderarray],
-      include: [
-        { model: this.User, required: true, attributes: ['email'] },
-        this.Signature,
-      ],
+      include: [this.Signature],
       attributes: [
         'createdAt',
         'updatedAt',
@@ -146,7 +143,7 @@ export class PostService {
         status: PostStatus.Open,
         id: postId,
       },
-      include: [{ model: this.User, attributes: ['email'] }, this.Signature],
+      include: [this.Signature],
       attributes: [
         'createdAt',
         'updatedAt',
@@ -157,6 +154,7 @@ export class PostService {
         'request',
         'userId',
         'references',
+        'salt',
         this.signatureCountLiteral,
       ],
     })) as PostWithUserAndSignatures
@@ -182,9 +180,10 @@ export class PostService {
     fullname: string
   }): Promise<number> => {
     try {
+      const salt = await generateSalt()
       const postId = await this.sequelize.transaction(async (transaction) => {
         const post = await this.Post.create(
-          { ...newPost, status: PostStatus.Draft },
+          { ...newPost, salt, status: PostStatus.Draft },
           { transaction },
         )
         return post.id

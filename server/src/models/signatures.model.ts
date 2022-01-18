@@ -20,11 +20,13 @@ export const defineSignature = (
       type: DataTypes.STRING,
       allowNull: true,
     },
+    hashedUserSgid: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   })
 
   // Define associations for Signature
-  User.hasMany(Signature)
-  Signature.belongsTo(User)
   Post.hasMany(Signature)
   Signature.belongsTo(Post)
 

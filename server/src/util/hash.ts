@@ -25,5 +25,8 @@ export const verifyHash = (data: string, hash: string): Promise<boolean> => {
   return bcrypt.compare(data, hash)
 }
 
-export const hashData = (data: string): Promise<string> =>
-  bcrypt.hash(data, DEFAULT_SALT_ROUNDS)
+export const hashData = (data: string, salt: string): Promise<string> =>
+  bcrypt.hash(data, salt)
+
+export const generateSalt = (): Promise<string> =>
+  bcrypt.genSalt(DEFAULT_SALT_ROUNDS)

@@ -46,6 +46,10 @@ export const definePost = (
       type: DataTypes.STRING,
       allowNull: false,
     },
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   })
 
   // Define associations for Post

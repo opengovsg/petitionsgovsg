@@ -36,6 +36,7 @@ module.exports = {
           fullname: 'Tan Ah Wee',
           createdAt: new Date(),
           updatedAt: new Date(),
+          salt: '$2b$10$/CLHEWPCyDlPV.fKamXZ4u',
         },
         {
           id: 2,
@@ -52,6 +53,7 @@ module.exports = {
           fullname: 'Tan Ah Wee',
           createdAt: new Date(),
           updatedAt: new Date(),
+          salt: '$2b$10$6fmiowNimP6XWg4siTzYVO',
         },
       ],
       {},
@@ -61,7 +63,7 @@ module.exports = {
       [
         {
           postId: 2,
-          userId: 1,
+          hashedUserSgid: 1,
           comment: 'I support this petition!',
           fullname: null,
           createdAt: new Date(),
