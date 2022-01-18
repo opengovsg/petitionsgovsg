@@ -1,9 +1,10 @@
 import { AxiosResponse } from 'axios'
 import {
   ApiClient,
+  BasePostDto,
+  GetSinglePostDto,
   CreatePostReqDto,
   CreatePostResDto,
-  GetSinglePostDto,
   UpdatePostReqDto,
   UpdatePostResDto,
   GetPostsDto,
@@ -20,18 +21,12 @@ export const GET_POST_BY_ID_QUERY_KEY = 'getPostById'
 
 export const listPosts = async (
   sort?: string,
-  agencyId?: number,
-  joinedTags?: string,
-  joinedTopics?: string,
   page?: number,
   size?: number,
 ): Promise<GetPostsDto> => {
   return ApiClient.get<GetPostsDto>(`${POST_API_BASE}`, {
     params: {
       sort,
-      agencyId,
-      tags: joinedTags,
-      topics: joinedTopics,
       page,
       size,
     },
@@ -40,27 +35,27 @@ export const listPosts = async (
 export const LIST_POSTS_QUERY_KEY = 'listPosts'
 export const LIST_POSTS_FOR_SEARCH_QUERY_KEY = 'listPostsForSearch'
 
-export const listAnswerablePosts = async ({
-  withAnswers,
-  sort,
-  tags,
-  topics,
-  page,
-  size,
-}: {
-  withAnswers: boolean
-  sort: string
-  tags?: string
-  topics?: string
-  page?: number
-  size?: number
-}): Promise<GetPostsDto> => {
-  return ApiClient.get<GetPostsDto>(`${POST_API_BASE}/answerable`, {
-    params: { withAnswers, sort, tags, topics, page, size },
-  }).then(({ data }) => data)
-}
-export const LIST_ANSWERABLE_POSTS_WITH_ANSWERS_QUERY_KEY =
-  'listAnswerablePostsWithAnswers'
+// export const listAnswerablePosts = async ({
+//   withAnswers,
+//   sort,
+//   tags,
+//   topics,
+//   page,
+//   size,
+// }: {
+//   withAnswers: boolean
+//   sort: string
+//   tags?: string
+//   topics?: string
+//   page?: number
+//   size?: number
+// }): Promise<GetPostsDto> => {
+//   return ApiClient.get<GetPostsDto>(`${POST_API_BASE}/answerable`, {
+//     params: { withAnswers, sort, tags, topics, page, size },
+//   }).then(({ data }) => data)
+// }
+// export const LIST_ANSWERABLE_POSTS_WITH_ANSWERS_QUERY_KEY =
+//   'listAnswerablePostsWithAnswers'
 
 export const updatePost = async (
   id: number,

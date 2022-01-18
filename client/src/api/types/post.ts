@@ -3,6 +3,7 @@ import { PostStatus } from '~shared/types/base'
 import { BaseSignatureDto } from './signature'
 
 export type BasePostDto = BaseModelParams & {
+  id: number
   userId: number
   title: string
   summary: string
@@ -21,7 +22,7 @@ export type GetSinglePostDto = BasePostDto & {
 }
 
 export type GetPostsDto = {
-  posts: BasePostDto[]
+  posts: GetSinglePostDto[]
   totalItems: number
 }
 
