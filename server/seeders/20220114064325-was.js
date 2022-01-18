@@ -3,6 +3,114 @@
 module.exports = {
   up: async (queryInterface) => {
     await queryInterface.bulkInsert(
+      'addressees',
+      [
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF COMMUNICATIONS AND INFORMATION',
+          shortName: 'MCI',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF CULTURE, COMMUNITY AND YOUTH',
+          shortName: 'MCCY',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF DEFENCE',
+          shortName: 'MINDEF',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF EDUCATION',
+          shortName: 'MOE',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF FINANCE',
+          shortName: 'MOF',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF FOREIGN AFFAIRS',
+          shortName: 'MFA',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF HEALTH',
+          shortName: 'MOH',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF HOME AFFAIRS',
+          shortName: 'MHA',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF LAW',
+          shortName: 'MINLAW',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF MANPOWER',
+          shortName: 'MOM',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF NATIONAL DEVELOPMENT',
+          shortName: 'MND',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF SOCIAL AND FAMILY DEVELOPMENT',
+          shortName: 'MSF',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF SUSTAINABILITY AND THE ENVIRONMENT',
+          shortName: 'MSE',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF TRADE AND INDUSTRY',
+          shortName: 'MTI',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'MINISTRY OF TRANSPORT',
+          shortName: 'MOT',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: "PRIME MINISTER'S OFFICE",
+          shortName: 'PMO',
+        },
+        {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: 'GENERAL',
+          shortName: 'GENERAL',
+        },
+      ],
+      {},
+    )
+    await queryInterface.bulkInsert(
       'posts',
       [
         {
@@ -22,6 +130,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           salt: '$2b$10$/CLHEWPCyDlPV.fKamXZ4u',
+          addresseeId: 1,
         },
         {
           id: 2,
@@ -39,6 +148,7 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           salt: '$2b$10$6fmiowNimP6XWg4siTzYVO',
+          addresseeId: 1,
         },
       ],
       {},
@@ -57,7 +167,6 @@ module.exports = {
       ],
       {},
     )
-
     await queryInterface.bulkInsert(
       'subscriptions',
       [{ createdAt: new Date(), updatedAt: new Date(), postId: 2, userId: 1 }],
@@ -69,5 +178,6 @@ module.exports = {
     await queryInterface.bulkDelete('subscriptions', null, {})
     await queryInterface.bulkDelete('signatures', null, {})
     await queryInterface.bulkDelete('posts', null, {})
+    await queryInterface.bulkDelete('addressees', null, {})
   },
 }

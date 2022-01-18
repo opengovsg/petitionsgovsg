@@ -52,6 +52,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      addresseeId: {
+        allowNull: false,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'posts', // name of Target model
+          key: 'id', // key in Target model that we're referencing
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
     })
   },
 
