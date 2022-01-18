@@ -1,18 +1,11 @@
 import { DataTypes, Model, Sequelize } from 'sequelize'
-import { Post as PostBaseDto, PostStatus, User } from '~shared/types/base'
+import { Post as PostBaseDto, PostStatus } from '~shared/types/base'
 import { ModelDef } from '../types/sequelize'
 
 export interface Post extends Model, PostBaseDto {}
 
 // constructor
-export const definePost = (
-  sequelize: Sequelize,
-  {
-    User,
-  }: {
-    User: ModelDef<User>
-  },
-): { Post: ModelDef<Post> } => {
+export const definePost = (sequelize: Sequelize): { Post: ModelDef<Post> } => {
   const Post: ModelDef<Post> = sequelize.define('post', {
     title: {
       type: DataTypes.STRING,
@@ -20,15 +13,15 @@ export const definePost = (
     },
     summary: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     reason: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     request: {
       type: DataTypes.TEXT,
-      allowNull: true,
+      allowNull: false,
     },
     references: {
       type: DataTypes.TEXT,
@@ -46,10 +39,16 @@ export const definePost = (
       type: DataTypes.STRING,
       allowNull: false,
     },
+    salt: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    userId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   })
 
   // Define associations for Post
-  User.hasMany(Post)
-  Post.belongsTo(User)
   return { Post }
 }

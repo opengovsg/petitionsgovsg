@@ -35,6 +35,7 @@ describe('PostService', () => {
     mockUser = await User.create({
       sgid: 'u=34',
       email: 'tanahwee@test.gov.sg',
+      fullname: 'Tan Ah Wee',
       active: true,
     })
     for (let title = 1; title <= 20; title++) {

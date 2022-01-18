@@ -1,16 +1,20 @@
 import { AxiosResponse } from 'axios'
+import { CreateSignatureReqDto } from 'src/api/types/signature'
 import { ApiClient } from '../api'
 
-export const getSignaturesForPost = async (
+export const getUserSignatureForPost = async (
   postId: number,
 ): Promise<undefined> =>
-  ApiClient.get<undefined>(`/posts/answers/${postId}`).then(({ data }) => data)
-export const GET_ANSWERS_FOR_POST_QUERY_KEY = 'getAnswersForPost'
+  ApiClient.get<undefined>(`/posts/signatures/check/${postId}`).then(
+    ({ data }) => data,
+  )
+export const GET_USER_SIGNATURE_FOR_POST_QUERY_KEY = 'getUserSignatureForPost'
 
 export const createSignature = async (
   postId: number,
-  // answerData: CreateSignatureReqDto,
+  data: CreateSignatureReqDto,
 ): Promise<undefined> =>
   ApiClient.post<undefined, AxiosResponse<undefined>>(
-    `/posts/answers/${postId}`,
+    `/posts/signatures/${postId}`,
+    data,
   ).then(({ data }) => data)

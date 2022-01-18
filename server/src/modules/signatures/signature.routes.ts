@@ -36,7 +36,7 @@ export const routeSignatures = ({
    */
   router.post(
     '/:id([0-9]+$)',
-    [authenticate, check('text', 'Signature is required').not().isEmpty()],
+    [authenticate, check('useName', 'useName is required').not().isEmpty()],
     controller.createSignature,
   )
 
@@ -53,5 +53,7 @@ export const routeSignatures = ({
     [authenticate, checkOwnership],
     controller.deleteSignature,
   )
+
+  router.get('/check/:id([0-9]+$)', authenticate, controller.checkUserHasSigned)
   return router
 }

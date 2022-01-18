@@ -1,42 +1,33 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
-import Sequelize, {
-  Model,
-  ModelCtor,
-  OrderItem,
-  ProjectionAlias,
-} from 'sequelize'
+import Sequelize, { Model, OrderItem, ProjectionAlias } from 'sequelize'
+import { generateSalt } from 'src/util/hash'
 import { Post, PostStatus } from '~shared/types/base'
-import { Signature, User } from '../../models'
+import { Signature } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import { MissingPublicPostError, PostUpdateError } from './post.errors'
 
 export type PostWithUserAndSignatures = Model &
   Post & {
-    user: Pick<User, 'email'>
-    countAnswers: () => number
+    signatureCount: () => number
     signatures: Signature[]
   }
 export class PostService {
-  private Signature: ModelCtor<Signature>
+  private Signature: ModelDef<Signature>
   private Post: ModelDef<Post>
-  private User: ModelCtor<User>
   private sequelize: SequelizeType
 
   constructor({
     Signature,
     Post,
-    User,
     sequelize,
   }: {
-    Signature: ModelCtor<Signature>
+    Signature: ModelDef<Signature>
     Post: ModelDef<Post>
-    User: ModelCtor<User>
     sequelize: SequelizeType
   }) {
     this.Signature = Signature
     this.Post = Post
-    this.User = User
     this.sequelize = sequelize
   }
 
@@ -109,11 +100,9 @@ export class PostService {
     const posts = (await this.Post.findAll({
       where: whereobj,
       order: [orderarray],
-      include: [
-        { model: this.User, required: true, attributes: ['email'] },
-        this.Signature,
-      ],
+      include: [this.Signature],
       attributes: [
+        'id',
         'createdAt',
         'updatedAt',
         'status',
@@ -123,6 +112,7 @@ export class PostService {
         'request',
         'userId',
         'references',
+        'fullname',
         this.signatureCountLiteral,
       ],
     })) as PostWithUserAndSignatures[]
@@ -146,7 +136,7 @@ export class PostService {
         status: PostStatus.Open,
         id: postId,
       },
-      include: [{ model: this.User, attributes: ['email'] }, this.Signature],
+      include: [this.Signature],
       attributes: [
         'createdAt',
         'updatedAt',
@@ -157,6 +147,7 @@ export class PostService {
         'request',
         'userId',
         'references',
+        'salt',
         this.signatureCountLiteral,
       ],
     })) as PostWithUserAndSignatures
@@ -174,17 +165,18 @@ export class PostService {
    */
   createPost = async (newPost: {
     title: string
-    summary: string
-    reason: string | null
-    request: string | null
-    userId: number
+    summary: string | null
+    reason: string
+    request: string
+    userId: string
     references: string | null
     fullname: string
   }): Promise<number> => {
     try {
+      const salt = await generateSalt()
       const postId = await this.sequelize.transaction(async (transaction) => {
         const post = await this.Post.create(
-          { ...newPost, status: PostStatus.Draft },
+          { ...newPost, salt, status: PostStatus.Draft },
           { transaction },
         )
         return post.id

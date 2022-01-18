@@ -8,18 +8,11 @@ import {
 import { Message } from 'src/types/message-type'
 import { ErrorDto, LoadPublicUserDto, UserAuthType } from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
-import { UserService } from '../../modules/user/user.service'
 import { ControllerHandler } from '../../types/response-handler'
 
 const logger = createLogger(module)
 
 export class AuthController {
-  private userService: Public<UserService>
-
-  constructor({ userService }: { userService: Public<UserService> }) {
-    this.userService = userService
-  }
-
   /**
    * Fetch logged in user details after being authenticated.
    * @returns 200 with user details
@@ -45,13 +38,12 @@ export class AuthController {
 
     if (type === UserAuthType.Public) {
       try {
-        const user = await this.userService.loadUser(id)
-        return res.status(StatusCodes.OK).json(user)
+        return res.status(StatusCodes.OK).json({ id: id })
       } catch (error) {
         logger.error({
           message: 'Database Error while loading public user',
           meta: {
-            function: 'loadPublicUser',
+            function: 'loadUser',
             userId: req.user?.id,
           },
           error,
@@ -101,6 +93,20 @@ export class AuthController {
     })
   }
 
+  handleSgidLogin: ControllerHandler<
+    undefined,
+    undefined,
+    undefined,
+    { redirect: string }
+  > = async (req, res, next) => {
+    const { redirect } = req.query
+    // store redirect to post in state
+    if (redirect) {
+      passport.authenticate('sgid', { state: redirect })(req, res, next)
+    } else {
+      passport.authenticate('sgid')(req, res, next)
+    }
+  }
   /**
    * Verify otp received by the user
    * @params code
@@ -109,18 +115,19 @@ export class AuthController {
    * @returns 302 to unauthorised page if error
    * @returns 302 to sgid auth page if no state or code params received
    */
-  handleSgidLogin: ControllerHandler<
+  handleSgidCallback: ControllerHandler<
     undefined,
     undefined,
     undefined,
     { code: string; state: string | undefined }
   > = async (req, res, next) => {
+    const { state } = req.query
     passport.authenticate('sgid', {}, (error, user, info: Message) => {
       if (error) {
         logger.error({
           message: 'Error while authenticating',
           meta: {
-            function: 'handleSgidLogin',
+            function: 'handleSgidCallback',
           },
           error,
         })
@@ -130,7 +137,7 @@ export class AuthController {
         logger.warn({
           message: info.message,
           meta: {
-            function: 'handleSgidLogin',
+            function: 'handleSgidCallback',
           },
         })
         res.redirect(callbackRedirectUnauthorisedURL)
@@ -140,7 +147,7 @@ export class AuthController {
           logger.error({
             message: 'Error while logging in',
             meta: {
-              function: 'handleSgidLogin',
+              function: 'handleSgidCallback',
             },
             error,
           })
@@ -158,7 +165,7 @@ export class AuthController {
             logger.error({
               message: 'Error while regenerating session',
               meta: {
-                function: 'handleSgidLogin',
+                function: 'handleSgidCallback',
               },
               error,
             })
@@ -171,13 +178,13 @@ export class AuthController {
               logger.error({
                 message: 'Error while saving regenerated session',
                 meta: {
-                  function: 'handleSgidLogin',
+                  function: 'handleSgidCallback',
                 },
                 error,
               })
               return res.redirect(callbackRedirectUnauthorisedURL)
             }
-            return res.redirect(callbackRedirectURL)
+            return res.redirect(callbackRedirectURL(state))
           })
         })
       })

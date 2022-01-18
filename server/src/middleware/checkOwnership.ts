@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { Signature, Post, User } from '~shared/types/base'
+import { Signature, Post } from '~shared/types/base'
 import { Message } from '../types/message-type'
 import { ControllerHandler } from '../types/response-handler'
 import { ModelDef } from '../types/sequelize'
@@ -20,44 +20,44 @@ export type OwnershipCheck = ControllerHandler<
 export const checkOwnershipUsing = ({
   Signature,
   Post,
-  User,
 }: {
   Signature: ModelDef<Signature>
   Post: ModelDef<Post>
-  User: ModelDef<User>
 }): OwnershipCheck => {
   const checkOwnership: OwnershipCheck = async (
     req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<Response | void> => {
-    const results = (await Signature.findOne({
-      where: { id: req.params.id },
-      attributes: ['userId'],
-      include: [
-        {
-          model: Post,
-        },
-      ],
-    })) as unknown as SignatureWithRelations
-    if (!results) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: 'No answer found with this ID' })
-    }
-    if (!req.user) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'User not signed in' })
-    }
+    //TODO
 
-    const user = await User.findByPk(req.user.id)
+    // const results = (await Signature.findOne({
+    //   where: { id: req.params.id },
+    //   attributes: ['userId'],
+    //   include: [
+    //     {
+    //       model: Post,
+    //     },
+    //   ],
+    // })) as unknown as SignatureWithRelations
+    // if (!results) {
+    //   return res
+    //     .status(StatusCodes.BAD_REQUEST)
+    //     .json({ message: 'No answer found with this ID' })
+    // }
+    // if (!req.user) {
+    //   return res
+    //     .status(StatusCodes.UNAUTHORIZED)
+    //     .json({ message: 'User not signed in' })
+    // }
 
-    if (!user) {
-      return res.status(StatusCodes.FORBIDDEN).json({
-        message: `User ${req.user.id} does not exist`,
-      })
-    }
+    // const user = await User.findByPk(req.user.id)
+
+    // if (!user) {
+    //   return res.status(StatusCodes.FORBIDDEN).json({
+    //     message: `User ${req.user.id} does not exist`,
+    //   })
+    // }
 
     next()
   }

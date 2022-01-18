@@ -25,14 +25,8 @@ module.exports = {
         allowNull: true,
       },
       userId: {
-        allowNull: true,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'users', // name of Target model
-          key: 'id', // key in Target model that we're referencing
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL',
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       references: {
         type: Sequelize.TEXT,
@@ -51,6 +45,10 @@ module.exports = {
         type: Sequelize.DATE,
       },
       fullname: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      salt: {
         allowNull: false,
         type: Sequelize.STRING,
       },

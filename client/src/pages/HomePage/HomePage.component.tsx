@@ -1,14 +1,16 @@
-import { Box, Flex, HStack, Spacer, Stack, Text } from '@chakra-ui/react'
-import { useAuth } from '../../contexts/AuthContext'
+import {
+  Box,
+  Flex,
+  HStack,
+  VStack,
+  Spacer,
+  Text,
+  Button,
+} from '@chakra-ui/react'
 import PageTitle from '../../components/PageTitle/PageTitle.component'
-import PostQuestionButton from '../../components/PostQuestionButton/PostQuestionButton.component'
-import QuestionsListComponent from '../../components/QuestionsList/QuestionsList.component'
+import PetitionGridComponent from '../../components/PetitionGrid/PetitionGrid.component'
 
 const HomePage = (): JSX.Element => {
-  const { user } = useAuth()
-
-  const isAuthenticatedOfficer = user !== null
-
   // const device = {
   //   mobile: 'mobile',
   //   tablet: 'tablet',
@@ -51,45 +53,61 @@ const HomePage = (): JSX.Element => {
         }}
       >
         <Flex
-          id="questions"
-          maxW="680px"
+          id="petitions"
+          // maxW="680px"
           m="auto"
-          justifySelf="center"
           w="100%"
-          pt={{ base: '32px', sm: '80px', xl: '90px' }}
-          px={8}
-          direction={{ base: 'column', lg: 'row' }}
+          // direction={{ base: 'column', lg: 'row' }}
         >
           <Box flex="5">
-            <Flex
-              flexDir={{ base: 'column-reverse', sm: 'row' }}
-              mb={5}
-              justifyContent="space-between"
-            >
-              <Text
-                color="primary.500"
-                textStyle="subhead-3"
-                mt={{ base: '32px', sm: 0 }}
-                mb={{ sm: '20px' }}
-                d="block"
-              ></Text>
-              {/* Dropdown stuff */}
-              {/* Hidden for officer because of the subcomponents in officer dashboard */}
-              {/* that requires different treatment */}
-              <Stack
-                spacing={{ base: 2, sm: 4 }}
-                direction={{ base: 'column', md: 'row' }}
-              >
-                {isAuthenticatedOfficer && <PostQuestionButton />}
-              </Stack>
+            <Flex justifyContent="center" alignItems="center">
+              <VStack>
+                <Text
+                  textStyle={'h1'}
+                  color="secondary.500"
+                  fontSize={'32px'}
+                  pb="7px"
+                  d="block"
+                >
+                  petitions.gov.sg
+                </Text>
+                <Text
+                  color="#212328"
+                  fontSize={'24px'}
+                  pb="22px"
+                  fontStyle={'light'}
+                >
+                  digital petitions recognised by the government
+                </Text>
+                <Button
+                  bg="secondary.500"
+                  fontStyle={'subhead-1'}
+                  color="white"
+                  mb="12px"
+                  height="48px"
+                  width="160px"
+                >
+                  Start a petition
+                </Button>
+                <Flex
+                  height="470px"
+                  // bg={'white'}
+                  py="24px"
+                  justifyContent="center"
+                >
+                  <Text>How do petitions.gov.sg work?</Text>
+                </Flex>
+              </VStack>
             </Flex>
-            {/* List of Posts depending on whether user is citizen or agency officer */}
-            <QuestionsListComponent
-              sort=""
-              topics=""
-              pageSize={50}
-              listAnswerable={false}
-            />
+
+            {/* List of Posts*/}
+            {/* <QuestionsListComponent sort="" pageSize={50} /> */}
+            {/* <Flex justifyContent="left">
+              <Text textStyle={'h2'} color={'secondary.500'} mb="26px">
+                View petitions
+              </Text>
+            </Flex> */}
+            <PetitionGridComponent sort="" />
           </Box>
         </Flex>
       </HStack>

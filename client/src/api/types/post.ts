@@ -1,25 +1,28 @@
 import { BaseModelParams, MessageResponse } from './common'
-import { User, PostStatus } from '~shared/types/base'
+import { PostStatus } from '~shared/types/base'
+import { BaseSignatureDto } from './signature'
 
 export type BasePostDto = BaseModelParams & {
+  id: number
   userId: number
   title: string
-  summary: string
-  reason: string | null
-  request: string | null
+  summary: string | null
+  reason: string
+  request: string
   references: string | null
   status: PostStatus
   fullname: string
+  salt: string
 }
 
 // Backend does not select updatedAt
 export type GetSinglePostDto = BasePostDto & {
-  user: Pick<User, 'displayname'>
-  relatedPosts: BasePostDto[]
+  signatures: Pick<BaseSignatureDto, 'comment' | 'createdAt' | 'fullname'>[]
+  signatureCount: number
 }
 
 export type GetPostsDto = {
-  posts: BasePostDto[]
+  posts: GetSinglePostDto[]
   totalItems: number
 }
 

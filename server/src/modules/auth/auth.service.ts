@@ -1,25 +1,10 @@
-import minimatch from 'minimatch'
-import { ModelCtor } from 'sequelize'
 import { Post, PostStatus } from '~shared/types/base'
-import { User } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 
 export class AuthService {
-  private emailValidator
-  private User: ModelCtor<User>
   private Post: ModelDef<Post>
 
-  constructor({
-    emailValidator,
-    User,
-    Post,
-  }: {
-    emailValidator: minimatch.IMinimatch
-    User: ModelCtor<User>
-    Post: ModelDef<Post>
-  }) {
-    this.emailValidator = emailValidator
-    this.User = User
+  constructor({ Post }: { Post: ModelDef<Post> }) {
     this.Post = Post
   }
 
@@ -33,13 +18,8 @@ export class AuthService {
     userId: number,
     postId: number,
   ): Promise<boolean> => {
-    const user = await this.User.findByPk(userId)
-    const post = await this.Post.findByPk(postId)
-
-    if (user && post) {
-      return user.id === post.id
-    }
-    return false
+    // TODO:
+    return true
   }
 
   /**
@@ -58,15 +38,18 @@ export class AuthService {
     // If private or archived, must be logged in
     if (!userId)
       throw new Error('User must be logged in to access private post')
-    const user = await this.User.findOne({ where: { id: userId } })
 
-    if (user) {
-      // If officer, they may have permission to answer
-      if (await this.hasPermissionToEditPost(user.id, post.id)) return
+    // TODO
+    // const user = await this.User.findOne({ where: { id: userId } })
 
-      // If none of the above, they must have created the post
-      if (user.id === post.userId) return
-      throw new Error('User does not have permission to access post')
-    }
+    // if (user) {
+    //   // If officer, they may have permission to answer
+    //   if (await this.hasPermissionToEditPost(user.id, post.id)) return
+
+    //   // If none of the above, they must have created the post
+    //   if (user.id === post.userId) return
+    //   throw new Error('User does not have permission to access post')
+
+    return
   }
 }

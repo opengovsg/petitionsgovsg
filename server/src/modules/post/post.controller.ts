@@ -6,7 +6,6 @@ import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { SortType } from '../../types/sort-type'
 import { AuthService } from '../auth/auth.service'
-import { UserService } from '../user/user.service'
 import { PostService, PostWithUserAndSignatures } from './post.service'
 
 const logger = createLogger(module)
@@ -14,20 +13,16 @@ const logger = createLogger(module)
 export class PostController {
   private authService: Public<AuthService>
   private postService: Public<PostService>
-  private userService: Public<UserService>
 
   constructor({
     authService,
     postService,
-    userService,
   }: {
     authService: Public<AuthService>
     postService: Public<PostService>
-    userService: Public<UserService>
   }) {
     this.authService = authService
     this.postService = postService
-    this.userService = userService
   }
 
   /**
@@ -144,9 +139,9 @@ export class PostController {
     { data: number } | Message,
     {
       title: string
-      summary: string
-      reason: string | null
-      request: string | null
+      summary: string | null
+      reason: string
+      request: string
       references: string | null
       fullname: string
     },
@@ -167,13 +162,6 @@ export class PostController {
         return res
           .status(StatusCodes.UNAUTHORIZED)
           .json({ message: 'User not signed in' })
-      }
-
-      const user = await this.userService.loadUser(req.user?.id)
-      if (!user) {
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: 'User id not found in database' })
       }
 
       const data = await this.postService.createPost({
@@ -224,15 +212,16 @@ export class PostController {
           .status(StatusCodes.UNAUTHORIZED)
           .json({ message: 'You must be logged in to delete posts.' })
       }
-      const hasPermission = await this.authService.hasPermissionToEditPost(
-        userId,
-        postId,
-      )
-      if (!hasPermission) {
-        return res
-          .status(StatusCodes.FORBIDDEN)
-          .json({ message: 'You do not have permission to delete this post.' })
-      }
+      // TODO
+      // const hasPermission = await this.authService.hasPermissionToEditPost(
+      //   userId,
+      //   postId,
+      // )
+      // if (!hasPermission) {
+      //   return res
+      //     .status(StatusCodes.FORBIDDEN)
+      //     .json({ message: 'You do not have permission to delete this post.' })
+      // }
       await this.postService.deletePost(postId)
       return res.status(StatusCodes.OK).send({ message: 'OK' })
     } catch (error) {

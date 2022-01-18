@@ -42,11 +42,11 @@ export class SignatureService {
   createSignature = async ({
     postId,
     comment,
-    userId,
+    hashedUserSgid,
     fullname,
   }: Pick<
     Signature,
-    'comment' | 'postId' | 'userId' | 'fullname'
+    'comment' | 'postId' | 'hashedUserSgid' | 'fullname'
   >): Promise<number> => {
     try {
       const signatureId = await this.sequelize.transaction(
@@ -55,7 +55,7 @@ export class SignatureService {
             {
               postId: postId,
               comment: comment,
-              userId: userId,
+              hashedUserSgid: hashedUserSgid,
               fullname: fullname,
             },
             { transaction },
@@ -79,5 +79,16 @@ export class SignatureService {
    */
   deleteSignature = async (id: number): Promise<void> => {
     await this.Signature.destroy({ where: { id } })
+  }
+
+  checkUserHasSigned = async (
+    postId: number,
+    hashedUserSgid: string,
+  ): Promise<Signature | null> => {
+    // Hash user id / sgid with salt
+    const signature = await this.Signature.findOne({
+      where: { hashedUserSgid: hashedUserSgid, postId: postId },
+    })
+    return signature
   }
 }

@@ -26,10 +26,10 @@ export const authConfig = convict(authSchema)
   .validate({ allowed: 'strict' })
   .getProperties()
 
-export const callbackRedirectURL =
+export const callbackRedirectURL = (state: string | undefined) =>
   baseConfig.nodeEnv === Environment.Dev
-    ? 'http://localhost:3000'
-    : 'https://staging.ask.gov.sg'
+    ? `http://localhost:3000${state}`
+    : `https://staging.ask.gov.sg${state}`
 
 export const callbackRedirectUnauthorisedURL =
   baseConfig.nodeEnv === Environment.Dev

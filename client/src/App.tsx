@@ -1,5 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import { Banner } from './components/Banner/Banner.component'
+import { Box, ChakraProvider } from '@chakra-ui/react'
 import Footer from './components/Footer/Footer.component'
 import Header from './components/Header/Header.component'
 import Routes from './routes'
@@ -11,10 +10,11 @@ const App = (): JSX.Element => {
     <ChakraProvider theme={theme}>
       <AuthProvider>
         <>
-          <Banner />
-          <Header />
-          <Routes />
-          <Footer />
+          <Box bg="secondary.100">
+            <Header />
+            <Routes />
+            <Footer />
+          </Box>
         </>
       </AuthProvider>
     </ChakraProvider>

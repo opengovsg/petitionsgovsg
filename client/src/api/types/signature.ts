@@ -7,7 +7,10 @@ export type BaseSignatureDto = BaseModelParams & {
   fullname: string | null
 }
 
-export type CreateSignatureReqDto = { text: string }
+export type CreateSignatureReqDto = {
+  comment: string | null
+  useName: boolean
+}
 
 // Returns signature ID
 export type CreateSignatureResDto = MessageResponse & { data: number }

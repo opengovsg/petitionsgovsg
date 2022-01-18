@@ -52,7 +52,7 @@ export const Header: ComponentMultiStyleConfig = {
       width: {
         base: '90%',
         sm: '77vw',
-        xl: '100%',
+        xl: '80%',
       },
       mx: 'auto',
       py: 4,
@@ -61,7 +61,6 @@ export const Header: ComponentMultiStyleConfig = {
       display: 'grid',
       gridTemplateColumns: {
         base: '1fr 1fr',
-        xl: '1fr 2fr 1fr',
       },
     },
     logoBarRouterLink: {
@@ -69,7 +68,7 @@ export const Header: ComponentMultiStyleConfig = {
         textDecoration: 'none',
       },
     },
-    logoBarAsk: { marginRight: '-2px' },
+    logoBarPetition: { marginRight: '-2px' },
     logoBarText: {
       // Force margins here to override stubborn and temperamental
       // Chakra defaults for content within HStack
