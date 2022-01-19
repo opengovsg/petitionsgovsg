@@ -1,4 +1,4 @@
-import { EditorState, convertToRaw, ContentState, ContentBlock } from 'draft-js'
+import { EditorState, convertToRaw, ContentState } from 'draft-js'
 import {
   FC,
   useEffect,
@@ -18,33 +18,13 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import styles from './RichTextEditor.module.scss'
 import { RefCallBack } from 'react-hook-form'
 
-import { LinkControl } from './LinkControl'
-import { PreviewLinkDecorator } from './LinkDecorator'
-import { ImageBlock } from './ImageBlock'
-
-export type UploadCallback = (
-  file: File,
-) => Promise<{ data: { link: string } } | undefined>
-
 const ExtendedEditor = (props: EditorProps) => <Editor {...props} />
 
 const TOOLBAR_OPTIONS = {
-  options: ['inline', 'list', 'link'],
+  options: ['inline', 'list'],
   inline: {
-    options: ['bold', 'italic'],
+    options: ['bold'],
   },
-  link: {
-    defaultTargetOption: '_blank',
-    showOpenOptionOnHover: false,
-    component: LinkControl,
-  },
-}
-
-const toolbar = () => {
-  return {
-    ...TOOLBAR_OPTIONS,
-    options: TOOLBAR_OPTIONS.options.concat('image'),
-  }
 }
 
 const createEditorStateFromHTML = (value: string) => {
@@ -97,23 +77,6 @@ export const RichTextEditor: FC<{
     onChange(html)
   }, [editorState, onChange, value])
 
-  function renderBlock(block: ContentBlock): unknown | void {
-    if (block.getType() === 'atomic') {
-      const contentState = editorState.getCurrentContent()
-      const entityKey = block.getEntityAt(0)
-
-      if (entityKey) {
-        const entity = contentState.getEntity(entityKey)
-        if (entity?.getType() === 'IMAGE') {
-          return {
-            component: ImageBlock,
-            editable: false,
-          }
-        }
-      }
-    }
-  }
-
   return (
     <EditorContext.Provider value={{ editorState, setEditorState }}>
       <ExtendedEditor
@@ -123,11 +86,9 @@ export const RichTextEditor: FC<{
         wrapperClassName={styles.wrapper}
         editorClassName={styles.editor}
         toolbarClassName={styles.toolbar}
-        customBlockRenderFunc={renderBlock}
-        // Prop styles override CSS styles
         wrapperStyle={wrapperStyle}
         editorStyle={editorStyle}
-        toolbar={toolbar}
+        toolbar={TOOLBAR_OPTIONS}
         readOnly={readOnly ? readOnly : false}
         stripPastedStyles
         editorRef={editorRef}
@@ -151,26 +112,6 @@ export const RichTextPreview: FC<{
     setEditorState(state)
   }, [value])
 
-  function renderBlock(block: ContentBlock): unknown | void {
-    if (block.getType() === 'atomic') {
-      const contentState = editorState.getCurrentContent()
-      const entityKey = block.getEntityAt(0)
-
-      if (entityKey) {
-        const entity = contentState.getEntity(entityKey)
-        if (entity?.getType() === 'IMAGE') {
-          return {
-            component: ImageBlock,
-            editable: false,
-            props: {
-              readOnly: true,
-            },
-          }
-        }
-      }
-    }
-  }
-
   return (
     <EditorContext.Provider value={{ editorState, setEditorState }}>
       <ExtendedEditor
@@ -178,9 +119,7 @@ export const RichTextPreview: FC<{
         onEditorStateChange={setEditorState}
         placeholder={placeholder}
         editorClassName={editorClassName}
-        customDecorators={[PreviewLinkDecorator]}
-        customBlockRenderFunc={renderBlock}
-        toolbar={{ link: { showOpenOptionOnHover: false } }}
+        toolbar={toolbar}
         readOnly
         toolbarHidden
       />
