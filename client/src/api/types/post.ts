@@ -1,6 +1,6 @@
 import { BaseModelParams, MessageResponse } from './common'
 import { PostStatus } from '~shared/types/base'
-import { BaseSignatureDto } from './signature'
+import { BaseSignatureDto, BaseAddresseeDto } from './index'
 
 export type BasePostDto = BaseModelParams & {
   id: number
@@ -22,6 +22,7 @@ export type BasePostDto = BaseModelParams & {
 export type GetSinglePostDto = BasePostDto & {
   signatures: Pick<BaseSignatureDto, 'comment' | 'createdAt' | 'fullname'>[]
   signatureCount: number
+  addressee: Pick<BaseAddresseeDto, 'name' | 'shortName'>
 }
 
 export type GetPostsDto = {

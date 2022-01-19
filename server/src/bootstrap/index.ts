@@ -18,7 +18,7 @@ import { baseConfig, Environment } from './config/base'
 import { helmetOptions } from './helmet-options'
 import { requestLoggingMiddleware } from './logging/request-logging'
 import { passportConfig } from './passport'
-import { Signature, Post, sequelize } from './sequelize'
+import { Signature, Post, Addressee, sequelize } from './sequelize'
 import sessionMiddleware from './session'
 
 export { sequelize } from './sequelize'
@@ -54,6 +54,7 @@ const authMiddleware = new AuthMiddleware()
 const postService = new PostService({
   Signature,
   Post,
+  Addressee,
   sequelize,
 })
 const signatureService = new SignatureService({

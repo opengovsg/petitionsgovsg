@@ -54,10 +54,10 @@ module.exports = {
       },
       addresseeId: {
         allowNull: false,
-        primaryKey: true,
+        primaryKey: false,
         type: Sequelize.INTEGER,
         references: {
-          model: 'posts', // name of Target model
+          model: 'addressees', // name of Target model
           key: 'id', // key in Target model that we're referencing
         },
         onUpdate: 'CASCADE',
