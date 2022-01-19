@@ -11,46 +11,62 @@ import {
   HStack,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
+import { Addressee } from '~shared/types/base'
+import { useMemo } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import Select from 'react-select'
 import { RichTextEditor } from '../../../components/RichText/RichTextEditor.component'
 
 export type FormSubmission = {
-  postData: { title: string; description: string }
-  answerData: { text: string }
+  postData: postDataType
 }
 
-type TopicOption = { value: number; label: string }
+type AddresseeOption = { value: number; label: string }
+
+type postDataType = {
+  email: string
+  profile: string
+  title: string
+  reason: string
+  request: string
+  summary: string
+  addressee: AddresseeOption
+}
 
 interface AskFormProps {
-  inputPostData?: {
-    title: string
-    description: string
-  }
-  inputAnswerData?: {
-    text: string
-  }
-  inputTopic?: TopicOption
+  inputPostData?: postDataType
+  addresseeOptions: Addressee[]
   onSubmit: (formData: FormSubmission) => Promise<void>
   submitButtonText: string
 }
 
 interface AskFormInput {
+  postEmail: string
+  postProfile: string
   postTitle: string
-  postDescription: string
-  answerBody: string
+  postReason: string
+  postRequest: string
+  postSummary: string
+  postAddressee: AddresseeOption
 }
 
 const TITLE_MAX_LEN = 150
 
 const AskForm = ({
   inputPostData = {
+    email: '',
+    profile: '',
     title: '',
-    description: '',
+    reason: '',
+    request: '',
+    summary: '',
+    addressee: {
+      value: 0,
+      label: '',
+    },
   },
-  inputAnswerData = {
-    text: '',
-  },
+  addresseeOptions,
   onSubmit,
   submitButtonText,
 }: AskFormProps): JSX.Element => {
@@ -61,8 +77,10 @@ const AskForm = ({
     useForm<AskFormInput>({
       defaultValues: {
         postTitle: inputPostData.title,
-        postDescription: inputPostData.description,
-        answerBody: inputAnswerData.text,
+        postReason: inputPostData.reason,
+        postRequest: inputPostData.request,
+        postSummary: inputPostData.summary,
+        postAddressee: inputPostData.addressee,
       },
     })
   const { errors: formErrors } = formState
@@ -80,22 +98,76 @@ const AskForm = ({
   const internalOnSubmit = handleSubmit((formData) =>
     onSubmit({
       postData: {
+        profile: formData.postProfile,
+        email: formData.postEmail,
         title: formData.postTitle,
-        description: replaceEmptyRichTextInput(formData.postDescription),
-      },
-      answerData: {
-        text: replaceEmptyRichTextInput(formData.answerBody),
+        reason: replaceEmptyRichTextInput(formData.postReason),
+        request: replaceEmptyRichTextInput(formData.postRequest),
+        summary: replaceEmptyRichTextInput(formData.postSummary ?? ''),
+        addressee: formData.postAddressee,
       },
     }),
+  )
+
+  const isAddresseeChosen = (selectedAddressee: AddresseeOption) => {
+    return Boolean(selectedAddressee?.value)
+  }
+  const optionsForAddresseeSelect: AddresseeOption[] = useMemo(
+    () =>
+      addresseeOptions.map((addressee) => ({
+        value: addressee.id,
+        label: addressee.name,
+      })),
+    [addresseeOptions],
   )
 
   return (
     <form onSubmit={internalOnSubmit}>
       <FormControl>
-        <FormLabel sx={styles.formLabel}>Question</FormLabel>
-        <FormHelperText sx={styles.formHelperText}>
-          Give your question a short and relevant title
-        </FormHelperText>
+        <FormLabel sx={styles.formLabel}>Name</FormLabel>
+        <Input
+          placeholder="Full name here"
+          {...register('postTitle', {
+            minLength: 5,
+            maxLength: TITLE_MAX_LEN,
+            required: true,
+            disabled: true,
+          })}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel sx={styles.formLabel}>Email</FormLabel>
+        <Input
+          placeholder="example@mail.com"
+          {...register('postTitle', {
+            minLength: 5,
+            maxLength: TITLE_MAX_LEN,
+            required: true,
+          })}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel sx={styles.formLabel}>Profile</FormLabel>
+        <Controller
+          name="postRequest"
+          control={control}
+          rules={{
+            validate: (v) => !replaceEmptyRichTextInput(v) || v.length >= 30,
+          }}
+          render={({ field: { onChange, value, ref } }) => (
+            <RichTextEditor
+              onChange={onChange}
+              value={value}
+              editorRef={ref}
+              // Move rich text editor styles to Chakra theming for consistency
+              // Note: rich text editor does not make use of Chakra components
+              {...styles.richTextEditor}
+            />
+          )}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel sx={styles.formLabel}>Petition Title</FormLabel>
         <Input
           placeholder="Field Empty"
           {...register('postTitle', {
@@ -125,7 +197,7 @@ const AskForm = ({
           Additional description to give more context to your question
         </FormHelperText>
         <Controller
-          name="postDescription"
+          name="postRequest"
           control={control}
           rules={{
             validate: (v) => !replaceEmptyRichTextInput(v) || v.length >= 30,
@@ -141,20 +213,47 @@ const AskForm = ({
             />
           )}
         />
-        {formState.errors.postDescription && (
+        {formState.errors.postRequest && (
           <Alert status="error" sx={styles.alert}>
             <AlertIcon />
             Please enter at least 30 characters.
           </Alert>
         )}
       </FormControl>
+
       <FormControl sx={styles.formControl}>
-        <FormLabel sx={styles.formLabel}>Answer</FormLabel>
-        <FormHelperText sx={styles.formHelperText}>
-          Type in the answer to the question
-        </FormHelperText>
+        <FormLabel sx={styles.formLabel}>
+          Select the relevant Ministry to address your petition to
+        </FormLabel>
         <Controller
-          name="answerBody"
+          name="postAddressee"
+          control={control}
+          rules={{ validate: isAddresseeChosen }}
+          render={({ field: { onChange, value } }) => (
+            <Select
+              options={optionsForAddresseeSelect}
+              value={optionsForAddresseeSelect.find(
+                (addressee) => addressee.value === value.value,
+              )}
+              onChange={(addressee) => onChange(addressee)}
+              menuPortalTarget={document.body}
+            />
+          )}
+        />
+        {formState.errors.postAddressee && (
+          <Alert status="error" sx={styles.alert}>
+            <AlertIcon />
+            Please select a topic.
+          </Alert>
+        )}
+      </FormControl>
+      <FormControl sx={styles.formControl}>
+        <FormLabel sx={styles.formLabel}>
+          What would you like us to do?
+        </FormLabel>
+
+        <Controller
+          name="postRequest"
           control={control}
           rules={{ minLength: 30 }}
           render={({ field: { onChange, value, ref } }) => (
@@ -166,7 +265,60 @@ const AskForm = ({
             />
           )}
         />
-        {formErrors.answerBody && (
+        {formErrors.postReason && (
+          <Alert status="error" sx={styles.alert}>
+            <AlertIcon />
+            Please enter at least 30 characters.
+          </Alert>
+        )}
+      </FormControl>
+      <FormControl sx={styles.formControl}>
+        <FormLabel sx={styles.formLabel}>
+          What is the reason for your petition?
+        </FormLabel>
+        <Controller
+          name="postReason"
+          control={control}
+          rules={{ minLength: 30 }}
+          render={({ field: { onChange, value, ref } }) => (
+            <RichTextEditor
+              onChange={onChange}
+              value={value}
+              editorRef={ref}
+              placeholder="Enter answer with minimum 30 characters"
+            />
+          )}
+        />
+        {formErrors.postReason && (
+          <Alert status="error" sx={styles.alert}>
+            <AlertIcon />
+            Please enter at least 30 characters.
+          </Alert>
+        )}
+      </FormControl>
+      <FormControl sx={styles.formControl}>
+        <FormLabel sx={styles.formLabel}>
+          Summary of petition (optional)
+        </FormLabel>
+        <FormHelperText sx={styles.formHelperText}>
+          Additional description to give more context to your question Give a
+          summary of your petition – this will appear at the top of your
+          petition page
+        </FormHelperText>
+        <Controller
+          name="postSummary"
+          control={control}
+          rules={{ minLength: 30 }}
+          render={({ field: { onChange, value, ref } }) => (
+            <RichTextEditor
+              onChange={onChange}
+              value={value}
+              editorRef={ref}
+              placeholder="Enter answer with minimum 30 characters"
+            />
+          )}
+        />
+        {formErrors.postReason && (
           <Alert status="error" sx={styles.alert}>
             <AlertIcon />
             Please enter at least 30 characters.

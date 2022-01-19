@@ -9,6 +9,7 @@ import { useStyledToast } from '../components/StyledToast/StyledToast'
 interface AuthContextProps {
   user: LoadPublicUserDto
   verifyOtp: UseMutationResult<void, unknown, { email: string; otp: string }>
+  isLoading: boolean
   logout: () => void
 }
 
@@ -25,15 +26,18 @@ export const AuthProvider = ({
 }: {
   children: JSX.Element
 }): JSX.Element => {
+  const [isLoading, setLoading] = useState<boolean>(true)
   const toast = useStyledToast()
   const [user, setUser] = useState<LoadPublicUserDto>(null)
 
   const whoami = () => {
+    setLoading(true)
     ApiClient.get<LoadPublicUserDto>('/auth')
       .then(({ data }) => {
         if (data) {
           setUser(data)
         }
+        setLoading(false)
       })
       .catch((reason: AxiosError) => {
         // Catch 401 which signals an unauthorized user, which is not an issue
@@ -65,6 +69,7 @@ export const AuthProvider = ({
   const auth = {
     user,
     verifyOtp,
+    isLoading,
     logout,
   }
 

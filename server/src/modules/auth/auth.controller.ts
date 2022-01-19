@@ -121,6 +121,7 @@ export class AuthController {
     undefined,
     { code: string; state: string | undefined }
   > = async (req, res, next) => {
+    console.log('CALLBACK IS CALLED')
     const { state } = req.query
     passport.authenticate('sgid', {}, (error, user, info: Message) => {
       if (error) {

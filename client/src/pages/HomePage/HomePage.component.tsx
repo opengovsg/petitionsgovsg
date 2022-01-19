@@ -1,12 +1,5 @@
-import {
-  Box,
-  Flex,
-  HStack,
-  VStack,
-  Spacer,
-  Text,
-  Button,
-} from '@chakra-ui/react'
+import { Box, Flex, HStack, VStack, Spacer, Text } from '@chakra-ui/react'
+import SgidButton from '../../components/SgidButton/SgidButton'
 import PageTitle from '../../components/PageTitle/PageTitle.component'
 import PetitionGridComponent from '../../components/PetitionGrid/PetitionGrid.component'
 
@@ -80,15 +73,15 @@ const HomePage = (): JSX.Element => {
                 >
                   digital petitions recognised by the government
                 </Text>
-                <Button
-                  bg="secondary.500"
-                  fontStyle={'subhead-1'}
-                  color="white"
-                  height="48px"
-                  width="160px"
+                <SgidButton text="Start a petition here!" redirect="/create" />
+                <Flex
+                  height="470px"
+                  // bg={'white'}
+                  py="24px"
+                  justifyContent="center"
                 >
-                  Start a petition
-                </Button>
+                  <Text>How do petitions.gov.sg work?</Text>
+                </Flex>
               </VStack>
             </Flex>
             <Flex
