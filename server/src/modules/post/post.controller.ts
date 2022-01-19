@@ -6,7 +6,8 @@ import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { SortType } from '../../types/sort-type'
 import { AuthService } from '../auth/auth.service'
-import { PostService, PostWithUserAndSignatures } from './post.service'
+import { PostService, PostWithAddresseeAndSignatures } from './post.service'
+import { hashData } from '../../util/hash'
 
 const logger = createLogger(module)
 
@@ -77,7 +78,7 @@ export class PostController {
    */
   getSinglePost: ControllerHandler<
     { id: number },
-    PostWithUserAndSignatures | Message,
+    PostWithAddresseeAndSignatures | Message,
     undefined,
     { relatedPosts?: number }
   > = async (req, res) => {
@@ -144,6 +145,10 @@ export class PostController {
       request: string
       references: string | null
       fullname: string
+      salt: string
+      addresseeId: number
+      profile: string | null
+      email: string
     },
     undefined
   > = async (req, res) => {
@@ -164,14 +169,18 @@ export class PostController {
           .json({ message: 'User not signed in' })
       }
 
+      const hashedUserSgid = await hashData(req.user.id, req.body.salt)
       const data = await this.postService.createPost({
         title: req.body.title,
         summary: req.body.summary,
         reason: req.body.reason,
         request: req.body.request,
-        userId: req.user?.id,
+        hashedUserSgid: hashedUserSgid,
         references: req.body.references,
         fullname: req.body.fullname,
+        addresseeId: req.body.addresseeId,
+        profile: req.body.profile,
+        email: req.body.email,
       })
 
       return res.status(StatusCodes.OK).json({ data: data })

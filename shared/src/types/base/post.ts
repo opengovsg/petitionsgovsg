@@ -12,11 +12,14 @@ export const Post = BaseModel.extend({
   summary: z.string().nullable(),
   reason: z.string(),
   request: z.string(),
-  userId: z.string(),
+  hashedUserSgid: z.string(),
   references: z.string().nullable(),
   status: z.nativeEnum(PostStatus),
   fullname: z.string(),
   salt: z.string(),
+  addresseeId: z.number(),
+  profile: z.string().nullable(),
+  email: z.string(),
 })
 
 export type Post = z.infer<typeof Post>

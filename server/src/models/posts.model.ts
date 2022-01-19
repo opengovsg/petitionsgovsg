@@ -1,11 +1,14 @@
 import { DataTypes, Model, Sequelize } from 'sequelize'
-import { Post as PostBaseDto, PostStatus } from '~shared/types/base'
+import { Post as PostBaseDto, PostStatus, Addressee } from '~shared/types/base'
 import { ModelDef } from '../types/sequelize'
 
 export interface Post extends Model, PostBaseDto {}
 
 // constructor
-export const definePost = (sequelize: Sequelize): { Post: ModelDef<Post> } => {
+export const definePost = (
+  sequelize: Sequelize,
+  { Addressee }: { Addressee: ModelDef<Addressee> },
+): { Post: ModelDef<Post> } => {
   const Post: ModelDef<Post> = sequelize.define('post', {
     title: {
       type: DataTypes.STRING,
@@ -43,12 +46,22 @@ export const definePost = (sequelize: Sequelize): { Post: ModelDef<Post> } => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userId: {
+    hashedUserSgid: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    profile: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   })
 
   // Define associations for Post
+  Addressee.hasOne(Post)
+  Post.belongsTo(Addressee)
   return { Post }
 }

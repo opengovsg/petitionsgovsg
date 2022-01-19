@@ -22,7 +22,7 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      userId: {
+      email: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.STRING,

@@ -2,32 +2,37 @@ import type { Sequelize as SequelizeType } from 'sequelize'
 import Sequelize, { Model, OrderItem, ProjectionAlias } from 'sequelize'
 import { generateSalt } from 'src/util/hash'
 import { Post, PostStatus } from '~shared/types/base'
-import { Signature } from '../../models'
+import { Signature, Addressee } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import { MissingPublicPostError, PostUpdateError } from './post.errors'
 
-export type PostWithUserAndSignatures = Model &
+export type PostWithAddresseeAndSignatures = Model &
   Post & {
     signatureCount: () => number
     signatures: Signature[]
+    addressee: Addressee
   }
 export class PostService {
   private Signature: ModelDef<Signature>
   private Post: ModelDef<Post>
+  private Addressee: ModelDef<Addressee>
   private sequelize: SequelizeType
 
   constructor({
     Signature,
     Post,
+    Addressee,
     sequelize,
   }: {
     Signature: ModelDef<Signature>
     Post: ModelDef<Post>
+    Addressee: ModelDef<Addressee>
     sequelize: SequelizeType
   }) {
     this.Signature = Signature
     this.Post = Post
+    this.Addressee = Addressee
     this.sequelize = sequelize
   }
 
@@ -100,7 +105,14 @@ export class PostService {
     const posts = (await this.Post.findAll({
       where: whereobj,
       order: [orderarray],
-      include: [this.Signature],
+      include: [
+        this.Signature,
+        {
+          model: this.Addressee,
+          required: false,
+          attributes: ['name', 'shortName'],
+        },
+      ],
       attributes: [
         'id',
         'createdAt',
@@ -110,12 +122,15 @@ export class PostService {
         'summary',
         'reason',
         'request',
-        'userId',
+        'hashedUserSgid',
         'references',
         'fullname',
+        'addresseeId',
+        'profile',
+        'email',
         this.signatureCountLiteral,
       ],
-    })) as PostWithUserAndSignatures[]
+    })) as PostWithAddresseeAndSignatures[]
 
     if (!posts) {
       return { posts: [], totalItems: 0 }
@@ -130,13 +145,20 @@ export class PostService {
    */
   getSinglePost = async (
     postId: number,
-  ): Promise<PostWithUserAndSignatures> => {
+  ): Promise<PostWithAddresseeAndSignatures> => {
     const post = (await this.Post.findOne({
       where: {
         status: PostStatus.Open,
         id: postId,
       },
-      include: [this.Signature],
+      include: [
+        this.Signature,
+        {
+          model: this.Addressee,
+          required: false,
+          attributes: ['name', 'shortName'],
+        },
+      ],
       attributes: [
         'createdAt',
         'updatedAt',
@@ -145,12 +167,16 @@ export class PostService {
         'summary',
         'reason',
         'request',
-        'userId',
+        'hashedUserSgid',
         'references',
         'salt',
+        'fullname',
+        'addresseeId',
+        'profile',
+        'email',
         this.signatureCountLiteral,
       ],
-    })) as PostWithUserAndSignatures
+    })) as PostWithAddresseeAndSignatures
     if (!post) {
       throw new MissingPublicPostError()
     } else {
@@ -168,15 +194,18 @@ export class PostService {
     summary: string | null
     reason: string
     request: string
-    userId: string
+    hashedUserSgid: string
     references: string | null
     fullname: string
+    addresseeId: number
+    profile: string | null
+    email: string
   }): Promise<number> => {
     try {
       const salt = await generateSalt()
       const postId = await this.sequelize.transaction(async (transaction) => {
         const post = await this.Post.create(
-          { ...newPost, salt, status: PostStatus.Draft },
+          { ...newPost, salt: salt, status: PostStatus.Draft },
           { transaction },
         )
         return post.id
