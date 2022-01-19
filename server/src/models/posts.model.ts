@@ -51,6 +51,10 @@ export const definePost = (sequelize: Sequelize): { Post: ModelDef<Post> } => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   })
 
   // Define associations for Post

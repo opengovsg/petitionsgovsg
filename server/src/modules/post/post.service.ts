@@ -113,6 +113,9 @@ export class PostService {
         'hashedUserSgid',
         'references',
         'fullname',
+        'addresseeId',
+        'profile',
+        'email',
         this.signatureCountLiteral,
       ],
     })) as PostWithUserAndSignatures[]
@@ -148,6 +151,10 @@ export class PostService {
         'hashedUserSgid',
         'references',
         'salt',
+        'fullname',
+        'addresseeId',
+        'profile',
+        'email',
         this.signatureCountLiteral,
       ],
     })) as PostWithUserAndSignatures
@@ -173,6 +180,7 @@ export class PostService {
     fullname: string
     addresseeId: number
     profile: string | null
+    email: string
   }): Promise<number> => {
     try {
       const salt = await generateSalt()

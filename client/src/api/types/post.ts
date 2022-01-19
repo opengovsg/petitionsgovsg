@@ -15,6 +15,7 @@ export type BasePostDto = BaseModelParams & {
   salt: string
   addresseeId: number
   profile: string | null
+  email: string
 }
 
 // Backend does not select updatedAt
@@ -30,7 +31,15 @@ export type GetPostsDto = {
 
 export type CreatePostReqDto = Pick<
   BasePostDto,
-  'title' | 'summary' | 'reason' | 'request' | 'references'
+  | 'title'
+  | 'summary'
+  | 'reason'
+  | 'request'
+  | 'references'
+  | 'fullname'
+  | 'addresseeId'
+  | 'profile'
+  | 'email'
 >
 
 export type CreatePostResDto = MessageResponse & { data: number }

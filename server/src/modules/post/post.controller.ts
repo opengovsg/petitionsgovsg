@@ -148,6 +148,7 @@ export class PostController {
       salt: string
       addresseeId: number
       profile: string | null
+      email: string
     },
     undefined
   > = async (req, res) => {
@@ -179,6 +180,7 @@ export class PostController {
         fullname: req.body.fullname,
         addresseeId: req.body.addresseeId,
         profile: req.body.profile,
+        email: req.body.email,
       })
 
       return res.status(StatusCodes.OK).json({ data: data })

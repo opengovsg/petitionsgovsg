@@ -19,6 +19,7 @@ export const Post = BaseModel.extend({
   salt: z.string(),
   addresseeId: z.number(),
   profile: z.string().nullable(),
+  email: z.string(),
 })
 
 export type Post = z.infer<typeof Post>

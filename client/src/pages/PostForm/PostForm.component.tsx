@@ -30,6 +30,10 @@ const PostForm = (): JSX.Element => {
           reason: '',
           request: '',
           references: '',
+          fullname: '',
+          addresseeId: 0,
+          profile: '',
+          email: '',
         })
         // await SignatureService.createSignature(postId)
         toast({
