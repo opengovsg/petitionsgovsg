@@ -66,7 +66,7 @@ Optionally [DBeaver](https://dbeaver.io/download/) to view database with GUI
 
 - Check that your Database ER Diagram looks like this:
 
-![image](https://user-images.githubusercontent.com/41635847/149442414-5a5e8966-3949-43d8-801b-4195a9c771df.png)
+![image](https://user-images.githubusercontent.com/56983748/150075819-ba15f7be-28ba-4df9-8119-a8e8182a3e7f.png)
 
 - Stop docker compose (`npm run dev` will spin it up again):
 
