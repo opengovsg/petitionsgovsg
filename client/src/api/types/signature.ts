@@ -2,7 +2,7 @@ import { BaseModelParams, MessageResponse } from './common'
 
 export type BaseSignatureDto = BaseModelParams & {
   comment: string | null
-  userId: number
+  hashedUserSgid: number
   postId: number
   fullname: string | null
 }

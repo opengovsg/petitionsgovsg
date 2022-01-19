@@ -43,7 +43,11 @@ export const definePost = (sequelize: Sequelize): { Post: ModelDef<Post> } => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    userId: {
+    hashedUserSgid: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    profile: {
       type: DataTypes.STRING,
       allowNull: false,
     },

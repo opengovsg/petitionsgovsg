@@ -110,7 +110,7 @@ export class PostService {
         'summary',
         'reason',
         'request',
-        'userId',
+        'hashedUserSgid',
         'references',
         'fullname',
         this.signatureCountLiteral,
@@ -145,7 +145,7 @@ export class PostService {
         'summary',
         'reason',
         'request',
-        'userId',
+        'hashedUserSgid',
         'references',
         'salt',
         this.signatureCountLiteral,
@@ -168,9 +168,11 @@ export class PostService {
     summary: string | null
     reason: string
     request: string
-    userId: string
+    hashedUserSgid: string
     references: string | null
     fullname: string
+    addresseeId: number
+    profile: string | null
   }): Promise<number> => {
     try {
       const salt = await generateSalt()

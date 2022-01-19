@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true,
       },
-      userId: {
+      hashedUserSgid: {
         allowNull: false,
         type: Sequelize.STRING,
       },
@@ -62,6 +62,10 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      profile: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
     })
   },

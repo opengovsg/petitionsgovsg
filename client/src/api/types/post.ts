@@ -4,7 +4,7 @@ import { BaseSignatureDto } from './signature'
 
 export type BasePostDto = BaseModelParams & {
   id: number
-  userId: number
+  hashedUserSgid: string
   title: string
   summary: string | null
   reason: string
@@ -13,6 +13,8 @@ export type BasePostDto = BaseModelParams & {
   status: PostStatus
   fullname: string
   salt: string
+  addresseeId: number
+  profile: string | null
 }
 
 // Backend does not select updatedAt
