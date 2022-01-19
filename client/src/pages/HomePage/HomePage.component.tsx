@@ -84,30 +84,31 @@ const HomePage = (): JSX.Element => {
                   bg="secondary.500"
                   fontStyle={'subhead-1'}
                   color="white"
-                  mb="12px"
                   height="48px"
                   width="160px"
                 >
                   Start a petition
                 </Button>
-                <Flex
-                  height="470px"
-                  // bg={'white'}
-                  py="24px"
-                  justifyContent="center"
-                >
-                  <Text>How does petitions.gov.sg work?</Text>
-                </Flex>
               </VStack>
             </Flex>
-
+            <Flex
+              height="470px"
+              bg={'white'}
+              py="30px"
+              m="auto"
+              my="56px"
+              width="1248px"
+              // mx="auto"
+              justifyContent="center"
+            >
+              <Text>How does petitions.gov.sg work?</Text>
+            </Flex>
             {/* List of Posts*/}
-            {/* <QuestionsListComponent sort="" pageSize={50} /> */}
-            {/* <Flex justifyContent="left">
+            <Flex justifyContent="left" width="1248px" m="auto">
               <Text textStyle={'h2'} color={'secondary.500'} mb="26px">
                 View petitions
               </Text>
-            </Flex> */}
+            </Flex>
             <PetitionGridComponent sort="" />
           </Box>
         </Flex>

@@ -19,7 +19,7 @@ const PetitionCard = ({
   >
 }): JSX.Element => {
   // const { user } = useAuth()
-  const styles = useMultiStyleConfig('PetitionCard', {})
+  const styles = useMultiStyleConfig('PetitionCard', { status })
   const navigate = useNavigate()
 
   return (
