@@ -200,12 +200,12 @@ export class PostService {
     addresseeId: number
     profile: string | null
     email: string
+    salt: string
   }): Promise<number> => {
     try {
-      const salt = await generateSalt()
       const postId = await this.sequelize.transaction(async (transaction) => {
         const post = await this.Post.create(
-          { ...newPost, salt: salt, status: PostStatus.Draft },
+          { ...newPost, status: PostStatus.Draft },
           { transaction },
         )
         return post.id
