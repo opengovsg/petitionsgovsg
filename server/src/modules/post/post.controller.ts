@@ -7,8 +7,7 @@ import { ControllerHandler } from '../../types/response-handler'
 import { SortType } from '../../types/sort-type'
 import { AuthService } from '../auth/auth.service'
 import { PostService, PostWithAddresseeAndSignatures } from './post.service'
-import { hashData } from '../../util/hash'
-import { generateSalt } from 'src/util/hash'
+import { hashData, generateSalt } from '../../util/hash'
 
 const logger = createLogger(module)
 

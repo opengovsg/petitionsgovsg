@@ -1,6 +1,5 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
 import Sequelize, { Model, OrderItem, ProjectionAlias } from 'sequelize'
-import { generateSalt } from 'src/util/hash'
 import { Post, PostStatus } from '~shared/types/base'
 import { Signature, Addressee } from '../../models'
 import { ModelDef } from '../../types/sequelize'
@@ -205,7 +204,7 @@ export class PostService {
     try {
       const postId = await this.sequelize.transaction(async (transaction) => {
         const post = await this.Post.create(
-          { ...newPost, status: PostStatus.Draft },
+          { ...newPost, status: PostStatus.Open },
           { transaction },
         )
         return post.id

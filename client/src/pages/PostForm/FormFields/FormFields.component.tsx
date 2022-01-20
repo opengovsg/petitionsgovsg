@@ -8,7 +8,6 @@ import {
   Button,
   ButtonGroup,
   Box,
-  HStack,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
 import { Addressee } from '~shared/types/base'
@@ -25,6 +24,7 @@ export type FormSubmission = {
 type AddresseeOption = { value: number; label: string }
 
 type postDataType = {
+  name: string
   email: string
   profile: string
   title: string
@@ -34,14 +34,15 @@ type postDataType = {
   addressee: AddresseeOption
 }
 
-interface AskFormProps {
+interface PostFormProps {
   inputPostData?: postDataType
   addresseeOptions: Addressee[]
   onSubmit: (formData: FormSubmission) => Promise<void>
   submitButtonText: string
 }
 
-interface AskFormInput {
+interface PostFormInput {
+  postName: string
   postEmail: string
   postProfile: string
   postTitle: string
@@ -53,8 +54,9 @@ interface AskFormInput {
 
 const TITLE_MAX_LEN = 150
 
-const AskForm = ({
+const PostForm = ({
   inputPostData = {
+    name: '',
     email: '',
     profile: '',
     title: '',
@@ -69,13 +71,16 @@ const AskForm = ({
   addresseeOptions,
   onSubmit,
   submitButtonText,
-}: AskFormProps): JSX.Element => {
-  const styles = useMultiStyleConfig('AskForm', {})
+}: PostFormProps): JSX.Element => {
+  const styles = useMultiStyleConfig('PostForm', {})
 
   const navigate = useNavigate()
   const { register, control, handleSubmit, watch, formState } =
-    useForm<AskFormInput>({
+    useForm<PostFormInput>({
       defaultValues: {
+        postName: inputPostData.name,
+        postEmail: inputPostData.email,
+        postProfile: inputPostData.profile,
         postTitle: inputPostData.title,
         postReason: inputPostData.reason,
         postRequest: inputPostData.request,
@@ -95,9 +100,10 @@ const AskForm = ({
       ? Math.max(TITLE_MAX_LEN - watchTitle.length, 0)
       : TITLE_MAX_LEN
 
-  const internalOnSubmit = handleSubmit((formData) =>
+  const internalOnSubmit = handleSubmit((formData) => {
     onSubmit({
       postData: {
+        name: formData.postName,
         profile: formData.postProfile,
         email: formData.postEmail,
         title: formData.postTitle,
@@ -106,8 +112,8 @@ const AskForm = ({
         summary: replaceEmptyRichTextInput(formData.postSummary ?? ''),
         addressee: formData.postAddressee,
       },
-    }),
-  )
+    })
+  })
 
   const isAddresseeChosen = (selectedAddressee: AddresseeOption) => {
     return Boolean(selectedAddressee?.value)
@@ -126,12 +132,10 @@ const AskForm = ({
       <FormControl>
         <FormLabel sx={styles.formLabel}>Name</FormLabel>
         <Input
-          placeholder="Full name here"
-          {...register('postTitle', {
+          placeholder="Full Name"
+          {...register('postName', {
             minLength: 5,
-            maxLength: TITLE_MAX_LEN,
             required: true,
-            disabled: true,
           })}
         />
       </FormControl>
@@ -139,31 +143,27 @@ const AskForm = ({
         <FormLabel sx={styles.formLabel}>Email</FormLabel>
         <Input
           placeholder="example@mail.com"
-          {...register('postTitle', {
+          {...register('postEmail', {
             minLength: 5,
-            maxLength: TITLE_MAX_LEN,
             required: true,
           })}
         />
+        {formState.errors.postEmail && (
+          <Alert status="error" sx={styles.alert}>
+            <AlertIcon />
+            Please enter a valid email address.
+          </Alert>
+        )}
       </FormControl>
       <FormControl>
-        <FormLabel sx={styles.formLabel}>Profile</FormLabel>
-        <Controller
-          name="postRequest"
-          control={control}
-          rules={{
-            validate: (v) => !replaceEmptyRichTextInput(v) || v.length >= 30,
-          }}
-          render={({ field: { onChange, value, ref } }) => (
-            <RichTextEditor
-              onChange={onChange}
-              value={value}
-              editorRef={ref}
-              // Move rich text editor styles to Chakra theming for consistency
-              // Note: rich text editor does not make use of Chakra components
-              {...styles.richTextEditor}
-            />
-          )}
+        <FormLabel sx={styles.formLabel}>Profile (optional)</FormLabel>
+        <Input
+          placeholder="Climate Advocate"
+          {...register('postProfile', {
+            minLength: 0,
+            maxLength: TITLE_MAX_LEN,
+            required: false,
+          })}
         />
       </FormControl>
       <FormControl>
@@ -185,39 +185,6 @@ const AskForm = ({
           <Box sx={styles.charsRemainingBox}>
             {titleCharsRemaining} characters left
           </Box>
-        )}
-      </FormControl>
-      <FormControl sx={styles.formControl}>
-        <HStack>
-          <Box sx={styles.formLabel}>Description</Box>
-          <Box textStyle="body-2">(optional)</Box>
-        </HStack>
-
-        <FormHelperText sx={styles.formHelperText}>
-          Additional description to give more context to your question
-        </FormHelperText>
-        <Controller
-          name="postRequest"
-          control={control}
-          rules={{
-            validate: (v) => !replaceEmptyRichTextInput(v) || v.length >= 30,
-          }}
-          render={({ field: { onChange, value, ref } }) => (
-            <RichTextEditor
-              onChange={onChange}
-              value={value}
-              editorRef={ref}
-              // Move rich text editor styles to Chakra theming for consistency
-              // Note: rich text editor does not make use of Chakra components
-              {...styles.richTextEditor}
-            />
-          )}
-        />
-        {formState.errors.postRequest && (
-          <Alert status="error" sx={styles.alert}>
-            <AlertIcon />
-            Please enter at least 30 characters.
-          </Alert>
         )}
       </FormControl>
 
@@ -243,7 +210,7 @@ const AskForm = ({
         {formState.errors.postAddressee && (
           <Alert status="error" sx={styles.alert}>
             <AlertIcon />
-            Please select a topic.
+            Please select a ministry.
           </Alert>
         )}
       </FormControl>
@@ -251,7 +218,6 @@ const AskForm = ({
         <FormLabel sx={styles.formLabel}>
           What would you like us to do?
         </FormLabel>
-
         <Controller
           name="postRequest"
           control={control}
@@ -261,11 +227,11 @@ const AskForm = ({
               onChange={onChange}
               value={value}
               editorRef={ref}
-              placeholder="Enter answer with minimum 30 characters"
+              placeholder="Enter an answer with a minimum of 30 characters"
             />
           )}
         />
-        {formErrors.postReason && (
+        {formErrors.postRequest && (
           <Alert status="error" sx={styles.alert}>
             <AlertIcon />
             Please enter at least 30 characters.
@@ -285,7 +251,7 @@ const AskForm = ({
               onChange={onChange}
               value={value}
               editorRef={ref}
-              placeholder="Enter answer with minimum 30 characters"
+              placeholder="Enter an answer with a minimum of 30 characters"
             />
           )}
         />
@@ -301,24 +267,26 @@ const AskForm = ({
           Summary of petition (optional)
         </FormLabel>
         <FormHelperText sx={styles.formHelperText}>
-          Additional description to give more context to your question Give a
+          Additional description to give more context to your question. Give a
           summary of your petition – this will appear at the top of your
           petition page
         </FormHelperText>
         <Controller
           name="postSummary"
           control={control}
-          rules={{ minLength: 30 }}
+          rules={{
+            validate: (v) => !replaceEmptyRichTextInput(v) || v.length >= 30,
+          }}
           render={({ field: { onChange, value, ref } }) => (
             <RichTextEditor
               onChange={onChange}
               value={value}
               editorRef={ref}
-              placeholder="Enter answer with minimum 30 characters"
+              placeholder="Enter a summary"
             />
           )}
         />
-        {formErrors.postReason && (
+        {formErrors.postSummary && (
           <Alert status="error" sx={styles.alert}>
             <AlertIcon />
             Please enter at least 30 characters.
@@ -329,7 +297,7 @@ const AskForm = ({
         <Button type="submit" sx={styles.submitButton}>
           {submitButtonText}
         </Button>
-        <Button sx={styles.cancelButton} onClick={() => navigate(-1)}>
+        <Button sx={styles.cancelButton} onClick={() => navigate('/')}>
           Cancel
         </Button>
       </ButtonGroup>
@@ -337,4 +305,4 @@ const AskForm = ({
   )
 }
 
-export default AskForm
+export default PostForm

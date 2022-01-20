@@ -46,9 +46,18 @@ export const routePosts = ({
       authMiddleware.authenticate,
       check(
         'title',
-        'Enter a title with minimum 15 characters and maximum 150 characters',
+        'Enter a title with minimum of 15 characters and maximum 150 characters',
       ).isLength({
         min: 15,
+        max: 150,
+      }),
+      check('email', 'Enter an email with a minimum of 5 characters').isLength({
+        min: 5,
+      }),
+      check(
+        'profile',
+        'Enter a profile with a maximum of 150 characters',
+      ).isLength({
         max: 150,
       }),
       check('summary', 'Enter a summary with minimum 50 characters')

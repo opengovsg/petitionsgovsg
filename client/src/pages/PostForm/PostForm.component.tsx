@@ -22,20 +22,20 @@ const PostForm = (): JSX.Element => {
     try {
       const { data: postId } = await PostService.createPost({
         title: data.postData.title,
-        summary: '',
-        reason: '',
-        request: '',
+        summary: data.postData.summary,
+        reason: data.postData.reason,
+        request: data.postData.request,
         references: '',
-        fullname: '',
-        addresseeId: 0,
-        profile: '',
-        email: '',
+        fullname: data.postData.name,
+        addresseeId: data.postData.addressee.value,
+        profile: data.postData.profile,
+        email: data.postData.email,
       })
       toast({
         status: 'success',
         description: 'Your post has been created.',
       })
-      navigate(`/questions/${postId}`, { replace: true })
+      navigate(`/posts/${postId}`, { replace: true })
     } catch (err) {
       toast({
         status: 'error',
