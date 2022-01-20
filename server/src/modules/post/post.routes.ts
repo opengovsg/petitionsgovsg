@@ -60,9 +60,14 @@ export const routePosts = ({
       ).isLength({
         max: 150,
       }),
-      check('summary', 'Enter a summary with minimum 50 characters')
+      check('reason', 'Enter a reason with minimum 30 characters')
         .isLength({
-          min: 50,
+          min: 30,
+        })
+        .optional({ nullable: true, checkFalsy: true }),
+      check('request', 'Enter a request with minimum 30 characters')
+        .isLength({
+          min: 30,
         })
         .optional({ nullable: true, checkFalsy: true }),
     ],

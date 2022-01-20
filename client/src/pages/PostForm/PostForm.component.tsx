@@ -1,9 +1,9 @@
-import { Spacer, Spinner, Text } from '@chakra-ui/react'
+import { Spacer, Spinner } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
 import { useStyledToast } from '../../components/StyledToast/StyledToast'
 import * as PostService from '../../services/PostService'
-import AskForm, { FormSubmission } from './FormFields/FormFields.component'
+import FormFields, { FormSubmission } from './FormFields/FormFields.component'
 import './PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
 import SgidButton from '../../components/SgidButton/SgidButton'
@@ -61,22 +61,16 @@ const PostForm = (): JSX.Element => {
           <Spacer h={['64px', '64px', '84px']} />
           <div className="post-form-header">
             <div className="post-form-headline fc-black-800">
-              Write your petition title and select a relevant ministry to
-              address it to
+              Navigation bar goes here
             </div>
           </div>
 
-          <Text>
-            Get their attention with a short title that focusses on the change
-            you’d like them to support and select a ministry with the power to
-            solve your problem or take the action you’re demanding.
-          </Text>
           <div className="post-form-section">
             <div className="postform" style={{ width: '100%' }}>
-              <AskForm
+              <FormFields
                 addresseeOptions={addresseeData ?? []}
                 onSubmit={onSubmit}
-                submitButtonText="Post your question"
+                submitButtonText="Post your petition"
               />
             </div>
           </div>

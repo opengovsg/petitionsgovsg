@@ -7,6 +7,7 @@ import { StyledToast } from './StyledToast'
 import { SignForm } from './SignForm'
 import { PetitionCard } from './PetitionCard'
 import { PetitionGrid } from './PetitionGrid'
+import { FormFields } from './FormFields'
 
 export const components = {
   Button,
@@ -18,4 +19,5 @@ export const components = {
   SignForm,
   PetitionCard,
   PetitionGrid,
+  FormFields,
 }
