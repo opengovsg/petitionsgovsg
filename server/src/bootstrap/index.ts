@@ -134,13 +134,12 @@ if (baseConfig.nodeEnv === Environment.Prod) {
     '/',
     '/questions',
     '/login',
-    '/add/question',
-    '/edit/question/:id',
+    '/posts/:id',
     '/terms',
     '/agency-terms',
+    '/create',
     '/privacy',
     '/agency-privacy',
-    '/user-login',
     '/unauthorised',
   ]
   for (const path of allStaticPaths) {

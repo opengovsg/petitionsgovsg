@@ -66,7 +66,7 @@ const Routes = (): JSX.Element => {
       <Route path="/agency-terms" element={<AgencyTermsComponent />} />
       <Route path="/privacy" element={<CitizenPrivacyComponent />} />
       <Route path="/agency-privacy" element={<AgencyPrivacyComponent />} />
-      <Route path="/user-login" element={<UserLoginComponent />} />
+      <Route path="/login" element={<UserLoginComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </ReactRoutes>
   )
