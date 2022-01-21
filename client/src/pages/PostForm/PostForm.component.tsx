@@ -59,18 +59,12 @@ const PostForm = (): JSX.Element => {
       <div className="post-form-container">
         <div className="post-form-content">
           <Spacer h={['64px', '64px', '84px']} />
-          <div className="post-form-header">
-            <div className="post-form-headline fc-black-800">
-              Navigation bar goes here
-            </div>
-          </div>
-
           <div className="post-form-section">
             <div className="postform" style={{ width: '100%' }}>
               <FormFields
                 addresseeOptions={addresseeData ?? []}
                 onSubmit={onSubmit}
-                submitButtonText="Post your petition"
+                submitButtonText="Save &amp; Preview"
               />
             </div>
           </div>

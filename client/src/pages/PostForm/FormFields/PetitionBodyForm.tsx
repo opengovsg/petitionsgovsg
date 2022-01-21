@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertIcon,
   FormLabel,
   FormControl,
   useMultiStyleConfig,
@@ -16,8 +14,7 @@ import { BiInfoCircle } from 'react-icons/bi'
 
 const Profile = (): JSX.Element => {
   const styles = useMultiStyleConfig('FormFields', {})
-  const { control, formState } = useFormContext()
-  const { errors: formErrors } = formState
+  const { control } = useFormContext()
 
   return (
     <Box>
@@ -37,7 +34,7 @@ const Profile = (): JSX.Element => {
           <Controller
             name="postRequest"
             control={control}
-            rules={{ minLength: 30 }}
+            rules={{ minLength: 0 }}
             render={({ field: { onChange, value, ref } }) => (
               <RichTextEditor
                 onChange={onChange}
@@ -47,12 +44,6 @@ const Profile = (): JSX.Element => {
               />
             )}
           />
-          {formErrors.postRequest && (
-            <Alert status="error" sx={styles.alert}>
-              <AlertIcon />
-              Please enter an answer of minimum 30 characters.
-            </Alert>
-          )}
         </FormControl>
       </Box>
       <Box sx={styles.infoBox}>
@@ -77,7 +68,7 @@ const Profile = (): JSX.Element => {
           <Controller
             name="postReason"
             control={control}
-            rules={{ minLength: 30 }}
+            rules={{ minLength: 0 }}
             render={({ field: { onChange, value, ref } }) => (
               <RichTextEditor
                 onChange={onChange}
@@ -87,12 +78,6 @@ const Profile = (): JSX.Element => {
               />
             )}
           />
-          {formErrors.postReason && (
-            <Alert status="error" sx={styles.alert}>
-              <AlertIcon />
-              Please enter an answer of minimum 30 characters.
-            </Alert>
-          )}
         </FormControl>
       </Box>
       <Box sx={styles.infoBox}>
@@ -111,10 +96,17 @@ const Profile = (): JSX.Element => {
       </Box>
       <Box sx={styles.formFieldBox}>
         <FormControl sx={styles.formControl}>
-          <Flex sx={styles.formLabelBox}>
-            <FormLabel sx={styles.formLabel}>Summary of petition</FormLabel>
-            <Text sx={styles.optional}>(optional)</Text>
-          </Flex>
+          <Box sx={styles.formLabelBox}>
+            <Flex>
+              <FormLabel sx={styles.formLabel}>Summary of petition</FormLabel>
+              <Text sx={styles.optional}>(optional)</Text>
+            </Flex>
+            <Text>
+              Give a summary of your petition – this will appear at the top of
+              your petition page
+            </Text>
+          </Box>
+
           <Controller
             name="postSummary"
             control={control}

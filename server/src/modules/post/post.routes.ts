@@ -51,25 +51,9 @@ export const routePosts = ({
         min: 15,
         max: 150,
       }),
-      check('email', 'Enter an email with a minimum of 5 characters').isLength({
-        min: 5,
+      check('email', 'Enter an email with a minimum of 1 characters').isLength({
+        min: 1,
       }),
-      check(
-        'profile',
-        'Enter a profile with a maximum of 150 characters',
-      ).isLength({
-        max: 150,
-      }),
-      check('reason', 'Enter a reason with minimum 30 characters')
-        .isLength({
-          min: 30,
-        })
-        .optional({ nullable: true, checkFalsy: true }),
-      check('request', 'Enter a request with minimum 30 characters')
-        .isLength({
-          min: 30,
-        })
-        .optional({ nullable: true, checkFalsy: true }),
     ],
     controller.createPost,
   )

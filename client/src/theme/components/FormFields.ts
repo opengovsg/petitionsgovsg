@@ -58,4 +58,25 @@ export const FormFields = makeMultiStyleConfig({
   infoStack: {
     alignItems: 'flex-start',
   },
+  buttonGroup: {
+    mt: '60px',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    bg: 'secondary.500',
+    color: 'white',
+    textStyle: 'subhead-1',
+  },
+  stepsBox: {
+    mb: '48px',
+    justifyContent: 'space-between',
+  },
+  stepsBackLink: {
+    fontWeight: '500',
+    color: 'secondary.500',
+  },
+  stepsText: {
+    textStyle: 'body-1',
+    color: 'secondary.300',
+  },
 })
