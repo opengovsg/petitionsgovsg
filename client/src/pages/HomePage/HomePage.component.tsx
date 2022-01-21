@@ -50,7 +50,12 @@ const HomePage = (): JSX.Element => {
           // direction={{ base: 'column', lg: 'row' }}
         >
           <Box flex="5">
-            <Flex justifyContent="center" alignItems="center">
+            <Flex
+              justifyContent="center"
+              alignItems="center"
+              justifyItems="center"
+              mb="32px"
+            >
               <VStack>
                 <Text
                   textStyle={'h1'}
@@ -71,27 +76,7 @@ const HomePage = (): JSX.Element => {
                   digital petitions recognised by the government
                 </Text>
                 <SgidButton text="Start a petition here!" redirect="/create" />
-                <Flex
-                  height="470px"
-                  // bg={'white'}
-                  py="24px"
-                  justifyContent="center"
-                >
-                  <Text>How do petitions.gov.sg work?</Text>
-                </Flex>
               </VStack>
-            </Flex>
-            <Flex
-              height="470px"
-              bg={'white'}
-              py="30px"
-              m="auto"
-              my="56px"
-              width="1248px"
-              // mx="auto"
-              justifyContent="center"
-            >
-              <Text>How does petitions.gov.sg work?</Text>
             </Flex>
             {/* List of Posts*/}
             <Flex justifyContent="left" width="1248px" m="auto">
@@ -106,6 +91,7 @@ const HomePage = (): JSX.Element => {
                       bg="white"
                       border={'1px'}
                       borderColor={'#C9CCCF'}
+                      marginStart="auto"
                     >
                       <Flex justifyContent="space-between" alignItems="center">
                         <Text textStyle="body-1" color="secondary.700">
