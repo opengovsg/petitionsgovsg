@@ -1,4 +1,6 @@
 import { Button } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 
 const onClick = async (redirect: string) => {
   if (process.env.NODE_ENV === 'production') {
@@ -15,6 +17,25 @@ const SgidButton = ({
   text: string
   redirect: string
 }): JSX.Element => {
+  const { user } = useAuth()
+  const navigate = useNavigate()
+  if (user) {
+    return (
+      <Button
+        backgroundColor="secondary.500"
+        _hover={{
+          background: 'secondary.400',
+        }}
+        w="300px"
+        h="56px"
+        borderRadius="4px"
+        color="white"
+        onClick={() => navigate(redirect)}
+      >
+        {text}
+      </Button>
+    )
+  }
   return (
     <Button
       backgroundColor="secondary.500"

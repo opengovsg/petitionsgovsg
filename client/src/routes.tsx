@@ -18,7 +18,7 @@ const HomePageComponent = withPageTitle({
 
 const PostFormComponent = withPageTitle({
   component: PostForm,
-  title: 'Ask a Question - AskGov',
+  title: 'Create a Petition',
 })
 
 const NotFoundComponent = withPageTitle({
@@ -61,12 +61,12 @@ const Routes = (): JSX.Element => {
       <Route path="/" element={<HomePageComponent />} />
       <Route path="/agency/:agency" element={<HomePageComponent />} />
       <Route path="/posts/:id" element={<PostComponent />} />
-      <Route path="/add/question" element={<PostFormComponent />} />
+      <Route path="/create" element={<PostFormComponent />} />
       <Route path="/terms" element={<CitizenTermsComponent />} />
       <Route path="/agency-terms" element={<AgencyTermsComponent />} />
       <Route path="/privacy" element={<CitizenPrivacyComponent />} />
       <Route path="/agency-privacy" element={<AgencyPrivacyComponent />} />
-      <Route path="/user-login" element={<UserLoginComponent />} />
+      <Route path="/login" element={<UserLoginComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </ReactRoutes>
   )

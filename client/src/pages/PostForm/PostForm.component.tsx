@@ -1,79 +1,79 @@
-import { Spacer } from '@chakra-ui/react'
-import { Fragment } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Spacer, Spinner } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
 import { useStyledToast } from '../../components/StyledToast/StyledToast'
 import * as PostService from '../../services/PostService'
-import AskForm, { FormSubmission } from './FormFields/FormFields.component'
+import FormFields, { FormSubmission } from './FormFields/FormFields.component'
 import './PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
+import SgidButton from '../../components/SgidButton/SgidButton'
+import {
+  GET_ADDRESSEES_QUERY_KEY,
+  getAddressees,
+} from '../../services/AddresseeService'
+import { useQuery } from 'react-query'
 
 const PostForm = (): JSX.Element => {
-  const { user } = useAuth()
+  const { user, isLoading: isUserLoading } = useAuth()
   const toast = useStyledToast()
   const navigate = useNavigate()
-  if (!user) {
-    return <Navigate replace to="/login" />
-  } else {
-    // const { isLoading, data: topicData } = useQuery(
-    //   GET_TOPICS_USED_BY_AGENCY_QUERY_KEY,
-    //   () => getTopicsUsedByAgency(user.agencyId),
-    //   {
-    //     staleTime: Infinity,
-    //   },
-    // )
-    const onSubmit = async (data: FormSubmission) => {
-      try {
-        const { data: postId } = await PostService.createPost({
-          title: data.postData.title,
-          summary: '',
-          reason: '',
-          request: '',
-          references: '',
-          fullname: '',
-          addresseeId: 0,
-          profile: '',
-          email: '',
-        })
-        // await SignatureService.createSignature(postId)
-        toast({
-          status: 'success',
-          description: 'Your post has been created.',
-        })
-        navigate(`/questions/${postId}`, { replace: true })
-      } catch (err) {
-        toast({
-          status: 'error',
-          description: getApiErrorMessage(err),
-        })
-      }
-    }
 
-    return (
-      <Fragment>
-        <div className="post-form-container">
-          <div className="post-form-content">
-            <Spacer h={['64px', '64px', '84px']} />
-            <div className="post-form-header">
-              <div className="post-form-headline fc-black-800">
-                Post a Question
-              </div>
-            </div>
-            <div className="post-form-section">
-              <div className="postform" style={{ width: '100%' }}>
-                {/* Undefined checks to coerce types. In reality all data should have loaded. */}
-                <AskForm
-                  onSubmit={onSubmit}
-                  submitButtonText="Post your question"
-                />
-              </div>
+  const onSubmit = async (data: FormSubmission) => {
+    try {
+      const { data: postId } = await PostService.createPost({
+        title: data.postData.title,
+        summary: data.postData.summary,
+        reason: data.postData.reason,
+        request: data.postData.request,
+        references: '',
+        addresseeId: data.postData.addressee.value,
+        profile: data.postData.profile,
+        email: data.postData.email,
+      })
+      toast({
+        status: 'success',
+        description: 'Your post has been created.',
+      })
+      navigate(`/posts/${postId}`, { replace: true })
+    } catch (err) {
+      toast({
+        status: 'error',
+        description: getApiErrorMessage(err),
+      })
+    }
+  }
+  const { isLoading: isAddresseesLoading, data: addresseeData } = useQuery(
+    GET_ADDRESSEES_QUERY_KEY,
+    () => getAddressees(),
+    {
+      staleTime: Infinity,
+    },
+  )
+  const isLoading = isUserLoading || isAddresseesLoading
+
+  return isLoading ? (
+    <Spinner />
+  ) : user ? (
+    <>
+      <div className="post-form-container">
+        <div className="post-form-content">
+          <Spacer h={['64px', '64px', '84px']} />
+          <div className="post-form-section">
+            <div className="postform" style={{ width: '100%' }}>
+              <FormFields
+                addresseeOptions={addresseeData ?? []}
+                onSubmit={onSubmit}
+                submitButtonText="Save &amp; Preview"
+              />
             </div>
           </div>
         </div>
-        <Spacer minH={20} />
-      </Fragment>
-    )
-  }
+      </div>
+      <Spacer minH={20} />
+    </>
+  ) : (
+    <SgidButton text="Login using SingPass App" redirect="/create" />
+  )
 }
 
 export default PostForm

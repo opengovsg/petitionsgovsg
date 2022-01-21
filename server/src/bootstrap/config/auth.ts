@@ -29,9 +29,9 @@ export const authConfig = convict(authSchema)
 export const callbackRedirectURL = (state: string | undefined) =>
   baseConfig.nodeEnv === Environment.Dev
     ? `http://localhost:3000${state}`
-    : `https://staging.ask.gov.sg${state}`
+    : `https://petitions.hack.gov.sg${state}`
 
 export const callbackRedirectUnauthorisedURL =
   baseConfig.nodeEnv === Environment.Dev
     ? 'http://localhost:3000/unauthorised'
-    : 'https://staging.ask.gov.sg/unauthorised'
+    : 'https://petitions.hack.gov.sg/unauthorised'

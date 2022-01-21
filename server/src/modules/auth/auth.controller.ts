@@ -6,7 +6,12 @@ import {
   callbackRedirectURL,
 } from '../../bootstrap/config/auth'
 import { Message } from 'src/types/message-type'
-import { ErrorDto, LoadPublicUserDto, UserAuthType } from '~shared/types/api'
+import {
+  ErrorDto,
+  LoadPublicUserDto,
+  LoadUserNameDto,
+  UserAuthType,
+} from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
 import { ControllerHandler } from '../../types/response-handler'
 
@@ -25,6 +30,7 @@ export class AuthController {
   ) => {
     const id = req.user?.id
     const type = req.user?.type
+
     if (!id) {
       logger.error({
         message: 'User not found after being authenticated',
@@ -121,6 +127,7 @@ export class AuthController {
     undefined,
     { code: string; state: string | undefined }
   > = async (req, res, next) => {
+    console.log('CALLBACK IS CALLED')
     const { state } = req.query
     passport.authenticate('sgid', {}, (error, user, info: Message) => {
       if (error) {
@@ -189,5 +196,43 @@ export class AuthController {
         })
       })
     })(req, res, next)
+  }
+
+  /**
+   * Fetch logged in user details after being authenticated.
+   * @returns 200 with user details
+   * @returns 500 if user id not found
+   * @returns 500 if database error
+   */
+  loadUserName: ControllerHandler<unknown, LoadUserNameDto | ErrorDto> = async (
+    req,
+    res,
+  ) => {
+    const fullname = req.user?.fullname
+
+    if (!fullname) {
+      logger.error({
+        message: 'User name not found after being authenticated',
+        meta: {
+          function: 'loadUserName',
+          userId: req.user?.id,
+        },
+      })
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
+    }
+
+    try {
+      return res.status(StatusCodes.OK).json({ fullname: fullname })
+    } catch (error) {
+      logger.error({
+        message: 'Database Error while loading public user',
+        meta: {
+          function: 'loadUserName',
+          userId: req.user?.id,
+        },
+        error,
+      })
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
+    }
   }
 }

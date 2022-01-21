@@ -46,16 +46,20 @@ export const routePosts = ({
       authMiddleware.authenticate,
       check(
         'title',
-        'Enter a title with minimum 15 characters and maximum 150 characters',
+        'Enter a title with minimum of 15 characters and maximum 150 characters',
       ).isLength({
         min: 15,
         max: 150,
       }),
-      check('summary', 'Enter a summary with minimum 50 characters')
-        .isLength({
-          min: 50,
-        })
-        .optional({ nullable: true, checkFalsy: true }),
+      check('email', 'Enter an email with a minimum of 1 characters').isLength({
+        min: 1,
+      }),
+      check('reason', 'Enter a reason with minimum 1 character').isLength({
+        min: 1,
+      }),
+      check('request', 'Enter a request with minimum 1 character').isLength({
+        min: 1,
+      }),
     ],
     controller.createPost,
   )

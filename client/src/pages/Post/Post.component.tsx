@@ -41,7 +41,7 @@ const Post = (): JSX.Element => {
   const location = useLocation()
 
   // If user is signed in, don't need to resign in through SP app
-  const { user } = useAuth()
+  const { user, isLoading: isUserLoading } = useAuth()
 
   const { isLoading: isSignatureLoading, data: userSignature } = useQuery(
     [GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
@@ -54,7 +54,7 @@ const Post = (): JSX.Element => {
     'dd MMM yyyy HH:mm, zzzz',
   )
 
-  const isLoading = isPostLoading || isSignatureLoading
+  const isLoading = isPostLoading || isSignatureLoading || isUserLoading
 
   return isLoading ? (
     <Spinner centerHeight={`${styles.spinner.height}`} />

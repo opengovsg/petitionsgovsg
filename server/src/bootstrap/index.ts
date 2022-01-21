@@ -20,6 +20,8 @@ import { requestLoggingMiddleware } from './logging/request-logging'
 import { passportConfig } from './passport'
 import { Signature, Post, Addressee, sequelize } from './sequelize'
 import sessionMiddleware from './session'
+import { AddresseeController } from '../modules/addressee/addressee.controller'
+import { AddresseeService } from '../modules/addressee/addressee.service'
 
 export { sequelize } from './sequelize'
 export const app = express()
@@ -62,7 +64,9 @@ const signatureService = new SignatureService({
   Signature,
   sequelize,
 })
-
+const addresseeService = new AddresseeService({
+  Addressee,
+})
 const apiOptions = {
   signature: {
     controller: new SignatureController({
@@ -82,6 +86,9 @@ const apiOptions = {
       postService,
     }),
     authMiddleware,
+  },
+  addressee: {
+    controller: new AddresseeController({ addresseeService }),
   },
 }
 
@@ -127,13 +134,12 @@ if (baseConfig.nodeEnv === Environment.Prod) {
     '/',
     '/questions',
     '/login',
-    '/add/question',
-    '/edit/question/:id',
+    '/posts/:id',
     '/terms',
     '/agency-terms',
+    '/create',
     '/privacy',
     '/agency-privacy',
-    '/user-login',
     '/unauthorised',
   ]
   for (const path of allStaticPaths) {
