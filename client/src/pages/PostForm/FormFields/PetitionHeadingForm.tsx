@@ -7,14 +7,12 @@ import {
   Box,
   Text,
   useMultiStyleConfig,
-  HStack,
-  Icon,
 } from '@chakra-ui/react'
 import { Addressee } from '~shared/types/base'
 import { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import Select from 'react-select'
-import { BiInfoCircle } from 'react-icons/bi'
+import { InfoBox } from '../../../components/InfoBox/InfoBox.component'
 
 const TITLE_MAX_LEN = 150
 
@@ -83,20 +81,17 @@ const Profile = ({
             </Box>
           )}
         </FormControl>
-        <Box sx={styles.infoBox}>
-          <HStack sx={styles.infoStack}>
-            <Icon as={BiInfoCircle} color="primary.500" w="20px" h="20px" />
-            <Box sx={styles.infoBody}>
-              <Text>
-                Your title is the first thing people will see about your
-                petition. Get their attention with a short title that focusses
-                on the change you’d like them to support.
-                <Text>• Keep your petition title short and to the point </Text>
-                <Text>• Focus on the solution</Text>
-              </Text>
-            </Box>
-          </HStack>
-        </Box>
+        <InfoBox>
+          <Box>
+            <Text>
+              Your title is the first thing people will see about your petition.
+              Get their attention with a short title that focusses on the change
+              you’d like them to support.
+            </Text>
+            <Text>• Keep your petition title short and to the point </Text>
+            <Text>• Focus on the solution</Text>
+          </Box>
+        </InfoBox>
       </Box>
       <Box sx={styles.formFieldBox}>
         <FormControl sx={styles.formControl}>

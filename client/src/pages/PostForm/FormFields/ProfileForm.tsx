@@ -8,14 +8,12 @@ import {
   Text,
   Box,
   Flex,
-  Icon,
-  HStack,
   Spinner,
 } from '@chakra-ui/react'
 import { useFormContext } from 'react-hook-form'
-import { BiInfoCircle } from 'react-icons/bi'
 
 import { useQuery } from 'react-query'
+import { InfoBox } from '../../../components/InfoBox/InfoBox.component'
 import { getUserName, GET_USER_NAME } from '../../../services/AuthService'
 
 const Profile = (): JSX.Element => {
@@ -79,18 +77,15 @@ const Profile = (): JSX.Element => {
           />
         </FormControl>
       </Box>
-      <Box sx={styles.infoBox}>
-        <HStack sx={styles.infoStack}>
-          <Icon as={BiInfoCircle} color="primary.500" w="20px" h="20px" />
-          <Box>
-            <Text sx={styles.infoHeading}>Make it personal</Text>
-            <Text sx={styles.infoBody}>
-              Readers are more likely to sign and support your petition if it’s
-              clear why you care.
-            </Text>
-          </Box>
-        </HStack>
-      </Box>
+      <InfoBox>
+        <Box>
+          <Text sx={styles.infoHeading}>Make it personal</Text>
+          <Text>
+            Readers are more likely to sign and support your petition if it’s
+            clear why you care.
+          </Text>
+        </Box>
+      </InfoBox>
     </Box>
   )
 }

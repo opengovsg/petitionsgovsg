@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { CreateSignatureReqDto } from 'src/api/types/signature'
+import { CreateSignatureReqDto, BaseSignatureDto } from '../api/types/signature'
 import { ApiClient } from '../api'
 
 export const getUserSignatureForPost = async (
@@ -18,3 +18,9 @@ export const createSignature = async (
     `/posts/signatures/${postId}`,
     data,
   ).then(({ data }) => data)
+
+export const filterSignaturesWithComments = (
+  signatures: Pick<BaseSignatureDto, 'comment' | 'createdAt' | 'fullname'>[],
+) => {
+  return signatures.filter((signature) => signature.comment !== '')
+}
