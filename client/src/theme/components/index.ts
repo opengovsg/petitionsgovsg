@@ -9,6 +9,8 @@ import { PetitionCard } from './PetitionCard'
 import { PetitionGrid } from './PetitionGrid'
 import { FormFields } from './FormFields'
 import { InfoBox } from './InfoBox'
+import { Hero } from './Hero'
+import { HowItWorks } from './HowItWorks'
 
 export const components = {
   Button,
@@ -22,4 +24,6 @@ export const components = {
   PetitionGrid,
   FormFields,
   InfoBox,
+  Hero,
+  HowItWorks,
 }
