@@ -1,84 +1,85 @@
-import {
-  Checkbox,
-  Flex,
-  Input,
-  Text,
-  Textarea,
-  useMultiStyleConfig,
-} from '@chakra-ui/react'
-import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Button, useDisclosure } from '@chakra-ui/react'
+import { SubmitHandler } from 'react-hook-form'
+import { CreateSignatureReqDto } from '../../api'
 import * as SignatureService from '../../services/SignatureService'
+import { SignatureModal } from '../SignatureModal/SignatureModal.component'
+import { SubscriptionModal } from '../SubscriptionModal/SubscriptionModal'
+import { useStyledToast } from '../StyledToast/StyledToast'
 
-type FormValues = {
-  comment: string | undefined
-}
+type FormValues = CreateSignatureReqDto
 
-const MAX_CHAR_COUNT = 200
+type SusbcriptionFormValues = { email: string }
 
-const refreshPage = () => {
-  window.location.reload()
-}
+const SignForm = ({
+  postId,
+  postTitle,
+}: {
+  postId: string | undefined
+  postTitle: string
+}): JSX.Element => {
+  const toast = useStyledToast()
 
-const SignForm = ({ postId }: { postId: string | undefined }): JSX.Element => {
-  const styles = useMultiStyleConfig('SignForm', {})
-  const { register, handleSubmit } = useForm<FormValues>()
-  const [count, setCount] = useState(MAX_CHAR_COUNT)
-  const [useName, setUseName] = useState(false)
-
-  const onSubmit: SubmitHandler<FormValues> = async ({ comment }) => {
+  // Init Signature Modal
+  const {
+    onOpen: onSignatureModalOpen,
+    onClose: onSignatureModalClose,
+    isOpen: isSignatureModalOpen,
+  } = useDisclosure()
+  const onSignatureConfirm: SubmitHandler<FormValues> = async ({
+    comment,
+    useName,
+  }: CreateSignatureReqDto): Promise<void> => {
     await SignatureService.createSignature(Number(postId), {
       comment: comment ?? null,
       useName: useName,
     })
-    refreshPage()
+    toast({
+      status: 'success',
+      description: 'You have successfully signed this petition!',
+    })
+    onSubscriptionModalOpen()
+  }
+  const onClick = async () => {
+    onSignatureModalOpen()
   }
 
-  const signatureComponent = (
-    <>
-      <Textarea
-        maxLength={MAX_CHAR_COUNT}
-        sx={styles.input}
-        className="form-input"
-        placeholder="Share your reason for signing (optional)"
-        {...register('comment', {
-          required: false,
-          maxLength: {
-            value: MAX_CHAR_COUNT,
-            message: 'Maximum length should be 200',
-          },
-        })}
-        onChange={(e) => setCount(MAX_CHAR_COUNT - e.target.value.length)}
-      />
-      <Text sx={styles.characterCount}>{count} characters left</Text>
-    </>
-  )
-
-  const useNameComponent = (
-    <Checkbox
-      mt="8px"
-      onChange={() => {
-        setUseName(!useName)
-      }}
-    >
-      <Text sx={styles.caption}>I want to sign using my full name.</Text>
-    </Checkbox>
-  )
+  // Init Subscription Modal
+  const {
+    onOpen: onSubscriptionModalOpen,
+    onClose: onSubscriptionModalClose,
+    isOpen: isSubscriptionModalOpen,
+  } = useDisclosure()
+  const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
+    email,
+  }: SusbcriptionFormValues): Promise<void> => {
+    //TODO: Implement subscription
+    console.log(email)
+  }
 
   return (
-    <Flex sx={styles.container} className="form-container">
-      <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
-        {signatureComponent}
-        {useNameComponent}
-        <Input
-          sx={styles.submitButton}
-          id="submit-button"
-          name="submit-button"
-          type="submit"
-          value={'Sign this petition'}
-        />
-      </form>
-    </Flex>
+    <>
+      <Button
+        onClick={onClick}
+        bg="secondary.500"
+        fontStyle={'subhead-1'}
+        color="white"
+        height="48px"
+        width="300px"
+      >
+        Sign this petition
+      </Button>
+      <SubscriptionModal
+        isOpen={isSubscriptionModalOpen}
+        onClose={onSubscriptionModalClose}
+        onConfirm={onSubscriptionConfim}
+      />
+      <SignatureModal
+        isOpen={isSignatureModalOpen}
+        onClose={onSignatureModalClose}
+        onConfirm={onSignatureConfirm}
+        postTitle={postTitle}
+      />
+    </>
   )
 }
 

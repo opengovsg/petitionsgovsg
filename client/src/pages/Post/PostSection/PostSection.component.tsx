@@ -5,7 +5,7 @@ import './PostSection.styles.scss'
 const PostSection = ({
   post,
 }: {
-  post?: { reason: string | null; request: string | null }
+  post?: { reason: string; request: string }
 }): JSX.Element => {
   return (
     <>

@@ -1,5 +1,6 @@
 import {
   Box,
+  Badge,
   Center,
   Flex,
   Spacer,
@@ -9,7 +10,6 @@ import {
 } from '@chakra-ui/layout'
 import { useMultiStyleConfig } from '@chakra-ui/system'
 import { format, utcToZonedTime } from 'date-fns-tz'
-import { BiXCircle } from 'react-icons/bi'
 import { useQuery } from 'react-query'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
@@ -27,9 +27,10 @@ import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
 import SgidButton from '../../components/SgidButton/SgidButton'
 import SignForm from '../../components/SignForm/SignForm.component'
+import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
+import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
 
 const Post = (): JSX.Element => {
-  const styles = useMultiStyleConfig('Post', {})
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
   const { id: postId } = useParams()
   const { isLoading: isPostLoading, data: post } = useQuery(
@@ -37,7 +38,7 @@ const Post = (): JSX.Element => {
     () => getPostById(Number(postId)),
     { enabled: !!postId },
   )
-
+  const styles = useMultiStyleConfig('Post', {})
   const location = useLocation()
 
   // If user is signed in, don't need to resign in through SP app
@@ -60,6 +61,7 @@ const Post = (): JSX.Element => {
     <Spinner centerHeight={`${styles.spinner.height}`} />
   ) : (
     <Flex direction="column" sx={styles.container}>
+      {post?.status === PostStatus.Draft && <PreviewBanner />}
       <PageTitle title={`${post?.title} Petitions`} description="" />
       <Center>
         <Stack
@@ -69,20 +71,14 @@ const Post = (): JSX.Element => {
         >
           <Box className="post-page">
             <Text sx={styles.title}>{post?.title}</Text>
-            {post?.status === PostStatus.Closed ? (
-              <Box sx={styles.subtitle} className="subtitle-bar">
-                <Flex sx={styles.private}>
-                  <BiXCircle
-                    style={{
-                      marginRight: `${styles.privateIcon.marginRight}`,
-                      color: `${styles.privateIcon.color}`,
-                    }}
-                    size={`${styles.privateIcon.fontSize}`}
-                  />
-                  <Box as="span">
-                    This question remains private until an answer is posted.
-                  </Box>
-                </Flex>
+            {post?.status === PostStatus.Open ? (
+              <Box sx={styles.subtitle} className="subtitle-bar" my="12px">
+                <Text my="4px">Started by {post?.fullname}</Text>
+                <Text my="4px">
+                  Addressed to the {post?.addressee.name} (
+                  {post.addressee.shortName})
+                </Text>
+                <Badge sx={styles.badge}>In review</Badge>
               </Box>
             ) : null}
             <PostSection post={post} />
@@ -91,6 +87,9 @@ const Post = (): JSX.Element => {
                 Last updated {formattedTimeString}
               </time>
             </Box>
+            <Text sx={styles.title}>Updates</Text>
+            <Text sx={styles.title}>Reasons for signing</Text>
+            <PostSignatures post={post} />
           </Box>
           <VStack sx={styles.relatedSection} align="left">
             <Text sx={styles.relatedHeading}>{post?.signatureCount}</Text>
@@ -102,7 +101,9 @@ const Post = (): JSX.Element => {
                   redirect={location.pathname}
                 />
               )}
-              {user && !userSignature && <SignForm postId={postId} />}
+              {user && !userSignature && (
+                <SignForm postId={postId} postTitle={post?.title ?? ''} />
+              )}
               {user && userSignature && (
                 <Center sx={styles.signed}>
                   You have signed this petition.
