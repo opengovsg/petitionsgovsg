@@ -5,12 +5,10 @@ import {
   Box,
   Text,
   Flex,
-  HStack,
-  Icon,
 } from '@chakra-ui/react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { RichTextEditor } from '../../../components/RichText/RichTextEditor.component'
-import { BiInfoCircle } from 'react-icons/bi'
+import { InfoBox } from '../../../components/InfoBox/InfoBox.component'
 
 const Profile = (): JSX.Element => {
   const styles = useMultiStyleConfig('FormFields', {})
@@ -46,18 +44,15 @@ const Profile = (): JSX.Element => {
           />
         </FormControl>
       </Box>
-      <Box sx={styles.infoBox}>
-        <HStack sx={styles.infoStack}>
-          <Icon as={BiInfoCircle} color="primary.500" w="20px" h="20px" />
-          <Box sx={styles.infoBody}>
-            <Text>Describe the solution</Text>
-            <Text>
-              Explain what needs to happen and who can make the change. Make it
-              clear what happens if you win or lose.
-            </Text>
-          </Box>
-        </HStack>
-      </Box>
+      <InfoBox>
+        <Box>
+          <Text>Describe the solution</Text>
+          <Text>
+            Explain what needs to happen and who can make the change. Make it
+            clear what happens if you win or lose.
+          </Text>
+        </Box>
+      </InfoBox>
       <Box sx={styles.formFieldBox}>
         <FormControl sx={styles.formControl}>
           <Box sx={styles.formLabelBox}>
@@ -80,20 +75,17 @@ const Profile = (): JSX.Element => {
           />
         </FormControl>
       </Box>
-      <Box sx={styles.infoBox}>
-        <HStack sx={styles.infoStack}>
-          <Icon as={BiInfoCircle} color="primary.500" w="20px" h="20px" />
-          <Box sx={styles.infoBody}>
-            <Text>
-              Describe the people involved and the problem they are facing
-            </Text>
-            <Text>
-              Readers are most likely to take action when they understand who is
-              affected.
-            </Text>
-          </Box>
-        </HStack>
-      </Box>
+      <InfoBox>
+        <Box>
+          <Text>
+            Describe the people involved and the problem they are facing
+          </Text>
+          <Text>
+            Readers are most likely to take action when they understand who is
+            affected.
+          </Text>
+        </Box>
+      </InfoBox>
       <Box sx={styles.formFieldBox}>
         <FormControl sx={styles.formControl}>
           <Box sx={styles.formLabelBox}>

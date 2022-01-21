@@ -54,10 +54,10 @@ const SignForm = ({
   } = useDisclosure()
 
   const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     email,
   }: SusbcriptionFormValues): Promise<void> => {
     //TODO: Implement subscription
-    console.log(email)
     refreshPage()
   }
 

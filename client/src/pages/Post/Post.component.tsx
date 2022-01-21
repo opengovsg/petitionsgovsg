@@ -35,6 +35,7 @@ import {
   SusbcriptionFormValues,
 } from '../../components/SubscriptionModal/SubscriptionModal.component'
 import { SubmitHandler } from 'react-hook-form'
+import { InfoBox } from '../../components/InfoBox/InfoBox.component'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -69,10 +70,10 @@ const Post = (): JSX.Element => {
   } = useDisclosure()
 
   const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     email,
   }: SusbcriptionFormValues): Promise<void> => {
     //TODO: Implement subscription
-    console.log(email)
   }
 
   const onClick = async () => {
@@ -105,6 +106,11 @@ const Post = (): JSX.Element => {
                 <Badge sx={styles.badge}>In review</Badge>
               </Box>
             ) : null}
+            {post?.summary && (
+              <InfoBox>
+                <Text>{post.summary}</Text>
+              </InfoBox>
+            )}
             <PostSection post={post} />
             <Box sx={styles.lastUpdated}>
               <time dateTime={formattedTimeString}>
@@ -112,6 +118,12 @@ const Post = (): JSX.Element => {
               </time>
             </Box>
             <Text sx={styles.title}>Updates</Text>
+            <InfoBox>
+              <Text>
+                The ministry is reviewing this petition. Please subscribe for
+                updates.
+              </Text>
+            </InfoBox>
             <Text sx={styles.title}>Reasons for signing</Text>
             <PostSignatures post={post} />
           </Box>

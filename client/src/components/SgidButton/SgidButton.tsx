@@ -1,4 +1,5 @@
 import { Button } from '@chakra-ui/react'
+import { BiLockAlt } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 

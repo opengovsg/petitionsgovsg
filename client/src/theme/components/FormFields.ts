@@ -44,24 +44,10 @@ export const FormFields = makeMultiStyleConfig({
   input: {
     bg: 'white',
   },
-  infoBox: {
-    py: '16px',
-    px: '16px',
-    bg: 'white',
-    mt: '16px',
-  },
   infoHeading: {
     textStyle: 'body-1',
     fontWeight: '700',
     color: 'secondary.700',
-  },
-  infoBody: {
-    textStyle: 'body-1',
-    fontWeight: '400',
-    color: 'secondary.700',
-  },
-  infoStack: {
-    alignItems: 'flex-start',
   },
   buttonGroup: {
     mt: '60px',
