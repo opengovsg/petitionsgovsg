@@ -10,31 +10,33 @@ import {
   Flex,
   Icon,
   HStack,
+  Spinner,
 } from '@chakra-ui/react'
 import { useFormContext } from 'react-hook-form'
 import { BiInfoCircle } from 'react-icons/bi'
+
+import { useQuery } from 'react-query'
+import { getUserName, GET_USER_NAME } from '../../../services/AuthService'
 
 const Profile = (): JSX.Element => {
   const styles = useMultiStyleConfig('FormFields', {})
   const { register, formState } = useFormContext()
 
-  return (
+  const { data, isLoading } = useQuery([GET_USER_NAME], () => getUserName(), {
+    keepPreviousData: true,
+  })
+
+  return isLoading ? (
+    <Spinner />
+  ) : (
     <Box>
       <Text sx={styles.heading}>Your Profile</Text>
       <Text sx={styles.headingCaption}>Share a little bit about yourself</Text>
       <Box sx={styles.formFieldBox}>
-        <FormControl>
-          <Box sx={styles.formLabelBox}>
-            <FormLabel sx={styles.formLabel}>Name</FormLabel>
-          </Box>
-          <Input
-            sx={styles.input}
-            placeholder="Full Name"
-            {...register('postName', {
-              required: true,
-            })}
-          />
-        </FormControl>
+        <Box sx={styles.formLabelBox}>
+          <FormLabel sx={styles.formLabel}>Name</FormLabel>
+          <Text sx={styles.name}>{data?.fullname}</Text>
+        </Box>
       </Box>
       <Box sx={styles.formFieldBox}>
         <FormControl>

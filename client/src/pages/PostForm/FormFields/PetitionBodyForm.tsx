@@ -34,7 +34,7 @@ const Profile = (): JSX.Element => {
           <Controller
             name="postRequest"
             control={control}
-            rules={{ minLength: 0 }}
+            rules={{ minLength: 1 }}
             render={({ field: { onChange, value, ref } }) => (
               <RichTextEditor
                 onChange={onChange}
@@ -68,7 +68,7 @@ const Profile = (): JSX.Element => {
           <Controller
             name="postReason"
             control={control}
-            rules={{ minLength: 0 }}
+            rules={{ minLength: 1 }}
             render={({ field: { onChange, value, ref } }) => (
               <RichTextEditor
                 onChange={onChange}

@@ -21,7 +21,6 @@ export type FormSubmission = {
 type AddresseeOption = { value: number; label: string }
 
 type postDataType = {
-  name: string
   email: string
   profile: string
   title: string
@@ -39,7 +38,6 @@ interface PostFormProps {
 }
 
 interface PostFormInput {
-  postName: string
   postEmail: string
   postProfile: string
   postTitle: string
@@ -51,7 +49,6 @@ interface PostFormInput {
 
 const PostForm = ({
   inputPostData = {
-    name: '',
     email: '',
     profile: '',
     title: '',
@@ -72,7 +69,6 @@ const PostForm = ({
 
   const methods = useForm<PostFormInput>({
     defaultValues: {
-      postName: inputPostData.name,
       postEmail: inputPostData.email,
       postProfile: inputPostData.profile,
       postTitle: inputPostData.title,
@@ -90,7 +86,6 @@ const PostForm = ({
   const internalOnSubmit = handleSubmit((formData) => {
     onSubmit({
       postData: {
-        name: formData.postName,
         profile: formData.postProfile,
         email: formData.postEmail,
         title: formData.postTitle,
@@ -155,7 +150,6 @@ const PostForm = ({
     'Your Profile',
     'Petition name, Select Ministry',
     'Reason for petition',
-    'Save and preview',
   ]
 
   return (

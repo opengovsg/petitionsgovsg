@@ -171,6 +171,7 @@ export class PostController {
 
       const salt = await generateSalt()
       const hashedUserSgid = await hashData(req.user.id, salt)
+      const fullname = req.user.fullname
       const data = await this.postService.createPost({
         title: req.body.title,
         summary: req.body.summary,
@@ -178,7 +179,7 @@ export class PostController {
         request: req.body.request,
         hashedUserSgid: hashedUserSgid,
         references: req.body.references,
-        fullname: req.body.fullname,
+        fullname: fullname,
         addresseeId: req.body.addresseeId,
         profile: req.body.profile,
         email: req.body.email,

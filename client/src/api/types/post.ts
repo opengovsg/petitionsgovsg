@@ -37,7 +37,6 @@ export type CreatePostReqDto = Pick<
   | 'reason'
   | 'request'
   | 'references'
-  | 'fullname'
   | 'addresseeId'
   | 'profile'
   | 'email'

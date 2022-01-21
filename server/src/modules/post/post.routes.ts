@@ -54,6 +54,12 @@ export const routePosts = ({
       check('email', 'Enter an email with a minimum of 1 characters').isLength({
         min: 1,
       }),
+      check('reason', 'Enter a reason with minimum 1 character').isLength({
+        min: 1,
+      }),
+      check('request', 'Enter a request with minimum 1 character').isLength({
+        min: 1,
+      }),
     ],
     controller.createPost,
   )

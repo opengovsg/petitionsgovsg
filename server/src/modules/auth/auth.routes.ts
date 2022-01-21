@@ -22,6 +22,16 @@ export const routeAuth = ({
   router.get('/', authMiddleware.authenticate, controller.loadUser)
 
   /**
+   * Fetch logged in user name
+   * @route   GET /api/auth
+   * @returns 200 with user's fullname
+   * @returns 401 if user not signed in
+   * @returns 500 if database error
+   * @access  Private
+   */
+  router.get('/fullname', authMiddleware.authenticate, controller.loadUserName)
+
+  /**
    * Logout
    * @route   POST /api/auth/logout
    * @returns 200 if logged out

@@ -9,3 +9,5 @@ export interface AuthUserDto {
 }
 
 export type LoadPublicUserDto = Pick<AuthUserDto, 'id'> | null
+
+export type LoadUserNameDto = Pick<AuthUserDto, 'fullname'> | null

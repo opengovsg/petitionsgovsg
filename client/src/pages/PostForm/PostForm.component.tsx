@@ -26,7 +26,6 @@ const PostForm = (): JSX.Element => {
         reason: data.postData.reason,
         request: data.postData.request,
         references: '',
-        fullname: data.postData.name,
         addresseeId: data.postData.addressee.value,
         profile: data.postData.profile,
         email: data.postData.email,

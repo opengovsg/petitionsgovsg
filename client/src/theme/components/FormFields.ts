@@ -20,8 +20,13 @@ export const FormFields = makeMultiStyleConfig({
     mb: '12px',
     mt: '40px',
   },
-  formFieldBox: {
-    // mb: '40px',
+  name: {
+    bgColor: 'white',
+    h: '44px',
+    px: '16px',
+    py: '10px',
+    textStyle: 'body-1',
+    color: 'secondary.700',
   },
   formCaption: {
     textStyle: 'body-2',
