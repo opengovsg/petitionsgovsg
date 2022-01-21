@@ -40,6 +40,7 @@ export const AuthProvider = ({
         setLoading(false)
       })
       .catch((reason: AxiosError) => {
+        setLoading(false)
         // Catch 401 which signals an unauthorized user, which is not an issue
         if (!(reason.response?.status === 401)) {
           throw reason
