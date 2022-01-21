@@ -39,15 +39,19 @@ export const Post: ComponentMultiStyleConfig = {
       color: 'secondary.800',
       pr: '20px',
     },
-    relatedSection: {
+    sideSection: {
       w: { base: 'auto', lg: '300px' },
       minW: { base: 'auto', lg: '300px' },
       pt: { base: '36px', sm: '60px', lg: '96px' },
       color: 'secondary.800',
     },
-    relatedHeading: {
+    numberHeading: {
       mb: { base: '16px', sm: '0px' },
       textStyle: 'h2',
+      my: '16px',
+    },
+    numberSubHeading: {
+      textStyle: 'h4',
     },
     relatedLink: {
       py: { base: '24px', sm: '32px' },
@@ -77,6 +81,21 @@ export const Post: ComponentMultiStyleConfig = {
       px: '8px',
       py: '4px',
       my: '12px',
+    },
+    signatureHeader: {
+      pt: '40px',
+      textSyle: 'subhead-1',
+      color: 'secondary.500',
+      fontSize: '16px',
+      lineHeight: '24px',
+      fontWeight: '500',
+    },
+    signature: {
+      color: 'secondary.400',
+      textStyle: 'body-2',
+      fontWeight: '400',
+      fontSize: '14px',
+      lineHeight: '20px',
     },
   }),
 }

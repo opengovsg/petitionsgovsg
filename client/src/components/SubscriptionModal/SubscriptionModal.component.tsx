@@ -17,6 +17,8 @@ import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { BiCopy } from 'react-icons/bi'
 
+export type SusbcriptionFormValues = { email: string }
+
 const MAX_CHAR_COUNT = 200
 type FormValues = {
   email: string

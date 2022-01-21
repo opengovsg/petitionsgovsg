@@ -6,7 +6,6 @@ import {
   Spacer,
   Stack,
   Text,
-  VStack,
 } from '@chakra-ui/layout'
 import { useMultiStyleConfig } from '@chakra-ui/system'
 import { format, utcToZonedTime } from 'date-fns-tz'
@@ -29,6 +28,13 @@ import SgidButton from '../../components/SgidButton/SgidButton'
 import SignForm from '../../components/SignForm/SignForm.component'
 import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
 import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
+import { Button, useDisclosure } from '@chakra-ui/react'
+import { BiShareAlt } from 'react-icons/bi'
+import {
+  SubscriptionModal,
+  SusbcriptionFormValues,
+} from '../../components/SubscriptionModal/SubscriptionModal.component'
+import { SubmitHandler } from 'react-hook-form'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -54,6 +60,24 @@ const Post = (): JSX.Element => {
     utcToZonedTime(post?.updatedAt ?? Date.now(), 'Asia/Singapore'),
     'dd MMM yyyy HH:mm, zzzz',
   )
+
+  // Init Subscription Modal
+  const {
+    onOpen: onSubscriptionModalOpen,
+    onClose: onSubscriptionModalClose,
+    isOpen: isSubscriptionModalOpen,
+  } = useDisclosure()
+
+  const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
+    email,
+  }: SusbcriptionFormValues): Promise<void> => {
+    //TODO: Implement subscription
+    console.log(email)
+  }
+
+  const onClick = async () => {
+    onSubscriptionModalOpen()
+  }
 
   const isLoading = isPostLoading || isSignatureLoading || isUserLoading
 
@@ -91,10 +115,14 @@ const Post = (): JSX.Element => {
             <Text sx={styles.title}>Reasons for signing</Text>
             <PostSignatures post={post} />
           </Box>
-          <VStack sx={styles.relatedSection} align="left">
-            <Text sx={styles.relatedHeading}>{post?.signatureCount}</Text>
-            <Text>have signed this petition</Text>
-            <Center>
+          <Stack sx={styles.sideSection} align="left">
+            <Box my="8px">
+              <Text sx={styles.numberHeading}>{post?.signatureCount}</Text>
+              <Text sx={styles.numberSubHeading}>
+                have signed this petition
+              </Text>
+            </Box>
+            <Center py="8px">
               {!user && (
                 <SgidButton
                   text="Sign this petition"
@@ -122,12 +150,34 @@ const Post = (): JSX.Element => {
                 </Link>
               </Text>
             )}
+            <Center py="8px">
+              <Button
+                onClick={onClick}
+                fontStyle={'subhead-1'}
+                color="secondary.500"
+                height="48px"
+                width="300px"
+                borderColor="secondary.500"
+                variant="outline"
+                leftIcon={<BiShareAlt />}
+              >
+                Share this petition
+              </Button>
+            </Center>
+            <SubscriptionModal
+              isOpen={isSubscriptionModalOpen}
+              onClose={onSubscriptionModalClose}
+              onConfirm={onSubscriptionConfim}
+            />
+            <Text sx={styles.signatureHeader}>Recent Activity</Text>
             {post?.signatures.map((signature) => (
               <Box>
-                <Text> {signature.fullname ?? 'anon'} has signed</Text>
+                <Text sx={styles.signature}>
+                  {signature.fullname ?? 'Anonymous'} signed this petition
+                </Text>
               </Box>
             ))}
-          </VStack>
+          </Stack>
         </Stack>
       </Center>
       <Spacer />

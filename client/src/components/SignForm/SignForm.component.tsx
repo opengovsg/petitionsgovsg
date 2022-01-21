@@ -3,12 +3,15 @@ import { SubmitHandler } from 'react-hook-form'
 import { CreateSignatureReqDto } from '../../api'
 import * as SignatureService from '../../services/SignatureService'
 import { SignatureModal } from '../SignatureModal/SignatureModal.component'
-import { SubscriptionModal } from '../SubscriptionModal/SubscriptionModal'
+import {
+  SubscriptionModal,
+  SusbcriptionFormValues,
+} from '../SubscriptionModal/SubscriptionModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
+import { BiLockAlt } from 'react-icons/bi'
 
 type FormValues = CreateSignatureReqDto
-
-type SusbcriptionFormValues = { email: string }
+const refreshPage = async () => window.location.reload()
 
 const SignForm = ({
   postId,
@@ -49,11 +52,13 @@ const SignForm = ({
     onClose: onSubscriptionModalClose,
     isOpen: isSubscriptionModalOpen,
   } = useDisclosure()
+
   const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
     email,
   }: SusbcriptionFormValues): Promise<void> => {
     //TODO: Implement subscription
     console.log(email)
+    refreshPage()
   }
 
   return (
@@ -65,6 +70,10 @@ const SignForm = ({
         color="white"
         height="48px"
         width="300px"
+        _hover={{
+          background: 'secondary.400',
+        }}
+        leftIcon={<BiLockAlt />}
       >
         Sign this petition
       </Button>

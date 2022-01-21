@@ -38,6 +38,7 @@ const SgidButton = ({
   }
   return (
     <Button
+      leftIcon={<BiLockAlt />}
       backgroundColor="secondary.500"
       _hover={{
         background: 'secondary.400',
