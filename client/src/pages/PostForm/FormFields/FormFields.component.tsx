@@ -105,7 +105,6 @@ const PostForm = ({
         return <PetitionHeadingForm addresseeOptions={addresseeOptions} />
       case 2:
         return <PetitionBodyForm />
-      case 3:
       default:
         return 'unknown'
     }
@@ -126,7 +125,7 @@ const PostForm = ({
     } else if (activeStep === 2) {
       return (
         <Button
-          type="submit"
+          onClick={internalOnSubmit}
           rightIcon={<BiRightArrowAlt />}
           sx={styles.button}
         >
@@ -136,6 +135,7 @@ const PostForm = ({
     } else {
       return (
         <Button
+          type="button"
           onClick={handleNext}
           rightIcon={<BiRightArrowAlt />}
           sx={styles.button}
@@ -154,8 +154,6 @@ const PostForm = ({
 
   return (
     <Box>
-      {/* <FormSteps {...activeStep} />
-      <Box height="100px"></Box> */}
       <Flex sx={styles.stepsBox}>
         {activeStep > 0 ? (
           <Flex alignItems={'center'}>
@@ -170,11 +168,8 @@ const PostForm = ({
         <Text sx={styles.stepsText}>Step {activeStep + 1} of 4</Text>
       </Flex>
       <FormProvider {...methods}>
-        <form onSubmit={internalOnSubmit}>
-          {getStepContent(activeStep)}
-          <Flex sx={styles.buttonGroup}>{renderButton()}</Flex>
-          {/* <pre>{JSON.stringify(watch(), null, 2)}</pre> */}
-        </form>
+        <form>{getStepContent(activeStep)}</form>
+        <Flex sx={styles.buttonGroup}>{renderButton()}</Flex>
       </FormProvider>
     </Box>
   )
