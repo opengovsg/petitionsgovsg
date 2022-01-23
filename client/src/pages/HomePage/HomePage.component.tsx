@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   HStack,
-  VStack,
   Spacer,
   Text,
   Menu,
@@ -11,7 +10,6 @@ import {
   MenuItem,
   Button,
 } from '@chakra-ui/react'
-import SgidButton from '../../components/SgidButton/SgidButton'
 import PageTitle from '../../components/PageTitle/PageTitle.component'
 import PetitionGridComponent from '../../components/PetitionGrid/PetitionGrid.component'
 import Hero from '../../components/Hero/Hero.component'
@@ -42,45 +40,17 @@ const HomePage = (): JSX.Element => {
           mx: 'auto',
         }}
       >
-        <Flex
-          id="petitions"
-          // maxW="680px"
-          m="auto"
-          w="100%"
-          // direction={{ base: 'column', lg: 'row' }}
-        >
+        <Flex id="petitions" m="auto" w="100%">
           <Box flex="5">
             <Flex
               justifyContent="center"
               alignItems="center"
               justifyItems="center"
               mb="32px"
-            >
-              <VStack>
-                <Text
-                  textStyle={'h1'}
-                  color="secondary.500"
-                  fontSize={'32px'}
-                  pb="7px"
-                  d="block"
-                  mt="52px"
-                >
-                  petitions.gov.sg
-                </Text>
-                <Text
-                  color="#212328"
-                  fontSize={'24px'}
-                  pb="22px"
-                  fontStyle={'light'}
-                >
-                  digital petitions recognised by the government
-                </Text>
-                <SgidButton text="Start a petition here!" redirect="/create" />
-              </VStack>
-            </Flex>
+            ></Flex>
             {/* List of Posts*/}
             <Flex justifyContent="left" width="1248px" m="auto">
-              <Text textStyle={'h2'} color={'secondary.500'} mb="26px">
+              <Text textStyle={'display-2'} color={'secondary.500'} mb="26px">
                 View petitions
               </Text>
               <Menu matchWidth autoSelect={false} offset={[0, 0]}>
