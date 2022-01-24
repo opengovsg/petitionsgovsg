@@ -9,7 +9,6 @@ import FormFields, {
 } from '../PostForm/FormFields/FormFields.component'
 import '../PostForm/PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
-import SgidButton from '../../components/SgidButton/SgidButton.component'
 import {
   GET_ADDRESSEES_QUERY_KEY,
   getAddressees,
@@ -100,7 +99,7 @@ const EditPostForm = (): JSX.Element => {
 
     return isLoading && post ? (
       <Spinner />
-    ) : user ? (
+    ) : (
       <>
         <div className="post-form-container">
           <div className="post-form-content">
@@ -130,8 +129,6 @@ const EditPostForm = (): JSX.Element => {
         </div>
         <Spacer minH={20} />
       </>
-    ) : (
-      <SgidButton text="Login using SingPass App" redirect="/create" />
     )
   }
 }

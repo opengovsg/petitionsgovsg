@@ -1,22 +1,23 @@
 import { Spacer, Spinner } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
 import { useStyledToast } from '../../components/StyledToast/StyledToast'
 import * as PostService from '../../services/PostService'
 import FormFields, { FormSubmission } from './FormFields/FormFields.component'
 import './PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
-import SgidButton from '../../components/SgidButton/SgidButton.component'
 import {
   GET_ADDRESSEES_QUERY_KEY,
   getAddressees,
 } from '../../services/AddresseeService'
 import { useQuery } from 'react-query'
+import { Navigate } from 'react-router-dom'
 
 const PostForm = (): JSX.Element => {
   const { user, isLoading: isUserLoading } = useAuth()
   const toast = useStyledToast()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const onSubmit = async (data: FormSubmission) => {
     try {
@@ -72,8 +73,13 @@ const PostForm = (): JSX.Element => {
       <Spacer minH={20} />
     </>
   ) : (
-    <SgidButton text="Login using SingPass App" redirect="/create" />
+    <Navigate
+      to={
+        process.env.NODE_ENV === 'production'
+          ? (window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${location.pathname}`)
+          : (window.location.href = `http://localhost:6174/api/v1/auth/sgid/login?redirect=${location.pathname}`)
+      }
+    />
   )
 }
-
 export default PostForm

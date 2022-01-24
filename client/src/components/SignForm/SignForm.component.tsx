@@ -1,6 +1,6 @@
 import { Button, useDisclosure } from '@chakra-ui/react'
 import { SubmitHandler } from 'react-hook-form'
-import { CreateSignatureReqDto } from '../../api'
+import { CreateSignatureReqDto, GetSinglePostDto } from '../../api'
 import * as SignatureService from '../../services/SignatureService'
 import { SignatureModal } from '../SignatureModal/SignatureModal.component'
 import {
@@ -8,18 +8,19 @@ import {
   SusbcriptionFormValues,
 } from '../SubscriptionModal/SubscriptionModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
-import { BiLockAlt } from 'react-icons/bi'
+import { BiLockAlt, BiPen } from 'react-icons/bi'
+import { PostStatus } from '~shared/types/base'
 
 type FormValues = CreateSignatureReqDto
 const refreshPage = async () => window.location.reload()
 
 const SignForm = ({
+  post,
   postId,
-  postTitle,
   isPetitionOwner,
 }: {
+  post: GetSinglePostDto | undefined
   postId: string | undefined
-  postTitle: string
   isPetitionOwner: boolean
 }): JSX.Element => {
   const toast = useStyledToast()
@@ -65,21 +66,40 @@ const SignForm = ({
 
   return (
     <>
-      <Button
-        onClick={onClick}
-        bg="secondary.500"
-        fontStyle={'subhead-1'}
-        color="white"
-        height="48px"
-        width="300px"
-        _hover={{
-          background: 'secondary.400',
-        }}
-        disabled={isPetitionOwner}
-        leftIcon={<BiLockAlt />}
-      >
-        Sign this petition
-      </Button>
+      {post?.status === PostStatus.Open && (
+        <Button
+          onClick={onClick}
+          bg="secondary.500"
+          fontStyle={'subhead-1'}
+          color="white"
+          height="56px"
+          width="300px"
+          _hover={{
+            background: 'secondary.400',
+          }}
+          disabled={isPetitionOwner}
+          leftIcon={<BiLockAlt />}
+        >
+          Sign this petition
+        </Button>
+      )}
+      {post?.status === PostStatus.Draft && (
+        <Button
+          onClick={onClick}
+          bg="secondary.500"
+          fontStyle={'subhead-1'}
+          color="white"
+          height="56px"
+          width="300px"
+          _hover={{
+            background: 'secondary.400',
+          }}
+          leftIcon={<BiPen />}
+        >
+          Endorse this petition
+        </Button>
+      )}
+
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
         onClose={onSubscriptionModalClose}
@@ -89,7 +109,7 @@ const SignForm = ({
         isOpen={isSignatureModalOpen}
         onClose={onSignatureModalClose}
         onConfirm={onSignatureConfirm}
-        postTitle={postTitle}
+        postTitle={post?.title ?? ''}
       />
     </>
   )

@@ -9,32 +9,19 @@ import {
 } from '@chakra-ui/react'
 import { BiInfoCircle } from 'react-icons/bi'
 import { Banner } from '../Banner/Banner.component'
-import { useAuth } from '../../contexts/AuthContext'
-import { useQuery } from 'react-query'
-import {
-  verifyPetitionOwner,
-  VERIFY_PETITION_OWNER,
-} from '../../services/AuthService'
 import { GetSinglePostDto } from '../../api'
 import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 interface PreviewBannerProps {
-  postId: string | undefined
+  isPetitionOwner: boolean | undefined
   post: GetSinglePostDto
 }
 
 export const PreviewBanner = ({
-  postId,
+  isPetitionOwner,
   post,
 }: PreviewBannerProps): JSX.Element | null => {
-  const { user } = useAuth()
-  const { data: petitionOwner } = useQuery(
-    [VERIFY_PETITION_OWNER, postId],
-    () => verifyPetitionOwner(Number(postId)),
-    { enabled: !!postId && !!user },
-  )
-
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -53,7 +40,7 @@ export const PreviewBanner = ({
       <HStack justifyContent={'space-between'}>
         <HStack alignItems={'flex-start'}>
           <Icon as={BiInfoCircle} />
-          {petitionOwner ? (
+          {isPetitionOwner ? (
             <Text w="860px">
               Get 3 people to formally back your petition as endorsers, using
               your private petition link. A petition can be edited until it has
@@ -66,7 +53,7 @@ export const PreviewBanner = ({
             </Text>
           )}
         </HStack>
-        {petitionOwner ? (
+        {isPetitionOwner ? (
           <Box>
             <ButtonGroup spacing="4">
               {post.signatureCount === 0 ? (

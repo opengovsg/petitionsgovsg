@@ -22,13 +22,12 @@ import {
   getUserSignatureForPost,
   GET_USER_SIGNATURE_FOR_POST_QUERY_KEY,
 } from '../../services/SignatureService'
-import {
-  verifyPetitionOwner,
-  VERIFY_PETITION_OWNER,
-} from '../../services/AuthService'
 import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
-import SgidButton from '../../components/SgidButton/SgidButton.component'
+import {
+  SgidButtonWithLock,
+  SgidButtonWithPen,
+} from '../../components/SgidButton/SgidButton.component'
 import SignForm from '../../components/SignForm/SignForm.component'
 import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
 import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
@@ -42,6 +41,10 @@ import { SubmitHandler } from 'react-hook-form'
 import { InfoBox } from '../../components/InfoBox/InfoBox.component'
 import { replaceRichTextTag } from '../../components/PetitionCard/PetitionCard.component'
 import { SuccessBanner } from '../../components/SuccessBanner/SuccessBanner.component'
+import {
+  verifyPetitionOwner,
+  VERIFY_PETITION_OWNER,
+} from '../../services/AuthService'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -51,13 +54,13 @@ const Post = (): JSX.Element => {
     () => getPostById(Number(postId)),
     { enabled: !!postId },
   )
-
   const styles = useMultiStyleConfig('Post', {})
   const location = useLocation()
 
   // If user is signed in, don't need to resign in through SP app
   const { user, isLoading: isUserLoading } = useAuth()
-  const { data: isPetitionOwner } = useQuery(
+
+  const { isLoading: isPetitionOwnerLoading, data: isPetitionOwner } = useQuery(
     [VERIFY_PETITION_OWNER, postId],
     () => verifyPetitionOwner(Number(postId)),
     { enabled: !!postId && !!user },
@@ -92,16 +95,22 @@ const Post = (): JSX.Element => {
     onSubscriptionModalOpen()
   }
 
-  const isLoading = isPostLoading || isSignatureLoading || isUserLoading
+  const isLoading =
+    isPostLoading ||
+    isSignatureLoading ||
+    isUserLoading ||
+    isPetitionOwnerLoading
 
   return isLoading ? (
     <Spinner centerHeight={`${styles.spinner.height}`} />
   ) : (
     <Flex direction="column" sx={styles.container}>
       {post?.status === PostStatus.Draft && (
-        <PreviewBanner postId={postId} post={post} />
+        <PreviewBanner isPetitionOwner={isPetitionOwner} post={post} />
       )}
-      {post?.status === PostStatus.Open && <SuccessBanner postId={postId} />}
+      {post?.status === PostStatus.Open && (
+        <SuccessBanner isPetitionOwner={isPetitionOwner} />
+      )}
       <PageTitle title={`${post?.title} Petitions`} description="" />
       <Center>
         <Stack
@@ -146,7 +155,6 @@ const Post = (): JSX.Element => {
                 updates.
               </Text>
             </InfoBox>
-            <Text sx={styles.header}>Reasons for signing</Text>
             <PostSignatures post={post} />
           </Box>
           <Stack sx={styles.sideSection} align="left">
@@ -156,26 +164,50 @@ const Post = (): JSX.Element => {
                 have signed this petition
               </Text>
             </Box>
-            <Center py="8px">
-              {!user && (
-                <SgidButton
-                  text="Sign this petition"
-                  redirect={location.pathname}
-                />
-              )}
-              {user && !userSignature && (
-                <SignForm
-                  postId={postId}
-                  postTitle={post?.title ?? ''}
-                  isPetitionOwner={Boolean(isPetitionOwner)}
-                />
-              )}
-              {user && userSignature && (
-                <Center sx={styles.signed}>
-                  You have signed this petition.
-                </Center>
-              )}
-            </Center>
+            {post?.status === PostStatus.Draft && (
+              <Center py="8px">
+                {!user && (
+                  <SgidButtonWithPen
+                    text="Endorse this petition"
+                    redirect={location.pathname}
+                  />
+                )}
+                {user && !userSignature && (
+                  <SignForm
+                    post={post}
+                    postId={postId}
+                    isPetitionOwner={Boolean(isPetitionOwner)}
+                  />
+                )}
+                {user && userSignature && (
+                  <Center sx={styles.signed}>
+                    You have signed this petition.
+                  </Center>
+                )}
+              </Center>
+            )}
+            {post?.status === PostStatus.Open && (
+              <Center py="8px">
+                {!user && (
+                  <SgidButtonWithLock
+                    text="Sign this petition"
+                    redirect={location.pathname}
+                  />
+                )}
+                {user && !userSignature && (
+                  <SignForm
+                    post={post}
+                    postId={postId}
+                    isPetitionOwner={Boolean(isPetitionOwner)}
+                  />
+                )}
+                {user && userSignature && (
+                  <Center sx={styles.signed}>
+                    You have signed this petition.
+                  </Center>
+                )}
+              </Center>
+            )}
             {!userSignature && (
               <Text sx={styles.caption}>
                 By signing, you accept the{' '}
@@ -193,8 +225,9 @@ const Post = (): JSX.Element => {
                 onClick={onClick}
                 fontStyle={'subhead-1'}
                 color="secondary.500"
-                height="48px"
+                height="56px"
                 width="300px"
+                borderRadius="4px"
                 borderColor="secondary.500"
                 variant="outline"
                 leftIcon={<BiShareAlt />}
