@@ -11,6 +11,7 @@ import { FormFields } from './FormFields'
 import { InfoBox } from './InfoBox'
 import { Hero } from './Hero'
 import { HowItWorks } from './HowItWorks'
+import { About } from './About'
 
 export const components = {
   Button,
@@ -26,4 +27,5 @@ export const components = {
   InfoBox,
   Hero,
   HowItWorks,
+  About,
 }
