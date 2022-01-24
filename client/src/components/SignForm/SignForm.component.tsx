@@ -110,6 +110,7 @@ const SignForm = ({
         onClose={onSignatureModalClose}
         onConfirm={onSignatureConfirm}
         postTitle={post?.title ?? ''}
+        useFullname={post?.status === PostStatus.Draft}
       />
     </>
   )

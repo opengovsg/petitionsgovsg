@@ -27,6 +27,7 @@ type FormValues = CreateSignatureReqDto
 interface SignatureModalProps extends Pick<ModalProps, 'isOpen' | 'onClose'> {
   onConfirm: (signatureReq: CreateSignatureReqDto) => Promise<void>
   postTitle: string
+  useFullname: boolean
 }
 
 export const SignatureModal = ({
@@ -34,6 +35,7 @@ export const SignatureModal = ({
   onClose,
   onConfirm,
   postTitle,
+  useFullname,
 }: SignatureModalProps): JSX.Element => {
   const [count, setCount] = useState(MAX_CHAR_COUNT)
   const styles = useMultiStyleConfig('SignForm', {})
@@ -42,7 +44,7 @@ export const SignatureModal = ({
     comment,
     useName,
   }) => {
-    await onConfirm({ comment: comment, useName: useName })
+    await onConfirm({ comment: comment, useName: useName || useFullname })
     reset()
   }
 
@@ -96,7 +98,7 @@ export const SignatureModal = ({
           <ModalBody>
             <Divider mb="6" />
             {signatureComponent}
-            {useNameComponent}
+            {!useFullname && useNameComponent}
           </ModalBody>
           <ModalFooter>
             <Button
