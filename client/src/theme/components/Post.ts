@@ -8,6 +8,7 @@ export const Post: ComponentMultiStyleConfig = {
     },
     container: {
       height: '100%',
+      mb: '88px',
     },
     content: {
       maxW: '1188px',
@@ -18,7 +19,6 @@ export const Post: ComponentMultiStyleConfig = {
       textStyle: 'h2',
       color: 'secondary.800',
     },
-
     header: {
       mt: { base: '32px', sm: '48px' },
       textStyle: 'h2',

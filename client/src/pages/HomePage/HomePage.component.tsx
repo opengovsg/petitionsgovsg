@@ -27,7 +27,7 @@ const HomePage = (): JSX.Element => {
   const [sortState, setSortState] = useState(options[1])
 
   return (
-    <Flex direction="column" height="100%" id="home-page">
+    <Flex direction="column" height="100%" id="home-page" mb="88px">
       <PageTitle title="Petitions" description="Petitions in SG" />
       <Hero />
       <HowItWorks />
