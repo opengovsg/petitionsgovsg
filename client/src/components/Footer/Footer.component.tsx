@@ -19,11 +19,12 @@ import { format } from 'date-fns-tz'
 const Footer = (): JSX.Element => {
   return (
     <Container
-      maxW="1504px"
+      maxW="inherit"
       m="auto"
       w="100vw"
       px={{ base: 8, md: 12 }}
-      color="secondary.800"
+      bg="black"
+      color="white"
     >
       <Stack
         pt={{ base: '56px', md: '48px' }}
@@ -38,8 +39,8 @@ const Footer = (): JSX.Element => {
           direction={{ base: 'column', md: 'row' }}
           spacing={{ base: '4px', md: '16px' }}
         >
-          <Text textStyle="h4">PetitionsGov</Text>
-          <Text>Petitions to the Singapore Government</Text>
+          <Text textStyle="h4">Petitions</Text>
+          <Text>digital petitions recognised by the government</Text>
         </Stack>
         <Stack
           direction={{ base: 'column', md: 'row' }}
