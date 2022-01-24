@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import { BiLockAlt } from 'react-icons/bi'
+import { BiRightArrowAlt } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -39,15 +39,16 @@ const SgidButton = ({
   }
   return (
     <Button
-      leftIcon={<BiLockAlt />}
+      rightIcon={<BiRightArrowAlt />}
       backgroundColor="secondary.500"
       _hover={{
         background: 'secondary.400',
       }}
-      w="300px"
-      h="56px"
+      w="176px"
+      h="44px"
       borderRadius="4px"
       color="white"
+      mt="40px"
       onClick={() => onClick(redirect)}
     >
       {text}

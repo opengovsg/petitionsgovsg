@@ -12,6 +12,7 @@ export type PostWithAddresseeAndSignatures = Model &
     signatures: Signature[]
     addressee: Addressee
   }
+
 export class PostService {
   private Signature: ModelDef<Signature>
   private Post: ModelDef<Post>
@@ -47,9 +48,9 @@ export class PostService {
 
   private sortFunction = (sortType: SortType): OrderItem => {
     if (sortType === SortType.Basic) {
-      return ['updatedAt', 'DESC']
+      return ['createdAt', 'DESC']
     }
-    return ['updatedAt', 'ASC']
+    return [Sequelize.literal('signatureCount'), 'DESC']
   }
   /**
    * Return the paginated posts
@@ -101,6 +102,7 @@ export class PostService {
     }
 
     const orderarray = this.sortFunction(sort)
+
     const posts = (await this.Post.findAll({
       where: whereobj,
       order: [orderarray],

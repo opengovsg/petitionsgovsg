@@ -21,15 +21,19 @@ const PetitionCard = ({
   // const { user } = useAuth()
   const styles = useMultiStyleConfig('PetitionCard', { status })
   const navigate = useNavigate()
+  const replaceRichTextTag = (value: string): string =>
+    value.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
+
+  const cleanedRequest = replaceRichTextTag(request)
 
   return (
     <Box sx={styles.card}>
       <Text sx={styles.title}>{title}</Text>
       <Text sx={styles.request}>
-        {request
-          ? request.length > 50
-            ? `${request?.substring(0, 50)}...`
-            : request
+        {cleanedRequest
+          ? cleanedRequest.length > 50
+            ? `${cleanedRequest?.substring(0, 50)}...`
+            : cleanedRequest
           : undefined}
       </Text>
       <Text sx={styles.creator}>Created by {fullname}</Text>
