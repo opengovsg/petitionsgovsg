@@ -249,4 +249,46 @@ export class PostController {
         .json({ message: 'Server error' })
     }
   }
+
+  /**
+   * Publish a post publicly (Open)
+   * @param id Post to be published publicly
+   * @return 200 if successful
+   * @return 401 if user is not logged in
+   * @return 500 if database error
+   */
+
+  publishPost: ControllerHandler<{ id: string }, Message> = async (
+    req,
+    res,
+  ) => {
+    const postId = Number(req.params.id)
+    try {
+      const userId = req.user?.id
+      if (!userId) {
+        logger.error({
+          message: 'UserId is undefined after authenticated',
+          meta: {
+            function: 'publishPost',
+          },
+        })
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: 'You must be logged in to publish post.' })
+      }
+      await this.postService.publishPost(postId)
+      return res.status(StatusCodes.OK).send({ message: 'OK' })
+    } catch (error) {
+      logger.error({
+        message: 'Error while publishing post',
+        meta: {
+          function: 'publishPost',
+        },
+        error,
+      })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Server error' })
+    }
+  }
 }

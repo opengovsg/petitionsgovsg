@@ -36,6 +36,7 @@ import {
 } from '../../components/SubscriptionModal/SubscriptionModal.component'
 import { SubmitHandler } from 'react-hook-form'
 import { InfoBox } from '../../components/InfoBox/InfoBox.component'
+import { replaceRichTextTag } from '../../components/PetitionCard/PetitionCard.component'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -86,7 +87,7 @@ const Post = (): JSX.Element => {
     <Spinner centerHeight={`${styles.spinner.height}`} />
   ) : (
     <Flex direction="column" sx={styles.container}>
-      {post?.status === PostStatus.Draft && <PreviewBanner />}
+      {post?.status === PostStatus.Draft && <PreviewBanner postId={postId} />}
       <PageTitle title={`${post?.title} Petitions`} description="" />
       <Center>
         <Stack
@@ -96,7 +97,7 @@ const Post = (): JSX.Element => {
         >
           <Box className="post-page">
             <Text sx={styles.title}>{post?.title}</Text>
-            {post?.status === PostStatus.Open ? (
+            {post ? (
               <Box sx={styles.subtitle} className="subtitle-bar" my="12px">
                 <Box my="4px" fontWeight="500">
                   Started by{' '}
@@ -115,7 +116,7 @@ const Post = (): JSX.Element => {
             ) : null}
             {post?.summary && (
               <InfoBox>
-                <Text>{post.summary}</Text>
+                <Text>{replaceRichTextTag(post.summary)}</Text>
               </InfoBox>
             )}
             <PostSection post={post} />

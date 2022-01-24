@@ -2,8 +2,15 @@ import { Icon } from '@chakra-ui/react'
 import { BiInfoCircle } from 'react-icons/bi'
 import { Banner } from '../Banner/Banner.component'
 import { Text, HStack, Button } from '@chakra-ui/react'
+import PublishButton from '../PublishButton/PublishButton.component'
 
-export const PreviewBanner = (): JSX.Element | null => {
+interface PublishButtonProps {
+  postId: string | undefined
+}
+
+export const PreviewBanner = ({
+  postId,
+}: PublishButtonProps): JSX.Element | null => {
   return (
     <Banner>
       <HStack spacing="4">
@@ -21,9 +28,7 @@ export const PreviewBanner = (): JSX.Element | null => {
         >
           Edit petition
         </Button>
-        <Button bg="white" color="primary.500" variant="outline">
-          Submit petition
-        </Button>
+        <PublishButton postId={postId} />
       </HStack>
     </Banner>
   )

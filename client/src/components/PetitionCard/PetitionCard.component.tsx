@@ -10,6 +10,9 @@ import {
 import { GetSinglePostDto } from '../../api'
 import { useNavigate } from 'react-router-dom'
 
+export const replaceRichTextTag = (value: string): string =>
+  value.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
+
 const PetitionCard = ({
   post: { id, title, request, status, fullname, signatureCount },
 }: {
@@ -21,8 +24,6 @@ const PetitionCard = ({
   // const { user } = useAuth()
   const styles = useMultiStyleConfig('PetitionCard', { status })
   const navigate = useNavigate()
-  const replaceRichTextTag = (value: string): string =>
-    value.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
 
   const cleanedRequest = replaceRichTextTag(request)
 
