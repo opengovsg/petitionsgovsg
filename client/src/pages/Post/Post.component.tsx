@@ -54,7 +54,9 @@ const Post = (): JSX.Element => {
     () => getPostById(Number(postId)),
     { enabled: !!postId },
   )
-  const styles = useMultiStyleConfig('Post', {})
+
+  const status = post?.status
+  const styles = useMultiStyleConfig('Post', { status })
   const location = useLocation()
 
   // If user is signed in, don't need to resign in through SP app
@@ -134,7 +136,11 @@ const Post = (): JSX.Element => {
                     {post?.addressee.name} ({post.addressee.shortName})
                   </Text>
                 </Box>
-                <Badge sx={styles.badge}>In review</Badge>
+                <Badge sx={styles.badge}>
+                  {post?.status === PostStatus.Draft
+                    ? `Created, pending endorsers`
+                    : `Open for signatures`}
+                </Badge>
               </Box>
             ) : null}
             {post?.summary && (

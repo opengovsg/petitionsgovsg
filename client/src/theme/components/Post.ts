@@ -2,7 +2,7 @@ import { ComponentMultiStyleConfig } from '@chakra-ui/react'
 
 export const Post: ComponentMultiStyleConfig = {
   parts: ['posts'],
-  baseStyle: () => ({
+  baseStyle: ({ status }) => ({
     spinner: {
       height: '200px',
     },
@@ -78,9 +78,9 @@ export const Post: ComponentMultiStyleConfig = {
       color: 'white',
     },
     badge: {
-      bg: 'success.200',
+      bg: status === 'CLOSED' ? 'success.200' : 'primary.200',
       textStyle: 'caption-1',
-      color: 'success.900',
+      color: status === 'CLOSED' ? 'success.800' : 'primary.800',
       borderRadius: '4px',
       height: '24px',
       textAlign: 'center',

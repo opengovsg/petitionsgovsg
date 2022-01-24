@@ -30,11 +30,10 @@ export const PetitionCard: ComponentMultiStyleConfig = {
       mb: '20px',
     },
     badge: {
-      bg: status === 'OPEN' ? 'success.200' : 'danger.200',
+      bg: status === 'CLOSED' ? 'success.200' : 'primary.200',
       textStyle: 'caption-1',
-      color: status === 'OPEN' ? 'success.900' : 'danger.700',
+      color: status === 'CLOSED' ? 'success.800' : 'primary.800',
       borderRadius: '4px',
-      width: '68px',
       height: '24px',
       textAlign: 'center',
       px: '8px',
