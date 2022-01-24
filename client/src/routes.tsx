@@ -13,6 +13,7 @@ import PostForm from './pages/PostForm/PostForm.component'
 import UserLogin from './pages/UserLogin/UserLogin.component'
 import withPageTitle from './services/withPageTitle'
 import About from './pages/About/About.component'
+import Guidelines from './pages/Guidelines/Guidelines.component'
 
 const HomePageComponent = withPageTitle({
   component: HomePage,
@@ -67,11 +68,15 @@ const AboutComponent = withPageTitle({
   title: 'About',
 })
 
+const GuidelinesComponent = withPageTitle({
+  component: Guidelines,
+  title: 'Submissions Process and Guidelines',
+})
+
 const Routes = (): JSX.Element => {
   return (
     <ReactRoutes>
       <Route path="/" element={<HomePageComponent />} />
-      <Route path="/agency/:agency" element={<HomePageComponent />} />
       <Route path="/posts/:id" element={<PostComponent />} />
       <Route path="/posts/:id/edit" element={<EditPostFormComponent />} />
       <Route path="/create" element={<PostFormComponent />} />
@@ -81,6 +86,7 @@ const Routes = (): JSX.Element => {
       <Route path="/agency-privacy" element={<AgencyPrivacyComponent />} />
       <Route path="/login" element={<UserLoginComponent />} />
       <Route path="/about" element={<AboutComponent />} />
+      <Route path="/guidelines" element={<GuidelinesComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </ReactRoutes>
   )

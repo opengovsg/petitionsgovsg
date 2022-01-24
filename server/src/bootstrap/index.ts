@@ -132,15 +132,16 @@ if (baseConfig.nodeEnv === Environment.Prod) {
   // iterate through list of possible paths to serve index file
   const allStaticPaths = [
     '/',
-    '/questions',
-    '/login',
     '/posts/:id',
-    '/posts/:id/create',
+    '/posts/:id/edit',
+    '/create',
     '/terms',
     '/agency-terms',
-    '/create',
     '/privacy',
     '/agency-privacy',
+    '/login',
+    '/about',
+    '/guidelines',
     '/unauthorised',
   ]
   for (const path of allStaticPaths) {
