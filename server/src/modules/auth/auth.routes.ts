@@ -57,5 +57,17 @@ export const routeAuth = ({
    */
   router.get('/callback', controller.handleSgidCallback)
 
+  /**
+   * Verify petition owner check
+   * @route GET /api/auth/checkpetitionowner/:id
+   * @returns 200 on successful check
+   * @returns 500 on database error
+   */
+  router.get(
+    '/checkpetitionowner/:id([0-9]+$)',
+    authMiddleware.authenticate,
+    controller.verifyPetitionOwner,
+  )
+
   return router
 }

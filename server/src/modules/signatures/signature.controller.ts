@@ -10,6 +10,8 @@ import { hashData } from '../../util/hash'
 
 const logger = createLogger(module)
 
+const MIN_ENDORSER_COUNT = 2
+
 export class SignatureController {
   private signatureService: Public<SignatureService>
   private postService: Public<PostService>
@@ -107,6 +109,11 @@ export class SignatureController {
         postId: Number(req.params.id),
         fullname: name,
       })
+
+      // Publish post publicly when signature count hits threshold
+      if (post.signatures.length >= MIN_ENDORSER_COUNT) {
+        await this.postService.publishPost(Number(req.params.id))
+      }
 
       return res.status(StatusCodes.OK).json(data)
     } catch (error) {

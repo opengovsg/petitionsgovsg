@@ -79,5 +79,33 @@ export const routePosts = ({
     controller.deletePost,
   )
 
+  /**
+   * Update a post
+   * @route PUT /api/posts/update/:id
+   * @return 200 if successful
+   * @return 401 if user is not logged in
+   * @return 403 if user does not have permission to delete post
+   * @return 500 if database error
+   */
+  router.put(
+    '/:id([0-9]+$)',
+    [authMiddleware.authenticate],
+    controller.updatePost,
+  )
+
+  /**
+   * Publish a post
+   * @route PUT /api/posts/:id
+   * @return 200 if successful
+   * @return 401 if user is not logged in
+   * @return 500 if database error
+   */
+
+  router.put(
+    '/:id([0-9]+$)',
+    [authMiddleware.authenticate],
+    controller.publishPost,
+  )
+
   return router
 }

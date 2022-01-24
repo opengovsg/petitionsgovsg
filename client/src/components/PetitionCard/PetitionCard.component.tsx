@@ -9,6 +9,10 @@ import {
 } from '@chakra-ui/react'
 import { GetSinglePostDto } from '../../api'
 import { useNavigate } from 'react-router-dom'
+import { PostStatus } from '~shared/types/base'
+
+export const replaceRichTextTag = (value: string): string =>
+  value.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
 
 const PetitionCard = ({
   post: { id, title, request, status, fullname, signatureCount },
@@ -21,8 +25,6 @@ const PetitionCard = ({
   // const { user } = useAuth()
   const styles = useMultiStyleConfig('PetitionCard', { status })
   const navigate = useNavigate()
-  const replaceRichTextTag = (value: string): string =>
-    value.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
 
   const cleanedRequest = replaceRichTextTag(request)
 
@@ -37,7 +39,11 @@ const PetitionCard = ({
           : undefined}
       </Text>
       <Text sx={styles.creator}>Created by {fullname}</Text>
-      <Badge sx={styles.badge}>{status}</Badge>
+      <Badge sx={styles.badge}>
+        {status === PostStatus.Draft
+          ? `Created, pending endorsers`
+          : `Open for signatures`}
+      </Badge>
       <Divider sx={styles.divider} />
       <HStack justifyContent="space-between">
         <Box>

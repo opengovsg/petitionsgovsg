@@ -17,3 +17,9 @@ export const getUserName = async (): Promise<BaseUserNameDto> => {
   )
 }
 export const GET_USER_NAME = 'getUserName'
+
+export const verifyPetitionOwner = async (postId: number): Promise<boolean> =>
+  ApiClient.get<boolean>(`/auth/checkpetitionowner/${postId}`).then(
+    ({ data }) => data,
+  )
+export const VERIFY_PETITION_OWNER = 'verifyPetitionOwner'

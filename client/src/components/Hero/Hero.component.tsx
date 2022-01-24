@@ -1,6 +1,6 @@
 import { Text, Box, useMultiStyleConfig, HStack, Flex } from '@chakra-ui/react'
 import { ReactComponent as HeroImage } from '../../assets/hero.svg'
-import SgidButton from '../SgidButton/SgidButton.component'
+import { SgidButtonWithArrow } from '../SgidButton/SgidButton.component'
 
 const Hero = (): JSX.Element => {
   const styles = useMultiStyleConfig('Hero', {})
@@ -23,7 +23,7 @@ const Hero = (): JSX.Element => {
             </Text>
           </Box>
           <Box mt="40px">
-            <SgidButton
+            <SgidButtonWithArrow
               text="Start a petition"
               redirect="/create"
               width="176px"

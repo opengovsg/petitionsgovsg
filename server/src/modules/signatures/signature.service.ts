@@ -1,6 +1,7 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
-import { Signature, Post, PostStatus } from '~shared/types/base'
+import { Signature, Post } from '~shared/types/base'
 import { ModelDef } from '../../types/sequelize'
+
 export class SignatureService {
   private Post: ModelDef<Post>
   private Signature: ModelDef<Signature>
@@ -59,10 +60,6 @@ export class SignatureService {
               fullname: fullname,
             },
             { transaction },
-          )
-          await this.Post.update(
-            { status: PostStatus.Open },
-            { where: { id: postId }, transaction },
           )
           return signature.id
         },

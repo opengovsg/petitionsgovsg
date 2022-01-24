@@ -1,5 +1,10 @@
 import { Button } from '@chakra-ui/react'
-import { BiRightArrowAlt } from 'react-icons/bi'
+import {
+  BiArrowToRight,
+  BiLockAlt,
+  BiPen,
+  BiRightArrowAlt,
+} from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -11,7 +16,67 @@ const onClick = async (redirect: string) => {
   }
 }
 
-const SgidButton = ({
+const SgidButtonWithLock = ({
+  text,
+  redirect,
+  width = '300px',
+  height = '56px',
+}: {
+  text: string
+  redirect: string
+  width?: string
+  height?: string
+}): JSX.Element => {
+  return (
+    // Redirect to SGID Login
+    <Button
+      backgroundColor="secondary.500"
+      _hover={{
+        background: 'secondary.400',
+      }}
+      w={width}
+      h={height}
+      borderRadius="4px"
+      color="white"
+      leftIcon={<BiLockAlt />}
+      onClick={() => onClick(redirect)}
+    >
+      {text}
+    </Button>
+  )
+}
+
+const SgidButtonWithPen = ({
+  text,
+  redirect,
+  width = '300px',
+  height = '56px',
+}: {
+  text: string
+  redirect: string
+  width?: string
+  height?: string
+}): JSX.Element => {
+  return (
+    // Redirect to SGID Login
+    <Button
+      backgroundColor="secondary.500"
+      _hover={{
+        background: 'secondary.400',
+      }}
+      w={width}
+      h={height}
+      borderRadius="4px"
+      color="white"
+      leftIcon={<BiPen />}
+      onClick={() => onClick(redirect)}
+    >
+      {text}
+    </Button>
+  )
+}
+
+const SgidButtonWithArrow = ({
   text,
   redirect,
   width = '300px',
@@ -35,6 +100,7 @@ const SgidButton = ({
         h={height}
         borderRadius="4px"
         color="white"
+        rightIcon={<BiArrowToRight />}
         onClick={() => navigate(redirect)}
       >
         {text}
@@ -59,4 +125,4 @@ const SgidButton = ({
   )
 }
 
-export default SgidButton
+export { SgidButtonWithLock, SgidButtonWithArrow, SgidButtonWithPen }

@@ -1,14 +1,15 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
-import Sequelize, { Model, OrderItem, ProjectionAlias } from 'sequelize'
+import Sequelize, { Model, OrderItem, ProjectionAlias, Op } from 'sequelize'
 import { Post, PostStatus } from '~shared/types/base'
 import { Signature, Addressee } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import { MissingPublicPostError, PostUpdateError } from './post.errors'
+import { PostEditType } from '../../types/post-type'
 
 export type PostWithAddresseeAndSignatures = Model &
   Post & {
-    signatureCount: () => number
+    signatureCount: number
     signatures: Signature[]
     addressee: Addressee
   }
@@ -149,7 +150,7 @@ export class PostService {
   ): Promise<PostWithAddresseeAndSignatures> => {
     const post = (await this.Post.findOne({
       where: {
-        status: PostStatus.Open,
+        [Op.or]: [{ status: PostStatus.Open }, { status: PostStatus.Draft }],
         id: postId,
       },
       include: [
@@ -206,7 +207,7 @@ export class PostService {
     try {
       const postId = await this.sequelize.transaction(async (transaction) => {
         const post = await this.Post.create(
-          { ...newPost, status: PostStatus.Open },
+          { ...newPost, status: PostStatus.Draft },
           { transaction },
         )
         return post.id
@@ -227,6 +228,71 @@ export class PostService {
       await this.sequelize.transaction(async (transaction) => {
         const dbUpdate = await this.Post.update(
           { status: PostStatus.Closed },
+          { where: { id: id }, transaction },
+        )
+
+        if (!dbUpdate) {
+          throw new PostUpdateError()
+        }
+      })
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Update a post
+   * @param id Post to be updated
+   * @returns boolean Indicate if update was successful
+   */
+  updatePost = async ({
+    id,
+    title,
+    summary,
+    reason,
+    request,
+    references,
+    addresseeId,
+    profile,
+    email,
+  }: PostEditType): Promise<boolean> => {
+    try {
+      const updated = await this.sequelize.transaction(async (transaction) => {
+        const dbUpdate = await this.Post.update(
+          {
+            title,
+            summary,
+            reason,
+            request,
+            references,
+            addresseeId,
+            profile,
+            email,
+          },
+          {
+            where: { id: id },
+            transaction,
+          },
+        )
+        return dbUpdate
+      })
+      if (updated) return true
+      else return false
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Change post status to Open
+   * @param id Post to be published
+   * @returns void if successful
+   */
+  publishPost = async (id: number): Promise<void> => {
+    try {
+      await this.sequelize.transaction(async (transaction) => {
+        const dbUpdate = await this.Post.update(
+          { status: PostStatus.Open },
           { where: { id: id }, transaction },
         )
 

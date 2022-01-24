@@ -77,7 +77,7 @@ const apiOptions = {
     checkOwnership: checkOwnershipUsing({ Post, Signature }),
   },
   auth: {
-    controller: new AuthController(),
+    controller: new AuthController({ authService, postService }),
     authMiddleware,
   },
   post: {
@@ -135,6 +135,7 @@ if (baseConfig.nodeEnv === Environment.Prod) {
     '/questions',
     '/login',
     '/posts/:id',
+    '/posts/:id/create',
     '/terms',
     '/agency-terms',
     '/create',

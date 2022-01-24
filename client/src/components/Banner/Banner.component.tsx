@@ -10,14 +10,15 @@ export const Banner = ({
       h="64px"
       minH="64px"
       color="neutral.100"
-      zIndex="2000"
       background="primary.500"
       display="flex"
       justifyContent="center"
       alignItems="center"
       className="banner"
     >
-      {children}
+      <Box width="80%" pl="32px" pr="48px">
+        {children}
+      </Box>
     </Box>
   )
 }

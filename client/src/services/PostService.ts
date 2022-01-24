@@ -56,3 +56,7 @@ export const createPost = async (
 export const deletePost = async (postId: number): Promise<unknown> => {
   return ApiClient.delete(`${POST_API_BASE}/${postId}`).then(({ data }) => data)
 }
+
+export const publishPost = async (postId: number): Promise<unknown> => {
+  return ApiClient.put(`${POST_API_BASE}/${postId}`).then(({ data }) => data)
+}
