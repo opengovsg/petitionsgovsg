@@ -14,9 +14,13 @@ const onClick = async (redirect: string) => {
 const SgidButton = ({
   text,
   redirect,
+  width = '300px',
+  height = '56px',
 }: {
   text: string
   redirect: string
+  width?: string
+  height?: string
 }): JSX.Element => {
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -27,8 +31,8 @@ const SgidButton = ({
         _hover={{
           background: 'secondary.400',
         }}
-        w="300px"
-        h="56px"
+        w={width}
+        h={height}
         borderRadius="4px"
         color="white"
         onClick={() => navigate(redirect)}
@@ -44,11 +48,10 @@ const SgidButton = ({
       _hover={{
         background: 'secondary.400',
       }}
-      w="176px"
-      h="44px"
+      w={width}
+      h={height}
       borderRadius="4px"
       color="white"
-      mt="40px"
       onClick={() => onClick(redirect)}
     >
       {text}

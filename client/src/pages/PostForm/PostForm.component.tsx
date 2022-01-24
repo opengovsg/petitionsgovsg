@@ -6,7 +6,7 @@ import * as PostService from '../../services/PostService'
 import FormFields, { FormSubmission } from './FormFields/FormFields.component'
 import './PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
-import SgidButton from '../../components/SgidButton/SgidButton'
+import SgidButton from '../../components/SgidButton/SgidButton.component'
 import {
   GET_ADDRESSEES_QUERY_KEY,
   getAddressees,

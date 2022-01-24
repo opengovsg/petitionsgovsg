@@ -24,7 +24,7 @@ import {
 } from '../../services/SignatureService'
 import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
-import SgidButton from '../../components/SgidButton/SgidButton'
+import SgidButton from '../../components/SgidButton/SgidButton.component'
 import SignForm from '../../components/SignForm/SignForm.component'
 import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
 import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
