@@ -5,10 +5,11 @@ import { Signature, Addressee } from '../../models'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import { MissingPublicPostError, PostUpdateError } from './post.errors'
+import { PostEditType } from '../../types/post-type'
 
 export type PostWithAddresseeAndSignatures = Model &
   Post & {
-    signatureCount: () => number
+    signatureCount: number
     signatures: Signature[]
     addressee: Addressee
   }
@@ -234,6 +235,49 @@ export class PostService {
           throw new PostUpdateError()
         }
       })
+    } catch (error) {
+      throw error
+    }
+  }
+
+  /**
+   * Update a post
+   * @param id Post to be updated
+   * @returns boolean Indicate if update was successful
+   */
+  updatePost = async ({
+    id,
+    title,
+    summary,
+    reason,
+    request,
+    references,
+    addresseeId,
+    profile,
+    email,
+  }: PostEditType): Promise<boolean> => {
+    try {
+      const updated = await this.sequelize.transaction(async (transaction) => {
+        const dbUpdate = await this.Post.update(
+          {
+            title,
+            summary,
+            reason,
+            request,
+            references,
+            addresseeId,
+            profile,
+            email,
+          },
+          {
+            where: { id: id },
+            transaction,
+          },
+        )
+        return dbUpdate
+      })
+      if (updated) return true
+      else return false
     } catch (error) {
       throw error
     }

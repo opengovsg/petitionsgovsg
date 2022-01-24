@@ -8,6 +8,7 @@ import { SortType } from '../../types/sort-type'
 import { AuthService } from '../auth/auth.service'
 import { PostService, PostWithAddresseeAndSignatures } from './post.service'
 import { hashData, generateSalt } from '../../util/hash'
+import { UpdatePostRequestDto } from '../../types/post-type'
 
 const logger = createLogger(module)
 
@@ -247,6 +248,93 @@ export class PostController {
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: 'Server error' })
+    }
+  }
+
+  /**
+   * Update a post
+   * @param id id of post to update
+   * @body Post Post ot be updated
+   * @returns 200 if successful
+   * @return 401 if user is not logged in
+   * @return 403 if user does not have permission to update post
+   * @return 500 if database error
+   */
+  updatePost: ControllerHandler<
+    { id: string },
+    Message,
+    UpdatePostRequestDto,
+    undefined
+  > = async (req, res) => {
+    const postId = Number(req.params.id)
+    const userId = req.user?.id
+    try {
+      if (!userId) {
+        logger.error({
+          message: 'UserId is undefined after authenticated',
+          meta: {
+            function: 'updatePost',
+          },
+        })
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: 'You must be logged in to update posts.' })
+      }
+      // Check that user is owner of petition
+      const post = await this.postService.getSinglePost(Number(req.params.id))
+      const hashedUserSgid = await hashData(userId, post.salt)
+      const hasPermission = await this.authService.verifyPetitionOwner(
+        post,
+        hashedUserSgid,
+      )
+      const signatureCount = post.signatures.length
+      if (!hasPermission || signatureCount > 0) {
+        return res
+          .status(StatusCodes.FORBIDDEN)
+          .json({ message: 'You do not have permission to update this post.' })
+      }
+    } catch (error) {
+      logger.error({
+        message: 'Error while determining permissions to update post',
+        meta: {
+          function: 'updatePost',
+        },
+        error,
+      })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Something went wrong, please try again.' })
+    }
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: errors.array()[0].msg })
+    }
+    // Update post in database
+    try {
+      const updated = await this.postService.updatePost({
+        title: req.body.title,
+        summary: req.body.summary ?? '',
+        reason: req.body.reason ?? '',
+        request: req.body.request ?? '',
+        references: req.body.references ?? '',
+        addresseeId: req.body.addresseeId ?? 0,
+        profile: req.body.profile ?? '',
+        email: req.body.email ?? '',
+        id: postId,
+      })
+
+      if (!updated) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ message: 'Petition failed to update' })
+      }
+      return res.status(StatusCodes.OK).json({ message: 'Petition updated' })
+    } catch (err) {
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Petition failed to update' })
     }
   }
 

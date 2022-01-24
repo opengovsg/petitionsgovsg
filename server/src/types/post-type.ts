@@ -2,9 +2,24 @@ import { Post } from '~shared/types/base'
 
 export type PostEditType = {
   id: number
-  userid: number
-  summary: string
   title: string
+  summary: string | null
+  reason: string
+  request: string
+  references: string | null
+  addresseeId: number
+  profile: string | null
+  email: string
 }
 
-export type UpdatePostRequestDto = Pick<Post, 'title' | 'summary'>
+export type UpdatePostRequestDto = Pick<
+  Post,
+  | 'title'
+  | 'summary'
+  | 'reason'
+  | 'request'
+  | 'references'
+  | 'addresseeId'
+  | 'profile'
+  | 'email'
+>
