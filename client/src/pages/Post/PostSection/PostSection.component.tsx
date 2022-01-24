@@ -1,6 +1,5 @@
+import { Box } from '@chakra-ui/react'
 import PostCell from './PostCell/PostCell.component'
-
-import './PostSection.styles.scss'
 
 const PostSection = ({
   post,
@@ -9,11 +8,15 @@ const PostSection = ({
 }): JSX.Element => {
   return (
     <>
-      <div className="question">
-        <div className="post-layout">
-          <PostCell post={post} />
-        </div>
-      </div>
+      <Box
+        className="post"
+        display="grid"
+        my="16px"
+        gridTemplateColumns="max-content 1fr"
+        color="neutral.900"
+      >
+        <PostCell post={post} />
+      </Box>
     </>
   )
 }

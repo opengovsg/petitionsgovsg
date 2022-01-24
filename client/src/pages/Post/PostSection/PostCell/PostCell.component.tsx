@@ -12,7 +12,7 @@ const PostCell = ({
       <div className="post-cell">
         {post?.reason && (
           <div className="post-text">
-            <Text textStyle="h2" color="secondary.800" mt="32px" mb="16px">
+            <Text textStyle="h2" color="secondary.800" mb="16px">
               What is the reason for your petition?
             </Text>
             <RichTextPreview value={post.reason} />

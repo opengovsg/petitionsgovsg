@@ -98,11 +98,18 @@ const Post = (): JSX.Element => {
             <Text sx={styles.title}>{post?.title}</Text>
             {post?.status === PostStatus.Open ? (
               <Box sx={styles.subtitle} className="subtitle-bar" my="12px">
-                <Text my="4px">Started by {post?.fullname}</Text>
-                <Text my="4px">
-                  Addressed to the {post?.addressee.name} (
-                  {post.addressee.shortName})
-                </Text>
+                <Box my="4px" fontWeight="500">
+                  Started by{' '}
+                  <Text as="span" textDecoration="underline" textStyle="">
+                    {post?.fullname}
+                  </Text>
+                </Box>
+                <Box my="4px" fontWeight="500">
+                  Addressed to the{' '}
+                  <Text as="span" textDecoration="underline">
+                    {post?.addressee.name} ({post.addressee.shortName})
+                  </Text>
+                </Box>
                 <Badge sx={styles.badge}>In review</Badge>
               </Box>
             ) : null}
@@ -117,14 +124,14 @@ const Post = (): JSX.Element => {
                 Last updated {formattedTimeString}
               </time>
             </Box>
-            <Text sx={styles.title}>Updates</Text>
+            <Text sx={styles.header}>Updates</Text>
             <InfoBox>
               <Text>
                 The ministry is reviewing this petition. Please subscribe for
                 updates.
               </Text>
             </InfoBox>
-            <Text sx={styles.title}>Reasons for signing</Text>
+            <Text sx={styles.header}>Reasons for signing</Text>
             <PostSignatures post={post} />
           </Box>
           <Stack sx={styles.sideSection} align="left">

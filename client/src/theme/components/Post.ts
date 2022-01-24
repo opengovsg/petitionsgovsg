@@ -18,6 +18,12 @@ export const Post: ComponentMultiStyleConfig = {
       textStyle: 'h2',
       color: 'secondary.800',
     },
+
+    header: {
+      mt: { base: '32px', sm: '48px' },
+      textStyle: 'h2',
+      color: 'secondary.800',
+    },
     subtitle: {
       textStyle: 'body-2',
       color: 'secondary.800',
