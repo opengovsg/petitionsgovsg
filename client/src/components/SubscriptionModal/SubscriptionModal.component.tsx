@@ -76,7 +76,7 @@ export const SubscriptionModal = ({
           mr="8px"
         />
         <Button
-          leftIcon={<BiCopy />}
+          rightIcon={<BiCopy />}
           aria-label="Done"
           fontStyle={'subhead-1'}
           bg="white"

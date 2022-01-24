@@ -14,10 +14,27 @@ import {
 } from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
 import { ControllerHandler } from '../../types/response-handler'
+import { AuthService } from '../auth/auth.service'
+import { PostService } from '../post/post.service'
+import { hashData } from '../../util/hash'
 
 const logger = createLogger(module)
 
 export class AuthController {
+  private authService: Public<AuthService>
+  private postService: Public<PostService>
+
+  constructor({
+    authService,
+    postService,
+  }: {
+    authService: Public<AuthService>
+    postService: Public<PostService>
+  }) {
+    this.authService = authService
+    this.postService = postService
+  }
+
   /**
    * Fetch logged in user details after being authenticated.
    * @returns 200 with user details
@@ -127,7 +144,6 @@ export class AuthController {
     undefined,
     { code: string; state: string | undefined }
   > = async (req, res, next) => {
-    console.log('CALLBACK IS CALLED')
     const { state } = req.query
     passport.authenticate('sgid', {}, (error, user, info: Message) => {
       if (error) {
@@ -233,6 +249,43 @@ export class AuthController {
         error,
       })
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
+    }
+  }
+
+  /**
+   * Check if logged in user is petition owner
+   * @returns 200 with boolean on successful check
+   * @returns 500 if database error
+   */
+  verifyPetitionOwner: ControllerHandler<
+    { id: string },
+    boolean | Message | null
+  > = async (req, res) => {
+    try {
+      if (!req.user) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: 'User not signed in' })
+      }
+      const post = await this.postService.getSinglePost(Number(req.params.id))
+      const hashedUserSgid = await hashData(req.user.id, post.salt)
+      const petitionOwnerCheck = await this.authService.verifyPetitionOwner(
+        post,
+        hashedUserSgid,
+      )
+      return res.status(StatusCodes.OK).json(petitionOwnerCheck)
+    } catch (error) {
+      logger.error({
+        message: 'Error while checking if user is petition owner',
+        meta: {
+          function: 'verifyPetitionOwner',
+          postId: req.params.id,
+        },
+        error,
+      })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Server Error' })
     }
   }
 }

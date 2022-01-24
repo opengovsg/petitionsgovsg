@@ -20,7 +20,7 @@ const PublishButton = ({ postId }: PublishButtonProps): JSX.Element => {
       queryClient.invalidateQueries([GET_POST_BY_ID_QUERY_KEY, postId])
       toast({
         status: 'success',
-        description: 'Post has been published publicly',
+        description: 'Petition has been published publicly',
       })
     },
     onError: (err) => {

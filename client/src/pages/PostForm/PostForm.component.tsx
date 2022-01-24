@@ -32,7 +32,7 @@ const PostForm = (): JSX.Element => {
       })
       toast({
         status: 'success',
-        description: 'Your post has been created.',
+        description: 'Your petition has been created.',
       })
       navigate(`/posts/${postId}`, { replace: true })
     } catch (err) {

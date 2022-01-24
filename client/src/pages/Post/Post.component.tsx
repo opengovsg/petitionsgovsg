@@ -87,7 +87,9 @@ const Post = (): JSX.Element => {
     <Spinner centerHeight={`${styles.spinner.height}`} />
   ) : (
     <Flex direction="column" sx={styles.container}>
-      {post?.status === PostStatus.Draft && <PreviewBanner postId={postId} />}
+      {post?.status === PostStatus.Draft && (
+        <PreviewBanner postId={postId} post={post} />
+      )}
       <PageTitle title={`${post?.title} Petitions`} description="" />
       <Center>
         <Stack
