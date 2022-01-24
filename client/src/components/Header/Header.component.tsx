@@ -146,15 +146,17 @@ const Header = (): JSX.Element => {
       ) : (
         <HStack sx={styles.logoBarTabletDesktop} justifyContent="space-between">
           <Logo />
-          <HStack>
-            <RouterLink to="/about">
-              <Text>What is Petitions?</Text>
-            </RouterLink>
-            <RouterLink to="/">
-              <Text>Ensuring Anonymity</Text>
-            </RouterLink>
-            {user && <AuthLinks />}
-          </HStack>
+          <Flex alignItems="flex-end">
+            <HStack marginInlineStart="auto" spacing="16px">
+              <RouterLink to="/about">
+                <Text>What is Petitions?</Text>
+              </RouterLink>
+              <RouterLink to="/">
+                <Text>Ensuring Anonymity</Text>
+              </RouterLink>
+              {user && <AuthLinks />}
+            </HStack>
+          </Flex>
         </HStack>
       )}
     </Flex>
