@@ -5,6 +5,7 @@ import {
   HStack,
   Image,
   Link,
+  Text,
   useDisclosure,
   useMultiStyleConfig,
 } from '@chakra-ui/react'
@@ -134,16 +135,27 @@ const Header = (): JSX.Element => {
             <Collapse in={headerIsOpen} animateOpacity={false}>
               <Flex justify="space-between" sx={styles.logoBarMobile}>
                 <Logo />
-                {user && <AuthLinks />}
+                <HStack>
+                  <RouterLink to="/about">What is Petitions?</RouterLink>
+                  {user && <AuthLinks />}
+                </HStack>
               </Flex>
             </Collapse>
           ) : null}
         </>
       ) : (
-        <Flex sx={styles.logoBarTabletDesktop}>
+        <HStack sx={styles.logoBarTabletDesktop} justifyContent="space-between">
           <Logo />
-          {user && <AuthLinks />}
-        </Flex>
+          <HStack>
+            <RouterLink to="/about">
+              <Text>What is Petitions?</Text>
+            </RouterLink>
+            <RouterLink to="/">
+              <Text>Ensuring Anonymity</Text>
+            </RouterLink>
+            {user && <AuthLinks />}
+          </HStack>
+        </HStack>
       )}
     </Flex>
   )
