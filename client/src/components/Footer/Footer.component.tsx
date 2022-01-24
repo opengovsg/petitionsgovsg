@@ -19,7 +19,7 @@ import { format } from 'date-fns-tz'
 const Footer = (): JSX.Element => {
   return (
     <Container
-      maxW="1504px"
+      maxW="inherit"
       m="auto"
       w="100vw"
       px={{ base: 8, md: 12 }}
