@@ -22,6 +22,10 @@ import {
   getUserSignatureForPost,
   GET_USER_SIGNATURE_FOR_POST_QUERY_KEY,
 } from '../../services/SignatureService'
+import {
+  verifyPetitionOwner,
+  VERIFY_PETITION_OWNER,
+} from '../../services/AuthService'
 import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
 import SgidButton from '../../components/SgidButton/SgidButton.component'
@@ -47,11 +51,17 @@ const Post = (): JSX.Element => {
     () => getPostById(Number(postId)),
     { enabled: !!postId },
   )
+
   const styles = useMultiStyleConfig('Post', {})
   const location = useLocation()
 
   // If user is signed in, don't need to resign in through SP app
   const { user, isLoading: isUserLoading } = useAuth()
+  const { data: isPetitionOwner } = useQuery(
+    [VERIFY_PETITION_OWNER, postId],
+    () => verifyPetitionOwner(Number(postId)),
+    { enabled: !!postId && !!user },
+  )
 
   const { isLoading: isSignatureLoading, data: userSignature } = useQuery(
     [GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
@@ -154,7 +164,11 @@ const Post = (): JSX.Element => {
                 />
               )}
               {user && !userSignature && (
-                <SignForm postId={postId} postTitle={post?.title ?? ''} />
+                <SignForm
+                  postId={postId}
+                  postTitle={post?.title ?? ''}
+                  isPetitionOwner={Boolean(isPetitionOwner)}
+                />
               )}
               {user && userSignature && (
                 <Center sx={styles.signed}>

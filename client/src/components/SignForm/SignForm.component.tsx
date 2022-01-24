@@ -16,9 +16,11 @@ const refreshPage = async () => window.location.reload()
 const SignForm = ({
   postId,
   postTitle,
+  isPetitionOwner,
 }: {
   postId: string | undefined
   postTitle: string
+  isPetitionOwner: boolean
 }): JSX.Element => {
   const toast = useStyledToast()
 
@@ -73,6 +75,7 @@ const SignForm = ({
         _hover={{
           background: 'secondary.400',
         }}
+        disabled={isPetitionOwner}
         leftIcon={<BiLockAlt />}
       >
         Sign this petition
