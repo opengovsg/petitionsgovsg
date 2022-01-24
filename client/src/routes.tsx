@@ -77,7 +77,6 @@ const Routes = (): JSX.Element => {
   return (
     <ReactRoutes>
       <Route path="/" element={<HomePageComponent />} />
-      <Route path="/agency/:agency" element={<HomePageComponent />} />
       <Route path="/posts/:id" element={<PostComponent />} />
       <Route path="/posts/:id/edit" element={<EditPostFormComponent />} />
       <Route path="/create" element={<PostFormComponent />} />
