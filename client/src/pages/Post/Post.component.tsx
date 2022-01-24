@@ -37,6 +37,7 @@ import {
 import { SubmitHandler } from 'react-hook-form'
 import { InfoBox } from '../../components/InfoBox/InfoBox.component'
 import { replaceRichTextTag } from '../../components/PetitionCard/PetitionCard.component'
+import { SuccessBanner } from '../../components/SuccessBanner/SuccessBanner.component'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -90,6 +91,7 @@ const Post = (): JSX.Element => {
       {post?.status === PostStatus.Draft && (
         <PreviewBanner postId={postId} post={post} />
       )}
+      {post?.status === PostStatus.Open && <SuccessBanner postId={postId} />}
       <PageTitle title={`${post?.title} Petitions`} description="" />
       <Center>
         <Stack
@@ -182,6 +184,7 @@ const Post = (): JSX.Element => {
                 borderColor="secondary.500"
                 variant="outline"
                 leftIcon={<BiShareAlt />}
+                disabled={post?.status === PostStatus.Draft}
               >
                 Share this petition
               </Button>

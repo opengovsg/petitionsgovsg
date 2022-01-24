@@ -5,6 +5,7 @@ import {
   CitizenPrivacy,
   CitizenTerms,
 } from './components/PrivacyTerms'
+import EditPostForm from './pages/EditPostForm/EditPostForm.component'
 import HomePage from './pages/HomePage/HomePage.component'
 import NotFound from './pages/NotFound/NotFound.component'
 import Post from './pages/Post/Post.component'
@@ -19,6 +20,11 @@ const HomePageComponent = withPageTitle({
 const PostFormComponent = withPageTitle({
   component: PostForm,
   title: 'Create a Petition',
+})
+
+const EditPostFormComponent = withPageTitle({
+  component: EditPostForm,
+  title: 'Edit a Petition',
 })
 
 const NotFoundComponent = withPageTitle({
@@ -61,6 +67,7 @@ const Routes = (): JSX.Element => {
       <Route path="/" element={<HomePageComponent />} />
       <Route path="/agency/:agency" element={<HomePageComponent />} />
       <Route path="/posts/:id" element={<PostComponent />} />
+      <Route path="/posts/:id/edit" element={<EditPostFormComponent />} />
       <Route path="/create" element={<PostFormComponent />} />
       <Route path="/terms" element={<CitizenTermsComponent />} />
       <Route path="/agency-terms" element={<AgencyTermsComponent />} />

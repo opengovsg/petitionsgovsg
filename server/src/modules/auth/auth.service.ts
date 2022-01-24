@@ -58,9 +58,6 @@ export class AuthService {
     post: Post,
     userId?: string,
   ): Promise<boolean> => {
-    // If post is public, anyone can view
-    if (post.status === PostStatus.Open) return true
-
     // If post is private or archived, only petition owner sees a personalised message
     if (userId) {
       // check that user id is the same as post user id

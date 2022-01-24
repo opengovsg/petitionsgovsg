@@ -16,7 +16,9 @@ export const Banner = ({
       alignItems="center"
       className="banner"
     >
-      {children}
+      <Box width="80%" pl="32px" pr="48px">
+        {children}
+      </Box>
     </Box>
   )
 }

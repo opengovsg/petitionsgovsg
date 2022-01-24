@@ -17,6 +17,7 @@ import {
 } from '../../services/AuthService'
 import { GetSinglePostDto } from '../../api'
 import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface PreviewBannerProps {
   postId: string | undefined
@@ -33,6 +34,9 @@ export const PreviewBanner = ({
     () => verifyPetitionOwner(Number(postId)),
     { enabled: !!postId && !!user },
   )
+
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const {
     onOpen: onEndorserModalOpen,
@@ -70,6 +74,7 @@ export const PreviewBanner = ({
                   bg="transparent"
                   variant="outline"
                   _hover={{ bg: 'primary.600' }}
+                  onClick={() => navigate(`${location.pathname}/edit`)}
                 >
                   Edit petition
                 </Button>

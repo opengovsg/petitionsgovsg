@@ -135,6 +135,7 @@ if (baseConfig.nodeEnv === Environment.Prod) {
     '/questions',
     '/login',
     '/posts/:id',
+    '/posts/:id/create',
     '/terms',
     '/agency-terms',
     '/create',
