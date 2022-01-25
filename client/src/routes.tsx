@@ -14,6 +14,7 @@ import UserLogin from './pages/UserLogin/UserLogin.component'
 import withPageTitle from './services/withPageTitle'
 import About from './pages/About/About.component'
 import Guidelines from './pages/Guidelines/Guidelines.component'
+import Anonymity from './pages/Anonymity/Anonymity.component'
 
 const HomePageComponent = withPageTitle({
   component: HomePage,
@@ -73,6 +74,11 @@ const GuidelinesComponent = withPageTitle({
   title: 'Submissions Process and Guidelines',
 })
 
+const AnonymityComponent = withPageTitle({
+  component: Anonymity,
+  title: 'Ensuring Anonymity',
+})
+
 const Routes = (): JSX.Element => {
   return (
     <ReactRoutes>
@@ -87,6 +93,7 @@ const Routes = (): JSX.Element => {
       <Route path="/login" element={<UserLoginComponent />} />
       <Route path="/about" element={<AboutComponent />} />
       <Route path="/guidelines" element={<GuidelinesComponent />} />
+      <Route path="/anonymity" element={<AnonymityComponent />} />
       <Route path="*" element={<NotFoundComponent />} />
     </ReactRoutes>
   )

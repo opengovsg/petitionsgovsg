@@ -151,7 +151,7 @@ const Header = (): JSX.Element => {
               <RouterLink to="/about">
                 <Text>What is Petitions?</Text>
               </RouterLink>
-              <RouterLink to="/">
+              <RouterLink to="/anonymity">
                 <Text>Ensuring Anonymity</Text>
               </RouterLink>
               {user && <AuthLinks />}
