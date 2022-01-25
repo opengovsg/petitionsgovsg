@@ -6,22 +6,25 @@ import helmet from 'helmet'
 import { StatusCodes } from 'http-status-codes'
 import path from 'path'
 import { checkOwnershipUsing } from '../middleware/checkOwnership'
-import { SignatureController } from '../modules/signatures/signature.controller'
-import { SignatureService } from '../modules/signatures/signature.service'
+import { AddresseeController } from '../modules/addressee/addressee.controller'
+import { AddresseeService } from '../modules/addressee/addressee.service'
 import { AuthController } from '../modules/auth/auth.controller'
 import { AuthMiddleware } from '../modules/auth/auth.middleware'
 import { AuthService } from '../modules/auth/auth.service'
+import { EnvController } from '../modules/environment/env.controller'
 import { PostController } from '../modules/post/post.controller'
 import { PostService } from '../modules/post/post.service'
+import { SignatureController } from '../modules/signatures/signature.controller'
+import { SignatureService } from '../modules/signatures/signature.service'
 import { api } from '../routes'
 import { baseConfig, Environment } from './config/base'
 import { helmetOptions } from './helmet-options'
 import { requestLoggingMiddleware } from './logging/request-logging'
 import { passportConfig } from './passport'
-import { Signature, Post, Addressee, sequelize } from './sequelize'
+import { Addressee, Post, sequelize, Signature } from './sequelize'
 import sessionMiddleware from './session'
-import { AddresseeController } from '../modules/addressee/addressee.controller'
-import { AddresseeService } from '../modules/addressee/addressee.service'
+import { bannerConfig } from './config/banner'
+import { googleAnalyticsConfig } from './config/googleAnalytics'
 
 export { sequelize } from './sequelize'
 export const app = express()
@@ -49,6 +52,9 @@ app.use(sessionMiddleware(sequelize))
 passportConfig(app)
 
 // all the api routes
+const bannerMessage = bannerConfig.siteWideMessage
+const googleAnalyticsId = googleAnalyticsConfig.googleAnalyticsId
+
 const authService = new AuthService({
   Post,
 })
@@ -80,6 +86,7 @@ const apiOptions = {
     controller: new AuthController({ authService, postService }),
     authMiddleware,
   },
+  env: new EnvController({ bannerMessage, googleAnalyticsId }),
   post: {
     controller: new PostController({
       authService,
