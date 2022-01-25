@@ -1,10 +1,5 @@
 import { Button } from '@chakra-ui/react'
-import {
-  BiArrowToRight,
-  BiLockAlt,
-  BiPen,
-  BiRightArrowAlt,
-} from 'react-icons/bi'
+import { BiLockAlt, BiPen, BiRightArrowAlt } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -100,7 +95,7 @@ const SgidButtonWithArrow = ({
         h={height}
         borderRadius="4px"
         color="white"
-        rightIcon={<BiArrowToRight />}
+        rightIcon={<BiRightArrowAlt />}
         onClick={() => navigate(redirect)}
       >
         {text}
