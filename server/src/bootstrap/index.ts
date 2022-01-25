@@ -143,6 +143,7 @@ if (baseConfig.nodeEnv === Environment.Prod) {
     '/about',
     '/guidelines',
     '/unauthorised',
+    '/anonymity',
   ]
   for (const path of allStaticPaths) {
     app.get(path, (_req, res) =>
