@@ -181,7 +181,7 @@ const Post = (): JSX.Element => {
             <Text sx={styles.header}>Updates</Text>
             <InfoBox>
               <Text>
-                The petition has to reach 10000 signautres for a ministry
+                The petition has to reach 10000 signatures for a ministry
                 response.
               </Text>
             </InfoBox>
