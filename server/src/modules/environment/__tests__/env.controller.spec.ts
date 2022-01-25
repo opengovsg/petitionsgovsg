@@ -6,12 +6,10 @@ describe('EnvController', () => {
   const path = '/environment'
   const bannerMessage = ''
   const googleAnalyticsId = ''
-  const fullStoryOrgId = ''
 
   const controller = new EnvController({
     bannerMessage,
     googleAnalyticsId,
-    fullStoryOrgId,
   })
 
   const app = express()
@@ -27,7 +25,6 @@ describe('EnvController', () => {
       expect(response.body).toStrictEqual({
         bannerMessage: bannerMessage,
         googleAnalyticsId: googleAnalyticsId,
-        fullStoryOrgId: fullStoryOrgId,
       })
     })
   })

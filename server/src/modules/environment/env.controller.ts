@@ -11,7 +11,6 @@ export class EnvController {
   }: {
     bannerMessage: string
     googleAnalyticsId: string
-    fullStoryOrgId: string
   }) {
     this.bannerMessage = bannerMessage
     this.googleAnalyticsId = googleAnalyticsId
