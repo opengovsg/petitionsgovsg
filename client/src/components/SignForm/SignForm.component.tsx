@@ -10,6 +10,8 @@ import {
 import { useStyledToast } from '../StyledToast/StyledToast'
 import { BiLockAlt, BiPen } from 'react-icons/bi'
 import { PostStatus } from '~shared/types/base'
+import { useSearchParams } from 'react-router-dom'
+import { useEffect } from 'react'
 
 type FormValues = CreateSignatureReqDto
 const refreshPage = async () => window.location.reload()
@@ -24,6 +26,9 @@ const SignForm = ({
   isPetitionOwner: boolean
 }): JSX.Element => {
   const toast = useStyledToast()
+
+  const [searchParams] = useSearchParams()
+  const openSignatureModal = searchParams.has('sign')
 
   // Init Signature Modal
   const {
@@ -63,6 +68,12 @@ const SignForm = ({
     //TODO: Implement subscription
     refreshPage()
   }
+
+  useEffect(() => {
+    if (openSignatureModal) {
+      onSignatureModalOpen()
+    }
+  }, [])
 
   return (
     <>

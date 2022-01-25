@@ -199,7 +199,7 @@ const Post = (): JSX.Element => {
                 {!user && (
                   <SgidButtonWithPen
                     text="Endorse this petition"
-                    redirect={location.pathname}
+                    redirect={`${location.pathname}?sign`}
                   />
                 )}
                 {user && !userSignature && (
@@ -221,7 +221,7 @@ const Post = (): JSX.Element => {
                 {!user && (
                   <SgidButtonWithLock
                     text="Sign this petition"
-                    redirect={location.pathname}
+                    redirect={`${location.pathname}?sign`}
                   />
                 )}
                 {user && !userSignature && (
