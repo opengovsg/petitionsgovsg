@@ -8,7 +8,7 @@ export const sortByCreatedAt = (a: HasCreatedAt, b: HasCreatedAt): number =>
   new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
 
 export const getDateDistance = (dateString: string): string => {
-  const DAYS_TO_ADD = 159
+  const DAYS_TO_ADD = 179
   const dateObj = parseJSON(dateString)
   const futureDateObj = dateObj.setDate(dateObj.getDate() + DAYS_TO_ADD)
   const dateInterval = intervalToDuration({
