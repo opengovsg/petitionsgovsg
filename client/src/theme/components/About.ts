@@ -5,7 +5,6 @@ export const About = makeMultiStyleConfig({
     m: 'auto',
     maxW: '680px',
     mt: '48px',
-    mb: '558px',
   },
   heading: {
     textStyle: 'display-2',
@@ -24,5 +23,11 @@ export const About = makeMultiStyleConfig({
   },
   sectionBox: {
     mb: '48px',
+  },
+  listHeading: {
+    textStyle: 'body-1',
+    color: 'secondary.700',
+    mb: '24px',
+    fontWeight: '700',
   },
 })
