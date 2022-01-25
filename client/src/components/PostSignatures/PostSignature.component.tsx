@@ -1,6 +1,6 @@
 import { BaseSignatureDto } from '../../api'
 import { Box, HStack, Text } from '@chakra-ui/react'
-import { formatDistance } from 'date-fns'
+import { formatDistanceToNow } from 'date-fns'
 
 export const PostSignature = ({
   signature,
@@ -12,7 +12,7 @@ export const PostSignature = ({
       <HStack h="24px" color="secondary.700" my="8px" fontWeight="500">
         <Text>
           {signature.fullname ?? 'anon'} •{' '}
-          {formatDistance(Date.parse(signature.createdAt), new Date(), {
+          {formatDistanceToNow(Date.parse(signature.createdAt), {
             addSuffix: true,
           })}
         </Text>

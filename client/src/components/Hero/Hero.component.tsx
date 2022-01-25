@@ -11,13 +11,10 @@ const Hero = (): JSX.Element => {
         <Box>
           <Box sx={styles.headingBox}>
             <Text sx={styles.heading}>
-              Digital petitions recognised by the government
+              Where citizens push for change that matters
             </Text>
           </Box>
           <Box>
-            <Text sx={styles.caption}>
-              Digital petitions for citizens and ministries
-            </Text>
             <Text sx={styles.caption}>
               Transparent • Legitimate • Efficient • Civil
             </Text>

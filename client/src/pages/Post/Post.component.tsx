@@ -248,6 +248,9 @@ const Post = (): JSX.Element => {
               onConfirm={onSubscriptionConfim}
             />
             <Text sx={styles.signatureHeader}>Recent Activity</Text>
+            <Text sx={styles.signature}>
+              {post?.fullname} created this petition
+            </Text>
             {post?.signatures.map((signature) => (
               <Box>
                 <Text sx={styles.signature}>

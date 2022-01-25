@@ -70,7 +70,7 @@ export const PreviewBanner = ({
                 bg="white"
                 variant="solid"
                 color="primary.500"
-                _hover={{ bg: 'primary.600' }}
+                _hover={{ bg: 'primary.100' }}
                 onClick={onClick}
               >
                 Get private link
