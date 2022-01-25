@@ -9,9 +9,10 @@ export const PostSignatures = ({
   post: GetSinglePostDto | undefined
 }): JSX.Element => {
   const signatures = filterSignaturesWithComments(post?.signatures ?? [])
-  const showAllComments = signatures.map((signature) => (
-    <PostSignature signature={signature} />
-  ))
+  const showAllComments = signatures
+    .reverse()
+    .slice(0, 10)
+    .map((signature) => <PostSignature signature={signature} />)
 
   return (
     <>

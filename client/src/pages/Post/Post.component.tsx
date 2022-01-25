@@ -157,8 +157,8 @@ const Post = (): JSX.Element => {
             <Text sx={styles.header}>Updates</Text>
             <InfoBox>
               <Text>
-                The ministry is reviewing this petition. Please subscribe for
-                updates.
+                The petition has to reach 10000 signautres for a ministry
+                response.
               </Text>
             </InfoBox>
             <PostSignatures post={post} />
@@ -251,13 +251,16 @@ const Post = (): JSX.Element => {
             <Text sx={styles.signature}>
               {post?.fullname} created this petition
             </Text>
-            {post?.signatures.map((signature) => (
-              <Box>
-                <Text sx={styles.signature}>
-                  {signature.fullname ?? 'Anonymous'} signed this petition
-                </Text>
-              </Box>
-            ))}
+            {post?.signatures
+              .reverse()
+              .slice(0, 10)
+              .map((signature) => (
+                <Box>
+                  <Text sx={styles.signature}>
+                    {signature.fullname ?? 'Anonymous'} signed this petition
+                  </Text>
+                </Box>
+              ))}
           </Stack>
         </Stack>
       </Center>
