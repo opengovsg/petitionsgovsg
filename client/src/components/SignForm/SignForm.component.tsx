@@ -94,6 +94,7 @@ const SignForm = ({
           _hover={{
             background: 'secondary.400',
           }}
+          disabled={isPetitionOwner}
           leftIcon={<BiPen />}
         >
           Endorse this petition
