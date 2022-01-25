@@ -5,7 +5,7 @@ import * as SignatureService from '../../services/SignatureService'
 import { SignatureModal } from '../SignatureModal/SignatureModal.component'
 import {
   SubscriptionModal,
-  SusbcriptionFormValues,
+  SubscriptionFormValues,
 } from '../SubscriptionModal/SubscriptionModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
 import { BiLockAlt, BiPen } from 'react-icons/bi'
@@ -56,10 +56,10 @@ const SignForm = ({
     isOpen: isSubscriptionModalOpen,
   } = useDisclosure()
 
-  const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
+  const onSubscriptionConfim: SubmitHandler<SubscriptionFormValues> = async ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     email,
-  }: SusbcriptionFormValues): Promise<void> => {
+  }: SubscriptionFormValues): Promise<void> => {
     //TODO: Implement subscription
     refreshPage()
   }

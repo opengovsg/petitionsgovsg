@@ -35,7 +35,7 @@ import { Button, useDisclosure } from '@chakra-ui/react'
 import { BiShareAlt } from 'react-icons/bi'
 import {
   SubscriptionModal,
-  SusbcriptionFormValues,
+  SubscriptionFormValues,
 } from '../../components/SubscriptionModal/SubscriptionModal.component'
 import { SubmitHandler } from 'react-hook-form'
 import { InfoBox } from '../../components/InfoBox/InfoBox.component'
@@ -87,10 +87,10 @@ const Post = (): JSX.Element => {
     isOpen: isSubscriptionModalOpen,
   } = useDisclosure()
 
-  const onSubscriptionConfim: SubmitHandler<SusbcriptionFormValues> = async ({
+  const onSubscriptionConfim: SubmitHandler<SubscriptionFormValues> = async ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     email,
-  }: SusbcriptionFormValues): Promise<void> => {
+  }: SubscriptionFormValues): Promise<void> => {
     //TODO: Implement subscription
   }
 
@@ -240,7 +240,7 @@ const Post = (): JSX.Element => {
             )}
             {!userSignature && (
               <Text sx={styles.caption}>
-                By signing, you accept the{' '}
+                Proceed securely with Singpass. By signing, you accept the{' '}
                 <Link to="/terms" style={{ textDecoration: 'underline' }}>
                   Terms of Service
                 </Link>{' '}

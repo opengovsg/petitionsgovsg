@@ -136,7 +136,7 @@ const Header = (): JSX.Element => {
               <Flex justify="space-between" sx={styles.logoBarMobile}>
                 <Logo />
                 <HStack>
-                  <RouterLink to="/about">What is Petitions?</RouterLink>
+                  <RouterLink to="/about">About PetitionsSG</RouterLink>
                   {user && <AuthLinks />}
                 </HStack>
               </Flex>
@@ -149,7 +149,7 @@ const Header = (): JSX.Element => {
           <Flex alignItems="flex-end">
             <HStack marginInlineStart="auto" spacing="16px">
               <RouterLink to="/about">
-                <Text>What is Petitions?</Text>
+                <Text>About PetitionsSG</Text>
               </RouterLink>
               <RouterLink to="/anonymity">
                 <Text>Ensuring Anonymity</Text>
