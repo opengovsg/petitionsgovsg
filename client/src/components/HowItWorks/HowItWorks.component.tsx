@@ -23,7 +23,6 @@ const HowItWorks = (): JSX.Element => {
         <Button
           sx={styles.button}
           onClick={() => {
-            window.scrollTo(0, 0)
             navigate(`/guidelines`)
           }}
         >
