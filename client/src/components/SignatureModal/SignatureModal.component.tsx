@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Divider,
   Flex,
@@ -21,6 +22,8 @@ import {
 import { CreateSignatureReqDto } from '../../api'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { Link as RouterLink } from 'react-router-dom'
+import { BiLinkExternal } from 'react-icons/bi'
 
 const MAX_CHAR_COUNT = 200
 type FormValues = CreateSignatureReqDto
@@ -64,7 +67,9 @@ export const SignatureModal = ({
         })}
         onChange={(e) => setCount(MAX_CHAR_COUNT - e.target.value.length)}
       />
-      <Text sx={styles.characterCount}>{count} characters left</Text>
+      <Text textStyle="body-2" color="secondary.400">
+        {count} characters left
+      </Text>
     </>
   )
   const useNameComponent = (
@@ -78,7 +83,11 @@ export const SignatureModal = ({
         </FormLabel>
       </VStack>
       <Flex ms="auto">
-        <Switch alignSelf="flex-end" {...register('useName', {})} />
+        <Switch
+          alignSelf="flex-end"
+          colorScheme="green"
+          {...register('useName', {})}
+        />
       </Flex>
     </FormControl>
   )
@@ -97,8 +106,33 @@ export const SignatureModal = ({
           <ModalCloseButton />
           <ModalBody>
             <Divider mb="6" />
+            <Flex mb="12px">
+              <Text textStyle="subhead-1" pr="8px" color="secondary.700">
+                Add a reason why you’re signing this petition
+              </Text>
+              <Text textStyle="body-2" color="neutral.700">
+                (optional)
+              </Text>
+            </Flex>
             {signatureComponent}
             {!useFullname && useNameComponent}
+            <RouterLink to="/anonymity">
+              <Flex alignItems="center" mt="20px">
+                <Text
+                  _hover={{
+                    color: 'primary.600',
+                  }}
+                  color="primary.500"
+                  as="u"
+                  mr="8px"
+                >
+                  Read more about how we ensure anonymity
+                </Text>
+                <Box color="primary.500">
+                  <BiLinkExternal />
+                </Box>
+              </Flex>
+            </RouterLink>
           </ModalBody>
           <ModalFooter>
             <Button
