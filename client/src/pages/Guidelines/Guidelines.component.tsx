@@ -2,7 +2,6 @@ import {
   useMultiStyleConfig,
   Text,
   Box,
-  List,
   ListItem,
   OrderedList,
   UnorderedList,
@@ -20,7 +19,7 @@ const Guidelines = (): JSX.Element => {
           <OrderedList sx={styles.text}>
             <ListItem sx={styles.listHeading}>Start a petition</ListItem>
             <Text sx={styles.text}>
-              Follow the Guidelines for Petitions below to draft your petition –
+              Follow the Guidelines for Petitions below to draft your petition -
               it helps to have a clear objective, and to know which agency you
               would like to submit it to. You will be given a private link you
               can use to edit your petition, or share with endorsers. Remember,
@@ -33,7 +32,7 @@ const Guidelines = (): JSX.Element => {
             <Text sx={styles.text}>
               Get 3 people to back your petition as endorsers. They will need to
               sign non-anonymously, and their names will also appear on the
-              petition once it is published. A petition can’t be edited once it
+              petition once it is published. A petition can't be edited once it
               has at least one endorser, so it helps to have a final version
               ready before you share it.
             </Text>
@@ -44,7 +43,7 @@ const Guidelines = (): JSX.Element => {
             </Text>
             <ListItem sx={styles.listHeading}>Gather signatures</ListItem>
             <Text sx={styles.text}>
-              Once published, a petition is ready for public support – you will
+              Once published, a petition is ready for public support - you will
               need to gather 10,000 signatures before it closes in 90 days.
               Signatories will need to log in via Singpass before they can sign,
               but can choose to sign anonymously.
@@ -70,7 +69,7 @@ const Guidelines = (): JSX.Element => {
             and decide how best to respond to it.
           </Text>
           <Text sx={styles.text}>
-            Following these guidelines does not guarantee that the petition’s
+            Following these guidelines does not guarantee that the petition's
             cause will necessarily be actioned or implemented by a ministry.
           </Text>
           <Text sx={styles.listHeading}>Petitions must:</Text>
@@ -83,8 +82,8 @@ const Guidelines = (): JSX.Element => {
               defamatory information or unfounded allegations
             </ListItem>
             <ListItem>
-               As a reminder, the petitioner’s and endorsers’ names will be
-              visible on a petition once it is published.  
+              As a reminder, the petitioner's and endorsers' names will be
+              visible on a petition once it is published.
             </ListItem>
           </UnorderedList>
           <Text sx={styles.listHeading}>Petitions should not:</Text>
@@ -130,7 +129,7 @@ const Guidelines = (): JSX.Element => {
             petition gathers significant reports against it, a committee will
             convene to deliberate whether to reject the petition based on the
             petition guidelines. All rejected petitions will still be publicly
-            accessible on PetitionsSG with the reason for rejection. 
+            accessible on PetitionsSG with the reason for rejection.
           </Text>
         </Box>
       </Box>
