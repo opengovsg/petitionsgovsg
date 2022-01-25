@@ -12,6 +12,7 @@ import { InfoBox } from './InfoBox'
 import { Hero } from './Hero'
 import { HowItWorks } from './HowItWorks'
 import { About } from './About'
+import { Anonymity } from './Anonymity'
 
 export const components = {
   Button,
@@ -28,4 +29,5 @@ export const components = {
   Hero,
   HowItWorks,
   About,
+  Anonymity,
 }
