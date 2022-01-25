@@ -4,7 +4,7 @@ export const PetitionCard: ComponentMultiStyleConfig = {
   parts: ['petitionCardItems'],
   baseStyle: ({ status }) => ({
     card: {
-      height: '368px',
+      height: '384px',
       width: '400px',
       borderRadius: '16px',
       shadow: 'md',
