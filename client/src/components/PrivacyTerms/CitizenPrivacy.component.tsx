@@ -211,7 +211,7 @@ const CitizenPrivacy = (): JSX.Element => (
         <li>
           <ol>
             <li data-seq="1">
-              <span>Name of Service: Ask.gov.sg</span>
+              <span>Name of Service: Petitions.gov.sg</span>
             </li>
             <li data-seq="2">
               <span>Types of data requested/collected:</span>

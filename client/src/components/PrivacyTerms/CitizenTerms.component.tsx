@@ -660,7 +660,7 @@ const CitizenTerms = (): JSX.Element => (
       <ol>
         <li data-seq="1">
           <span>
-            <b>Name of Service: </b>Ask.gov.sg
+            <b>Name of Service: </b>Petitions.gov.sg
           </span>
         </li>
         <li data-seq="2">

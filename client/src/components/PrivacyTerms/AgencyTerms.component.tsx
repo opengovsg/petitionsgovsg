@@ -659,7 +659,7 @@ const AgencyTerms = (): JSX.Element => (
       <ol>
         <li data-seq="1">
           <span>
-            <b>Name of Service: </b>Ask.gov.sg (Agencies)
+            <b>Name of Service: </b>Petitions.gov.sg
           </span>
         </li>
         <li data-seq="2">
@@ -670,15 +670,15 @@ const AgencyTerms = (): JSX.Element => (
             <li>
               <ol>
                 <li data-seq="a.">
-                  This Service facilitates the use of Ask.gov.sg by Singapore
-                  government agencies and any other entities permitted by
-                  GovTech from time to time, to provide answers to questions
+                  This Service facilitates the use of Petitions.gov.sg by
+                  Singapore government agencies and any other entities permitted
+                  by GovTech from time to time, to provide answers to questions
                   (e.g. FAQs) from individuals. It has the following
                   functionalities:
                   <ol>
                     <li data-seq="i.">
                       Hosting of questions and answers on the Service (e.g.
-                      ask.gov.sg)
+                      petitions.gov.sg)
                     </li>
                     <li data-seq="ii.">
                       A page that hosts only questions relevant to you and your
