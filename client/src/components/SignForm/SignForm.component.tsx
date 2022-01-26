@@ -8,10 +8,11 @@ import {
   SubscriptionFormValues,
 } from '../SubscriptionModal/SubscriptionModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
-import { BiLockAlt, BiPen } from 'react-icons/bi'
+import { BiLockAlt, BiPen, BiShareAlt } from 'react-icons/bi'
 import { PostStatus } from '~shared/types/base'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
+import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
 
 type FormValues = CreateSignatureReqDto
 const refreshPage = async () => window.location.reload()
@@ -69,6 +70,13 @@ const SignForm = ({
     refreshPage()
   }
 
+  // Init Endorser Modal
+  const {
+    onOpen: onEndorserModalOpen,
+    onClose: onEndorserModalClose,
+    isOpen: isEndorserModalOpen,
+  } = useDisclosure()
+
   useEffect(() => {
     if (openSignatureModal) {
       onSignatureModalOpen()
@@ -94,7 +102,7 @@ const SignForm = ({
           Sign this petition
         </Button>
       )}
-      {post?.status === PostStatus.Draft && (
+      {post?.status === PostStatus.Draft && !isPetitionOwner && (
         <Button
           onClick={onClick}
           bg="secondary.500"
@@ -111,6 +119,22 @@ const SignForm = ({
           Endorse this petition
         </Button>
       )}
+      {post?.status === PostStatus.Draft && isPetitionOwner && (
+        <Button
+          onClick={onEndorserModalOpen}
+          bg="secondary.500"
+          fontStyle={'subhead-1'}
+          color="white"
+          height="56px"
+          width="300px"
+          _hover={{
+            background: 'secondary.400',
+          }}
+          leftIcon={<BiShareAlt />}
+        >
+          Share private link
+        </Button>
+      )}
 
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
@@ -123,6 +147,10 @@ const SignForm = ({
         onConfirm={onSignatureConfirm}
         postTitle={post?.title ?? ''}
         useFullname={post?.status === PostStatus.Draft}
+      />
+      <EndorserModal
+        isOpen={isEndorserModalOpen}
+        onClose={onEndorserModalClose}
       />
     </>
   )
