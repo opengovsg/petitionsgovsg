@@ -79,7 +79,7 @@ export const SignatureModal = ({
           I want to sign this petition using my full name.
         </FormLabel>
         <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
-          Your full name will be visible as a signer of this petition.
+          Your full name will be visible as a signatory of this petition.
         </FormLabel>
       </VStack>
       <Flex ms="auto">
