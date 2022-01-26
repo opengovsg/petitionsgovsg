@@ -118,7 +118,7 @@ export const SignatureModal = ({
             <Divider mb="6" />
             <Flex mb="12px">
               <Text textStyle="subhead-1" pr="8px" color="secondary.700">
-                Add a reason why you’re signing this petition
+                Add a reason why you're signing this petition
               </Text>
               <Text textStyle="body-2" color="neutral.700">
                 (optional)
