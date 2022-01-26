@@ -43,9 +43,9 @@ export const PreviewBanner = ({
           {isPetitionOwner ? (
             <Text w="860px">
               Share your private link with 3 people to get them to back your
-              petition as Endorsers. A petition can be edited until it has at
-              least one endorser, so it helps to have a final draft ready before
-              you share the link.
+              petition as Endorsers. A petition can't be edited once it has at
+              least one endorser, so make sure your draft is final before you
+              share it.
             </Text>
           ) : (
             <Text>
