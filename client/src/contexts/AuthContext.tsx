@@ -1,14 +1,12 @@
 import { AxiosError } from 'axios'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useMutation, UseMutationResult } from 'react-query'
 import { ApiClient, getApiErrorMessage } from '../api'
-import * as AuthService from '../services/AuthService'
 import { LoadPublicUserDto } from '~shared/types/api'
 import { useStyledToast } from '../components/StyledToast/StyledToast'
+import { useLocation } from 'react-router-dom'
 
 interface AuthContextProps {
   user: LoadPublicUserDto
-  verifyOtp: UseMutationResult<void, unknown, { email: string; otp: string }>
   isLoading: boolean
   logout: () => void
 }
@@ -29,6 +27,8 @@ export const AuthProvider = ({
   const [isLoading, setLoading] = useState<boolean>(true)
   const toast = useStyledToast()
   const [user, setUser] = useState<LoadPublicUserDto>(null)
+  const { pathname } = useLocation()
+
   const whoami = () => {
     setLoading(true)
     ApiClient.get<LoadPublicUserDto>('/auth')
@@ -40,18 +40,13 @@ export const AuthProvider = ({
       })
       .catch((reason: AxiosError) => {
         setLoading(false)
+        setUser(null)
         // Catch 401 which signals an unauthorized user, which is not an issue
         if (!(reason.response?.status === 401)) {
           throw reason
         }
       })
   }
-
-  const verifyOtp = useMutation(AuthService.verifyOtp, {
-    onSuccess: () => {
-      whoami()
-    },
-  })
 
   const logout = () => {
     ApiClient.post('/auth/logout')
@@ -68,7 +63,6 @@ export const AuthProvider = ({
 
   const auth = {
     user,
-    verifyOtp,
     isLoading,
     logout,
   }
@@ -77,7 +71,7 @@ export const AuthProvider = ({
     whoami()
   }
 
-  useEffect(initialize, [])
+  useEffect(initialize, [pathname])
 
   return <authContext.Provider value={auth}>{children}</authContext.Provider>
 }

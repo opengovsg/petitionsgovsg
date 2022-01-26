@@ -7,6 +7,7 @@ import { Message } from '../../types/message-type'
 import { Signature } from '~shared/types/base'
 import { PostService } from '../post/post.service'
 import { hashData } from '../../util/hash'
+import { decodeUserJWT } from '../../util/jwt'
 
 const logger = createLogger(module)
 
@@ -78,15 +79,9 @@ export class SignatureController {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: errors.array()[0].msg })
     }
-    if (!req.user) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'User not signed in' })
-    }
-
-    // const user = await this.userService.loadFullUser(req.user.id)
+    const { id, fullname } = decodeUserJWT(req)
     const post = await this.postService.getSinglePost(Number(req.params.id))
-    const hashedUserSgid = await hashData(req.user.id, post.salt)
+    const hashedUserSgid = await hashData(id, post.salt)
     const signed = await this.signatureService.checkUserHasSigned(
       Number(req.params.id),
       hashedUserSgid,
@@ -101,7 +96,7 @@ export class SignatureController {
       // Save Signature in the database
       let name: string | null = null
       if (req.body.useName) {
-        name = req.user.fullname
+        name = fullname
       }
       const data = await this.signatureService.createSignature({
         comment: req.body.comment,
@@ -121,7 +116,7 @@ export class SignatureController {
         message: 'Error while adding new signature',
         meta: {
           function: 'addSignature',
-          userId: req.user.id,
+          userId: id,
           postId: req.params.id,
         },
         error,
@@ -166,13 +161,9 @@ export class SignatureController {
     Signature | Message | null
   > = async (req, res) => {
     try {
-      if (!req.user) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: 'User not signed in' })
-      }
+      const { id: userId } = decodeUserJWT(req)
       const post = await this.postService.getSinglePost(Number(req.params.id))
-      const hashedUserSgid = await hashData(req.user.id, post.salt)
+      const hashedUserSgid = await hashData(userId, post.salt)
       const signature = await this.signatureService.checkUserHasSigned(
         Number(req.params.id),
         hashedUserSgid,

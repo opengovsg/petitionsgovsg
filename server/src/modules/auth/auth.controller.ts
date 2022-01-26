@@ -1,10 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { isEmpty } from 'lodash'
-import passport from 'passport'
-import {
-  callbackRedirectUnauthorisedURL,
-  callbackRedirectURL,
-} from '../../bootstrap/config/auth'
+import { callbackRedirectURL } from '../../bootstrap/config/auth'
 import { Message } from 'src/types/message-type'
 import {
   ErrorDto,
@@ -17,8 +12,18 @@ import { ControllerHandler } from '../../types/response-handler'
 import { AuthService } from '../auth/auth.service'
 import { PostService } from '../post/post.service'
 import { hashData } from '../../util/hash'
+import SgidClient from '@opengovsg/sgid-client'
+import { decodeUserJWT, encodeUserJWT } from '../../util/jwt'
 
 const logger = createLogger(module)
+const privateKeyPem = (process.env.SGID_PRIV_KEY ?? '').replace(/\\n/g, '\n')
+const client = new SgidClient({
+  endpoint: `${process.env.SGID_ENDPOINT}`,
+  clientId: process.env.SGID_CLIENT_ID ?? 'petitionsgov',
+  clientSecret: process.env.SGID_CLIENT_SECRET ?? '',
+  redirectUri: process.env.SGID_REDIRECT_URI ?? 'http://localhost:3000',
+  privateKey: privateKeyPem,
+})
 
 export class AuthController {
   private authService: Public<AuthService>
@@ -45,38 +50,30 @@ export class AuthController {
     req,
     res,
   ) => {
-    const id = req.user?.id
-    const type = req.user?.type
-    const fullname = req.user?.fullname ?? ''
+    const { id, fullname } = decodeUserJWT(req)
 
     if (!id) {
       logger.error({
         message: 'User not found after being authenticated',
         meta: {
           function: 'loadUser',
-          userId: req.user?.id,
+          userId: id,
         },
       })
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
     }
 
-    if (type === UserAuthType.Public) {
-      try {
-        return res.status(StatusCodes.OK).json({ id: id, fullname: fullname })
-      } catch (error) {
-        logger.error({
-          message: 'Database Error while loading public user',
-          meta: {
-            function: 'loadUser',
-            userId: req.user?.id,
-          },
-          error,
-        })
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
-      }
-    }
-
-    if (type === UserAuthType.Public) {
+    try {
+      return res.status(StatusCodes.OK).json({ id, fullname })
+    } catch (error) {
+      logger.error({
+        message: 'Database Error while loading public user',
+        meta: {
+          function: 'loadUser',
+          userId: id,
+        },
+        error,
+      })
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
     }
   }
@@ -86,35 +83,17 @@ export class AuthController {
    * @returns 200 if logged out
    */
   handleLogout: ControllerHandler = (req, res) => {
-    if (!req.session || isEmpty(req.session)) {
+    if (!req.cookies.jwt) {
       logger.error({
-        message: 'Attempted to sign out without a session',
+        message: 'Attempted to sign out without a token',
         meta: {
           function: 'handleLogout',
         },
       })
       return res.sendStatus(StatusCodes.BAD_REQUEST)
     }
-
-    req.session.destroy((error) => {
-      if (error) {
-        logger.error({
-          message: 'Failed to destroy session',
-          meta: {
-            action: 'handleLogout',
-            function: 'handleLogout',
-          },
-          error,
-        })
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Sign out failed' })
-      }
-
-      // No error.
-      res.clearCookie('connect.sid')
-      return res.status(StatusCodes.OK).json({ message: 'Sign out successful' })
-    })
+    res.clearCookie('jwt')
+    return res.status(StatusCodes.OK).json({ message: 'Sign out successful' })
   }
 
   handleSgidLogin: ControllerHandler<
@@ -122,14 +101,12 @@ export class AuthController {
     undefined,
     undefined,
     { redirect: string }
-  > = async (req, res, next) => {
+  > = async (req, res) => {
     const { redirect } = req.query
+    const scopes = 'openid myinfo.name'
     // store redirect to post in state
-    if (redirect) {
-      passport.authenticate('sgid', { state: redirect })(req, res, next)
-    } else {
-      passport.authenticate('sgid')(req, res, next)
-    }
+    const { url: authUrl } = client.authorizationUrl(redirect, scopes)
+    return res.redirect(authUrl)
   }
   /**
    * Verify otp received by the user
@@ -144,75 +121,22 @@ export class AuthController {
     undefined,
     undefined,
     { code: string; state: string | undefined }
-  > = async (req, res, next) => {
-    const { state } = req.query
-    passport.authenticate('sgid', {}, (error, user, info: Message) => {
-      if (error) {
-        logger.error({
-          message: 'Error while authenticating',
-          meta: {
-            function: 'handleSgidCallback',
-          },
-          error,
-        })
-        return res.redirect(callbackRedirectUnauthorisedURL)
-      }
-      if (!user) {
-        logger.warn({
-          message: info.message,
-          meta: {
-            function: 'handleSgidCallback',
-          },
-        })
-        res.redirect(callbackRedirectUnauthorisedURL)
-      }
-      req.logIn(user, (error) => {
-        if (error) {
-          logger.error({
-            message: 'Error while logging in',
-            meta: {
-              function: 'handleSgidCallback',
-            },
-            error,
-          })
-          return res.redirect(callbackRedirectUnauthorisedURL)
-        }
-        //
-        /**
-         * Regenerate session to mitigate session fixation
-         * We regenerate the session upon logging in so an
-         * anonymous session cookie cannot be used
-         */
-        const passportSession = req.session.passport
-        req.session.regenerate(function (error) {
-          if (error) {
-            logger.error({
-              message: 'Error while regenerating session',
-              meta: {
-                function: 'handleSgidCallback',
-              },
-              error,
-            })
-            return res.redirect(callbackRedirectUnauthorisedURL)
-          }
-          //req.session.passport is now undefined
-          req.session.passport = passportSession
-          req.session.save(function (error) {
-            if (error) {
-              logger.error({
-                message: 'Error while saving regenerated session',
-                meta: {
-                  function: 'handleSgidCallback',
-                },
-                error,
-              })
-              return res.redirect(callbackRedirectUnauthorisedURL)
-            }
-            return res.redirect(callbackRedirectURL(state))
-          })
-        })
-      })
-    })(req, res, next)
+  > = async (req, res) => {
+    const { state, code } = req.query
+    const { sub, accessToken } = await client.callback(code, undefined)
+    const { data } = await client.userinfo(accessToken)
+    const claims = {
+      id: sub,
+      type: UserAuthType.Public,
+      fullname: data['myinfo.name'],
+    }
+    const token = encodeUserJWT(claims)
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 1000,
+    })
+    return res.redirect(callbackRedirectURL(state))
   }
 
   /**
@@ -225,32 +149,18 @@ export class AuthController {
     req,
     res,
   ) => {
-    const fullname = req.user?.fullname
-
+    const { id, fullname } = decodeUserJWT(req)
     if (!fullname) {
       logger.error({
         message: 'User name not found after being authenticated',
         meta: {
           function: 'loadUserName',
-          userId: req.user?.id,
+          userId: id,
         },
       })
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
     }
-
-    try {
-      return res.status(StatusCodes.OK).json({ fullname: fullname })
-    } catch (error) {
-      logger.error({
-        message: 'Database Error while loading public user',
-        meta: {
-          function: 'loadUserName',
-          userId: req.user?.id,
-        },
-        error,
-      })
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
-    }
+    return res.status(StatusCodes.OK).json({ fullname: fullname })
   }
 
   /**
@@ -263,13 +173,9 @@ export class AuthController {
     boolean | Message | null
   > = async (req, res) => {
     try {
-      if (!req.user) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: 'User not signed in' })
-      }
+      const { id } = decodeUserJWT(req)
       const post = await this.postService.getSinglePost(Number(req.params.id))
-      const hashedUserSgid = await hashData(req.user.id, post.salt)
+      const hashedUserSgid = await hashData(id, post.salt)
       const petitionOwnerCheck = await this.authService.verifyPetitionOwner(
         post,
         hashedUserSgid,

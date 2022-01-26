@@ -20,11 +20,10 @@ import { api } from '../routes'
 import { baseConfig, Environment } from './config/base'
 import { helmetOptions } from './helmet-options'
 import { requestLoggingMiddleware } from './logging/request-logging'
-import { passportConfig } from './passport'
 import { Addressee, Post, sequelize, Signature } from './sequelize'
-import sessionMiddleware from './session'
 import { bannerConfig } from './config/banner'
 import { googleAnalyticsConfig } from './config/googleAnalytics'
+import cookieParser from 'cookie-parser'
 
 export { sequelize } from './sequelize'
 export const app = express()
@@ -46,10 +45,13 @@ app.use(helmet(helmetOptions))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-// passport and session
-app.set('trust proxy', 1) // trust first proxy
-app.use(sessionMiddleware(sequelize))
-passportConfig(app)
+// // passport and session
+// app.set('trust proxy', 1) // trust first proxy
+// app.use(sessionMiddleware(sequelize))
+// passportConfig(app)
+
+// cookie-parser
+app.use(cookieParser())
 
 // all the api routes
 const bannerMessage = bannerConfig.siteWideMessage
