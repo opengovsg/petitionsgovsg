@@ -42,9 +42,10 @@ export const PreviewBanner = ({
           <Icon as={BiInfoCircle} />
           {isPetitionOwner ? (
             <Text w="860px">
-              Get 3 people to formally back your petition as endorsers, using
-              your private petition link. A petition can be edited until it has
-              at least one endorser, so it helps to have a final draft ready.
+              Share your private link with 3 people to get them to back your
+              petition as Endorsers. A petition can be edited until it has at
+              least one endorser, so it helps to have a final draft ready before
+              you share the link.
             </Text>
           ) : (
             <Text>
@@ -73,7 +74,7 @@ export const PreviewBanner = ({
                 _hover={{ bg: 'primary.100' }}
                 onClick={onClick}
               >
-                Get private link
+                Share private link
               </Button>
             </ButtonGroup>
           </Box>

@@ -40,7 +40,7 @@ const Footer = (): JSX.Element => {
           spacing={{ base: '4px', md: '16px' }}
         >
           <Text textStyle="h4">Petitions</Text>
-          <Text>digital petitions recognised by the government</Text>
+          <Text>Where citizens push for change that matters</Text>
         </Stack>
         <Stack
           direction={{ base: 'column', md: 'row' }}

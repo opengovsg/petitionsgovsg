@@ -43,6 +43,7 @@ export const SignatureModal = ({
   const [count, setCount] = useState(MAX_CHAR_COUNT)
   const styles = useMultiStyleConfig('SignForm', {})
   const { register, handleSubmit, reset } = useForm<FormValues>()
+  const [showDisclaimer, toggleShowDisclaimer] = useState(false)
   const onSubmit: SubmitHandler<CreateSignatureReqDto> = async ({
     comment,
     useName,
@@ -78,15 +79,24 @@ export const SignatureModal = ({
         <FormLabel mb="0">
           I want to sign this petition using my full name.
         </FormLabel>
-        <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
-          Your full name will be visible as a signer of this petition.
-        </FormLabel>
+        {showDisclaimer ? (
+          <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
+            Your full name will be visible as a signatory of this petition
+          </FormLabel>
+        ) : (
+          <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
+            You will be an anonymous signer of this petition
+          </FormLabel>
+        )}
       </VStack>
       <Flex ms="auto">
         <Switch
           alignSelf="flex-end"
           colorScheme="green"
           {...register('useName', {})}
+          onChange={() => {
+            toggleShowDisclaimer(!showDisclaimer)
+          }}
         />
       </Flex>
     </FormControl>
@@ -108,7 +118,7 @@ export const SignatureModal = ({
             <Divider mb="6" />
             <Flex mb="12px">
               <Text textStyle="subhead-1" pr="8px" color="secondary.700">
-                Add a reason why you’re signing this petition
+                Add a reason why you're signing this petition
               </Text>
               <Text textStyle="body-2" color="neutral.700">
                 (optional)

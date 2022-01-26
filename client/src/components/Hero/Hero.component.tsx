@@ -16,7 +16,7 @@ const Hero = (): JSX.Element => {
           </Box>
           <Box>
             <Text sx={styles.caption}>
-              Transparent • Legitimate • Efficient • Civil
+              Transparent • Trustworthy • Impactful
             </Text>
           </Box>
           <Box mt="40px">

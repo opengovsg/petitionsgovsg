@@ -18,7 +18,7 @@ const Profile = (): JSX.Element => {
     <Box>
       <Text sx={styles.heading}>Explain the problem you want to solve</Text>
       <Text sx={styles.headingCaption}>
-        People are more likely to support your petition if it’s clear why you
+        People are more likely to support your petition if it's clear why you
         care. Explain how this change will impact you, your family, or your
         community.
       </Text>
@@ -47,10 +47,7 @@ const Profile = (): JSX.Element => {
       <InfoBox>
         <Box>
           <Text>Describe the solution</Text>
-          <Text>
-            Explain what needs to happen and who can make the change. Make it
-            clear what happens if you win or lose.
-          </Text>
+          <Text>Explain what needs to happen and who can make the change.</Text>
         </Box>
       </InfoBox>
       <Box sx={styles.formFieldBox}>
@@ -94,7 +91,7 @@ const Profile = (): JSX.Element => {
               <Text sx={styles.optional}>(optional)</Text>
             </Flex>
             <Text>
-              Give a summary of your petition – this will appear at the top of
+              Give a summary of your petition - this will appear at the top of
               your petition page
             </Text>
           </Box>
