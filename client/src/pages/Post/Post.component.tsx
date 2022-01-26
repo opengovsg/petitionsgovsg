@@ -10,7 +10,7 @@ import {
 import { useMultiStyleConfig } from '@chakra-ui/system'
 import { format, utcToZonedTime } from 'date-fns-tz'
 import { useQuery } from 'react-query'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
 import PageTitle from '../../components/PageTitle/PageTitle.component'
 import Spinner from '../../components/Spinner/Spinner.component'
@@ -32,7 +32,7 @@ import SignForm from '../../components/SignForm/SignForm.component'
 import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
 import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
 import { Button, useDisclosure } from '@chakra-ui/react'
-import { BiShareAlt } from 'react-icons/bi'
+import { BiEditAlt, BiShareAlt } from 'react-icons/bi'
 import {
   SubscriptionModal,
   SubscriptionFormValues,
@@ -59,6 +59,7 @@ const Post = (): JSX.Element => {
   const status = post?.status
   const styles = useMultiStyleConfig('Post', { status })
   const location = useLocation()
+  const navigate = useNavigate()
 
   // If user is signed in, don't need to resign in through SP app
   const { user, isLoading: isUserLoading } = useAuth()
@@ -121,6 +122,7 @@ const Post = (): JSX.Element => {
       </>
     )
   }
+
   const isLoading =
     isPostLoading ||
     isSignatureLoading ||
@@ -250,22 +252,42 @@ const Post = (): JSX.Element => {
                 </Link>
               </Text>
             )}
-            <Center py="8px">
-              <Button
-                onClick={onClick}
-                fontStyle={'subhead-1'}
-                color="secondary.500"
-                height="56px"
-                width="300px"
-                borderRadius="4px"
-                borderColor="secondary.500"
-                variant="outline"
-                leftIcon={<BiShareAlt />}
-                disabled={post?.status === PostStatus.Draft}
-              >
-                Share this petition
-              </Button>
-            </Center>
+            {post?.status !== PostStatus.Draft && !isPetitionOwner && (
+              <Center py="8px">
+                <Button
+                  onClick={onClick}
+                  fontStyle={'subhead-1'}
+                  color="secondary.500"
+                  height="56px"
+                  width="300px"
+                  borderRadius="4px"
+                  borderColor="secondary.500"
+                  variant="outline"
+                  leftIcon={<BiShareAlt />}
+                >
+                  Share this petition
+                </Button>
+              </Center>
+            )}
+            {post?.status === PostStatus.Draft && isPetitionOwner && (
+              <Center py="8px">
+                <Button
+                  onClick={() => navigate(`${location.pathname}/edit`)}
+                  fontStyle={'subhead-1'}
+                  color="secondary.500"
+                  height="56px"
+                  width="300px"
+                  borderRadius="4px"
+                  borderColor="secondary.500"
+                  variant="outline"
+                  leftIcon={<BiEditAlt />}
+                  disabled={post.signatureCount > 0}
+                >
+                  Edit your petition
+                </Button>
+              </Center>
+            )}
+
             <SubscriptionModal
               isOpen={isSubscriptionModalOpen}
               onClose={onSubscriptionModalClose}

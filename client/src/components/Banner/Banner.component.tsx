@@ -15,6 +15,9 @@ export const Banner = ({
       justifyContent="center"
       alignItems="center"
       className="banner"
+      position="sticky"
+      zIndex="999"
+      top={{ base: '108px', lg: '96px' }}
     >
       <Box width="80%" pl="32px" pr="48px">
         {children}
