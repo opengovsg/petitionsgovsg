@@ -47,10 +47,7 @@ const Profile = (): JSX.Element => {
       <InfoBox>
         <Box>
           <Text>Describe the solution</Text>
-          <Text>
-            Explain what needs to happen and who can make the change. Make it
-            clear what happens if you win or lose.
-          </Text>
+          <Text>Explain what needs to happen and who can make the change.</Text>
         </Box>
       </InfoBox>
       <Box sx={styles.formFieldBox}>
