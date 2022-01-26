@@ -26,7 +26,7 @@ const Profile = (): JSX.Element => {
         <FormControl sx={styles.formControl}>
           <Box sx={styles.formLabelBox}>
             <FormLabel sx={styles.formLabel}>
-              What would you like us to do?
+              What would you like the government to do?
             </FormLabel>
           </Box>
           <Controller
