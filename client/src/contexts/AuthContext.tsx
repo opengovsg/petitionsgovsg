@@ -29,7 +29,6 @@ export const AuthProvider = ({
   const [isLoading, setLoading] = useState<boolean>(true)
   const toast = useStyledToast()
   const [user, setUser] = useState<LoadPublicUserDto>(null)
-
   const whoami = () => {
     setLoading(true)
     ApiClient.get<LoadPublicUserDto>('/auth')
