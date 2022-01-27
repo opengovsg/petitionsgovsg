@@ -7,12 +7,12 @@ import {
   SubscriptionModal,
   SubscriptionFormValues,
 } from '../SubscriptionModal/SubscriptionModal.component'
+import { PreSignModal } from '../../components/PreSignModal/PreSignModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
-import { BiLockAlt, BiPen, BiShareAlt } from 'react-icons/bi'
 import { PostStatus } from '~shared/types/base'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
-import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
+import { BiLockAlt, BiPen } from 'react-icons/bi'
 
 type FormValues = CreateSignatureReqDto
 const refreshPage = async () => window.location.reload()
@@ -20,16 +20,25 @@ const refreshPage = async () => window.location.reload()
 const SignForm = ({
   post,
   postId,
-  isPetitionOwner,
 }: {
   post: GetSinglePostDto | undefined
   postId: string | undefined
-  isPetitionOwner: boolean
 }): JSX.Element => {
   const toast = useStyledToast()
 
   const [searchParams] = useSearchParams()
   const openSignatureModal = searchParams.has('sign')
+
+  // Init PreSignModal
+  const {
+    onOpen: onPreSignModalOpen,
+    onClose: onPreSignModalClose,
+    isOpen: isPreSignModalOpen,
+  } = useDisclosure()
+
+  const onPreSignModalClick = async () => {
+    onPreSignModalOpen()
+  }
 
   // Init Signature Modal
   const {
@@ -37,6 +46,7 @@ const SignForm = ({
     onClose: onSignatureModalClose,
     isOpen: isSignatureModalOpen,
   } = useDisclosure()
+
   const onSignatureConfirm: SubmitHandler<FormValues> = async ({
     comment,
     useName,
@@ -52,6 +62,7 @@ const SignForm = ({
     onSubscriptionModalOpen()
   }
   const onClick = async () => {
+    onPreSignModalClose()
     onSignatureModalOpen()
   }
 
@@ -70,13 +81,6 @@ const SignForm = ({
     refreshPage()
   }
 
-  // Init Endorser Modal
-  const {
-    onOpen: onEndorserModalOpen,
-    onClose: onEndorserModalClose,
-    isOpen: isEndorserModalOpen,
-  } = useDisclosure()
-
   useEffect(() => {
     if (openSignatureModal) {
       onSignatureModalOpen()
@@ -85,56 +89,22 @@ const SignForm = ({
 
   return (
     <>
-      {post?.status === PostStatus.Open && (
-        <Button
-          onClick={onClick}
-          bg="secondary.500"
-          fontStyle={'subhead-1'}
-          color="white"
-          height="56px"
-          width="300px"
-          _hover={{
-            background: 'secondary.400',
-          }}
-          disabled={isPetitionOwner}
-          leftIcon={<BiLockAlt />}
-        >
-          Sign this petition
-        </Button>
-      )}
-      {post?.status === PostStatus.Draft && !isPetitionOwner && (
-        <Button
-          onClick={onClick}
-          bg="secondary.500"
-          fontStyle={'subhead-1'}
-          color="white"
-          height="56px"
-          width="300px"
-          _hover={{
-            background: 'secondary.400',
-          }}
-          disabled={isPetitionOwner}
-          leftIcon={<BiPen />}
-        >
-          Endorse this petition
-        </Button>
-      )}
-      {post?.status === PostStatus.Draft && isPetitionOwner && (
-        <Button
-          onClick={onEndorserModalOpen}
-          bg="secondary.500"
-          fontStyle={'subhead-1'}
-          color="white"
-          height="56px"
-          width="300px"
-          _hover={{
-            background: 'secondary.400',
-          }}
-          leftIcon={<BiShareAlt />}
-        >
-          Share private link
-        </Button>
-      )}
+      <Button
+        backgroundColor="secondary.500"
+        _hover={{
+          background: 'secondary.400',
+        }}
+        w="300px"
+        h="56px"
+        borderRadius="4px"
+        color="white"
+        onClick={onPreSignModalClick}
+        leftIcon={post?.status === PostStatus.Draft ? <BiPen /> : <BiLockAlt />}
+      >
+        {post?.status === PostStatus.Draft
+          ? `Endorse this petition`
+          : `Sign this petition`}
+      </Button>
 
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
@@ -148,9 +118,14 @@ const SignForm = ({
         postTitle={post?.title ?? ''}
         useFullname={post?.status === PostStatus.Draft}
       />
-      <EndorserModal
-        isOpen={isEndorserModalOpen}
-        onClose={onEndorserModalClose}
+      <PreSignModal
+        isOpen={isPreSignModalOpen}
+        onClose={onPreSignModalClose}
+        onNext={onClick}
+        isEndorser={post?.status === PostStatus.Draft}
+        petitionOwner={post?.fullname || ''}
+        post={post}
+        postId={postId}
       />
     </>
   )

@@ -24,6 +24,7 @@ import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Link as RouterLink } from 'react-router-dom'
 import { BiLinkExternal } from 'react-icons/bi'
+import { useAuth } from '../../contexts/AuthContext'
 
 const MAX_CHAR_COUNT = 200
 type FormValues = CreateSignatureReqDto
@@ -52,6 +53,8 @@ export const SignatureModal = ({
     reset()
   }
 
+  const { user } = useAuth()
+
   const signatureComponent = (
     <>
       <Textarea
@@ -73,20 +76,28 @@ export const SignatureModal = ({
       </Text>
     </>
   )
+
   const useNameComponent = (
     <FormControl display="flex" alignItems="center">
       <VStack alignItems="flex-start" spacing="0" py="4px">
-        <FormLabel mb="0">
-          I want to sign this petition using my full name.
-        </FormLabel>
         {showDisclaimer ? (
-          <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
-            Your full name will be visible as a signatory of this petition
-          </FormLabel>
+          <Box>
+            <FormLabel mb="0">
+              I want to sign this petition using my full name, {user?.fullname}
+            </FormLabel>
+            <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
+              Your full name will be visible as a signatory of this petition
+            </FormLabel>
+          </Box>
         ) : (
-          <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
-            You will be an anonymous signer of this petition
-          </FormLabel>
+          <Box>
+            <FormLabel mb="0">
+              I want to sign this petition using my full name.
+            </FormLabel>
+            <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
+              You will be an anonymous signer of this petition
+            </FormLabel>
+          </Box>
         )}
       </VStack>
       <Flex ms="auto">
@@ -100,6 +111,15 @@ export const SignatureModal = ({
         />
       </Flex>
     </FormControl>
+  )
+
+  const endorserNameComponent = (
+    <Box>
+      <Text>
+        Your full name, {user?.fullname}, will be visible as an endorser of this
+        petition
+      </Text>
+    </Box>
   )
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -125,24 +145,26 @@ export const SignatureModal = ({
               </Text>
             </Flex>
             {signatureComponent}
-            {!useFullname && useNameComponent}
-            <RouterLink to="/anonymity">
-              <Flex alignItems="center" mt="20px">
-                <Text
-                  _hover={{
-                    color: 'primary.600',
-                  }}
-                  color="primary.500"
-                  as="u"
-                  mr="8px"
-                >
-                  Read more about how we ensure anonymity
-                </Text>
-                <Box color="primary.500">
-                  <BiLinkExternal />
-                </Box>
-              </Flex>
-            </RouterLink>
+            {useFullname ? endorserNameComponent : useNameComponent}
+            {!useFullname && (
+              <RouterLink to="/anonymity">
+                <Flex alignItems="center" mt="20px">
+                  <Text
+                    _hover={{
+                      color: 'primary.600',
+                    }}
+                    color="primary.500"
+                    as="u"
+                    mr="8px"
+                  >
+                    Read more about how we ensure anonymity
+                  </Text>
+                  <Box color="primary.500">
+                    <BiLinkExternal />
+                  </Box>
+                </Flex>
+              </RouterLink>
+            )}
           </ModalBody>
           <ModalFooter>
             <Button

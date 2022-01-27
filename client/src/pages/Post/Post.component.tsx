@@ -24,11 +24,6 @@ import {
 } from '../../services/SignatureService'
 import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
-import {
-  SgidButtonWithLock,
-  SgidButtonWithPen,
-} from '../../components/SgidButton/SgidButton.component'
-import SignForm from '../../components/SignForm/SignForm.component'
 import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
 import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
 import { Button, useDisclosure } from '@chakra-ui/react'
@@ -46,6 +41,8 @@ import {
   VERIFY_PETITION_OWNER,
 } from '../../services/AuthService'
 import { GetSinglePostDto } from '../../api'
+import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
+import SignForm from '../../components/SignForm/SignForm.component'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -98,6 +95,13 @@ const Post = (): JSX.Element => {
   const onClick = async () => {
     onSubscriptionModalOpen()
   }
+
+  // Init Endorser Modal
+  const {
+    onOpen: onEndorserModalOpen,
+    onClose: onEndorserModalClose,
+    isOpen: isEndorserModalOpen,
+  } = useDisclosure()
 
   const showRecentActivity = (post: GetSinglePostDto | undefined) => {
     // Clone signatures into a new array
@@ -196,49 +200,31 @@ const Post = (): JSX.Element => {
                 have signed this petition
               </Text>
             </Box>
-            {post?.status === PostStatus.Draft && (
-              <Center py="8px">
-                {!user && (
-                  <SgidButtonWithPen
-                    text="Endorse this petition"
-                    redirect={`${location.pathname}?sign`}
-                  />
-                )}
-                {user && !userSignature && (
-                  <SignForm
-                    post={post}
-                    postId={postId}
-                    isPetitionOwner={Boolean(isPetitionOwner)}
-                  />
-                )}
-                {user && userSignature && (
-                  <Center sx={styles.signed}>
-                    You have signed this petition.
-                  </Center>
-                )}
-              </Center>
+            {((post?.status === PostStatus.Draft &&
+              !userSignature &&
+              !isPetitionOwner) ||
+              (post?.status === PostStatus.Open && !userSignature)) && (
+              <SignForm post={post} postId={postId} />
             )}
-            {post?.status === PostStatus.Open && (
-              <Center py="8px">
-                {!user && (
-                  <SgidButtonWithLock
-                    text="Sign this petition"
-                    redirect={`${location.pathname}?sign`}
-                  />
-                )}
-                {user && !userSignature && (
-                  <SignForm
-                    post={post}
-                    postId={postId}
-                    isPetitionOwner={Boolean(isPetitionOwner)}
-                  />
-                )}
-                {user && userSignature && (
-                  <Center sx={styles.signed}>
-                    You have signed this petition.
-                  </Center>
-                )}
-              </Center>
+
+            {post?.status === PostStatus.Draft && isPetitionOwner && (
+              <Button
+                onClick={onEndorserModalOpen}
+                bg="secondary.500"
+                fontStyle={'subhead-1'}
+                color="white"
+                height="56px"
+                width="300px"
+                _hover={{
+                  background: 'secondary.400',
+                }}
+                leftIcon={<BiShareAlt />}
+              >
+                Share private link
+              </Button>
+            )}
+            {user && userSignature && (
+              <Center sx={styles.signed}>You have signed this petition.</Center>
             )}
             {!userSignature && (
               <Text sx={styles.caption}>
@@ -294,6 +280,10 @@ const Post = (): JSX.Element => {
               onConfirm={onSubscriptionConfim}
             />
             {showRecentActivity(post)}
+            <EndorserModal
+              isOpen={isEndorserModalOpen}
+              onClose={onEndorserModalClose}
+            />
           </Stack>
         </Stack>
       </Center>
