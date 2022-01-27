@@ -5,14 +5,26 @@ import { ReactComponent as StepThree } from '../../assets/how-step-3.svg'
 import { ReactComponent as StepFour } from '../../assets/how-step-4.svg'
 import { ReactComponent as StepFive } from '../../assets/how-step-5.svg'
 
-const HowItWorksBanner = (): JSX.Element => {
+interface HowItWorksBannerProps {
+  isMaxThreeInGrid?: boolean
+  // pageSize: number
+  // footerControl?: JSX.Element
+}
+
+const HowItWorksBanner = ({
+  isMaxThreeInGrid,
+}: HowItWorksBannerProps): JSX.Element => {
   return (
     <SimpleGrid
-      templateColumns={{
-        base: '1fr',
-        md: 'repeat(3,1fr)',
-        lg: 'repeat(5,1fr)',
-      }}
+      templateColumns={
+        isMaxThreeInGrid
+          ? 'repeat(3,1fr)'
+          : {
+              base: '1fr',
+              md: 'repeat(3,1fr)',
+              lg: 'repeat(5,1fr)',
+            }
+      }
       spacing="35px"
     >
       <GridItem maxW={{ sm: '100%', md: '176px' }}>
