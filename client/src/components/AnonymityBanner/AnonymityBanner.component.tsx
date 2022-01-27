@@ -7,8 +7,6 @@ export const AnonymityBanner = (): JSX.Element => {
 
   return (
     <Box
-      h="492px"
-      minH="64px"
       color="primary.100"
       background="secondary.700"
       display="flex"
@@ -17,7 +15,7 @@ export const AnonymityBanner = (): JSX.Element => {
       className="banner"
       top={{ base: '108px', lg: '96px' }}
     >
-      <Box width="70%" justifyContent="center">
+      <Box width="70%" justifyContent="center" my="72px">
         <VStack>
           <Anonymity />
           <Text textStyle="display-2" pt="32px">
