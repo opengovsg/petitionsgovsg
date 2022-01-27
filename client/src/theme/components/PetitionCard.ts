@@ -4,8 +4,8 @@ export const PetitionCard: ComponentMultiStyleConfig = {
   parts: ['petitionCardItems'],
   baseStyle: ({ status }) => ({
     card: {
-      height: '384px',
-      width: '400px',
+      height: { base: '500px', md: '384px' },
+      width: { base: '310px', md: '400px' },
       borderRadius: '16px',
       shadow: 'md',
       px: '32px',
@@ -23,11 +23,15 @@ export const PetitionCard: ComponentMultiStyleConfig = {
       textStyle: 'body-1',
       color: 'secondary.500',
       mb: '16px',
+      noOfLines: { base: 3, md: 2 },
     },
     creator: {
       textStyle: 'subhead-2',
       color: 'secondary.500',
       mb: '20px',
+    },
+    topcard: {
+      minH: { base: '290px', md: '240px' },
     },
     badge: {
       bg: status === 'CLOSED' ? 'success.200' : 'primary.200',
@@ -52,6 +56,8 @@ export const PetitionCard: ComponentMultiStyleConfig = {
       height: '44px',
       border: '1px',
       bg: 'white',
+      mt: { xs: '16px', md: '0px' },
+      mb: '16px',
       borderColor: 'secondary.700',
     },
     duration: {

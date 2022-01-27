@@ -74,8 +74,6 @@ const SgidButtonWithPen = ({
 const SgidButtonWithArrow = ({
   text,
   redirect,
-  width = '300px',
-  height = '56px',
 }: {
   text: string
   redirect: string
@@ -91,8 +89,8 @@ const SgidButtonWithArrow = ({
         _hover={{
           background: 'secondary.400',
         }}
-        w={width}
-        h={height}
+        width={{ base: '100%', md: '176px' }}
+        height={{ base: '56px', md: '44px' }}
         borderRadius="4px"
         color="white"
         rightIcon={<BiRightArrowAlt />}
@@ -109,8 +107,8 @@ const SgidButtonWithArrow = ({
       _hover={{
         background: 'secondary.400',
       }}
-      w={width}
-      h={height}
+      width={{ base: '100%', md: '176px' }}
+      height={{ base: '56px', md: '44px' }}
       borderRadius="4px"
       color="white"
       onClick={() => onClick(redirect)}

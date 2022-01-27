@@ -83,5 +83,8 @@ export const Header: ComponentMultiStyleConfig = {
       ml: 'auto',
       d: { base: 'none', xl: 'flex' },
     },
+    mobileHeaderLink: {
+      textStyle: 'subhead-1',
+    },
   }),
 }

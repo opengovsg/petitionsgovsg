@@ -3,8 +3,8 @@ import { makeMultiStyleConfig } from './helpers'
 export const HowItWorks = makeMultiStyleConfig({
   base: {
     mx: 'auto',
-    justifyContent: 'center',
     py: '88px',
+    px: '24px',
   },
   heading: {
     textStyle: 'display-2',

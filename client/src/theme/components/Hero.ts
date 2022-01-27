@@ -7,14 +7,14 @@ export const Hero = makeMultiStyleConfig({
   },
   heading: {
     'grid-column-start': '1',
-    textStyle: 'display-1',
+    textStyle: { base: 'display-1-mobile', md: 'display-1' },
     color: 'secondary.500',
   },
   headingBox: {
-    w: '570px',
-    h: '216px',
+    w: { base: '312px', md: '570px' },
+    h: { base: undefined, md: '216px' },
     mb: '16px',
-    mt: '102px',
+    mt: { base: undefined, md: '102px' },
   },
   caption: {
     textStyle: 'body-1',
