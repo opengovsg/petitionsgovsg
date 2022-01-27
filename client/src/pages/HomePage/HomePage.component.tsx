@@ -14,6 +14,7 @@ import PageTitle from '../../components/PageTitle/PageTitle.component'
 import PetitionGridComponent from '../../components/PetitionGrid/PetitionGrid.component'
 import Hero from '../../components/Hero/Hero.component'
 import HowItWorks from '../../components/HowItWorks/HowItWorks.component'
+import { AnonymityBanner } from '../../components/AnonymityBanner/AnonymityBanner.component'
 import { useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 
@@ -31,6 +32,7 @@ const HomePage = (): JSX.Element => {
       <PageTitle title="Petitions" description="Petitions in SG" />
       <Hero />
       <HowItWorks />
+      <AnonymityBanner />
       <HStack
         id="main"
         alignItems="flex-start"
@@ -47,6 +49,7 @@ const HomePage = (): JSX.Element => {
               alignItems="center"
               justifyItems="center"
               mb="32px"
+              mt="48px"
             ></Flex>
             {/* List of Posts*/}
             <Flex justifyContent="left" width="1248px" m="auto">
