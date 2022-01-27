@@ -11,6 +11,13 @@ export const textStyles = {
     lineHeight: '72px',
     letterSpacing: '-0.022em',
   },
+  'display-1-mobile': {
+    ...baseTextStyle,
+    fontWeight: 'bold',
+    fontSize: '40px',
+    lineHeight: '48px',
+    letterSpacing: '-0.022em',
+  },
   'display-2': {
     ...baseTextStyle,
     fontWeight: 600,

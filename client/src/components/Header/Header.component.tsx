@@ -1,6 +1,5 @@
 import {
   Box,
-  Collapse,
   Flex,
   HStack,
   Image,
@@ -12,6 +11,7 @@ import {
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom'
 import { ReactComponent as Petition } from '../../assets/petitions-sg.svg'
+import { ReactComponent as PetitionMobile } from '../../assets/petitions-mobile.svg'
 import { useAuth } from '../../contexts/AuthContext'
 
 import LinkButton from '../LinkButton/LinkButton.component'
@@ -55,11 +55,9 @@ const Header = (): JSX.Element => {
 
   // Look for /questions to catch search result and post pages
   const matchQuestions = matchPath('/questions/*', location.pathname)
-  const {
-    isOpen: headerIsOpen,
-    onOpen: openHeader,
-    onClose: closeHeader,
-  } = useDisclosure({ defaultIsOpen: true })
+  const { onOpen: openHeader, onClose: closeHeader } = useDisclosure({
+    defaultIsOpen: true,
+  })
 
   const checkHeaderState = () => {
     if (window.pageYOffset > 280) closeHeader()
@@ -119,7 +117,7 @@ const Header = (): JSX.Element => {
       <Link sx={styles.logoBarRouterLink} as={RouterLink} to="/">
         <HStack>
           <Box sx={styles.logoBarPetition}>
-            <Petition />
+            {deviceType === device.mobile ? <PetitionMobile /> : <Petition />}
           </Box>
         </HStack>
       </Link>
@@ -131,17 +129,18 @@ const Header = (): JSX.Element => {
       <Masthead />
       {deviceType === device.mobile ? (
         <>
-          {!matchQuestions ? (
-            <Collapse in={headerIsOpen} animateOpacity={false}>
-              <Flex justify="space-between" sx={styles.logoBarMobile}>
-                <Logo />
-                <HStack>
-                  <RouterLink to="/about">About PetitionsSG</RouterLink>
-                  {user && <AuthLinks />}
-                </HStack>
-              </Flex>
-            </Collapse>
-          ) : null}
+          <Flex justify="space-between" sx={styles.logoBarMobile}>
+            <Logo />
+            <HStack gap="24px">
+              <RouterLink to="/about">
+                <Text sx={styles.mobileHeaderLink}>About</Text>
+              </RouterLink>
+              <RouterLink to="/anonymity">
+                <Text sx={styles.mobileHeaderLink}>Anonymity</Text>
+              </RouterLink>
+              {user && <AuthLinks />}
+            </HStack>
+          </Flex>
         </>
       ) : (
         <HStack sx={styles.logoBarTabletDesktop} justifyContent="space-between">

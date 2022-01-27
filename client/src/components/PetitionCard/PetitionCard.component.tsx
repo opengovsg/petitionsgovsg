@@ -1,5 +1,5 @@
 import {
-  HStack,
+  Flex,
   Box,
   Text,
   Badge,
@@ -39,15 +39,9 @@ const PetitionCard = ({
   return (
     <RouterLink to={`posts/${id}`}>
       <Box sx={styles.card}>
-        <Box minH="240px">
+        <Box sx={styles.topcard}>
           <Text sx={styles.title}>{title}</Text>
-          <Text sx={styles.request}>
-            {cleanedRequest
-              ? cleanedRequest.length > 50
-                ? `${cleanedRequest?.substring(0, 50)}...`
-                : cleanedRequest
-              : undefined}
-          </Text>
+          <Text sx={styles.request}>{cleanedRequest}</Text>
           <Text sx={styles.creator}>Created by {fullname}</Text>
           <Badge sx={styles.badge}>
             {status === PostStatus.Draft
@@ -56,7 +50,7 @@ const PetitionCard = ({
           </Badge>
         </Box>
         <Divider sx={styles.divider} />
-        <HStack justifyContent="space-between">
+        <Flex justifyContent="space-between" flexWrap="wrap">
           <Box>
             <Text sx={styles.signatureCount}>{signatureCount} signed</Text>
             <Text sx={styles.duration}>{getDateDistance(createdAt)} to go</Text>
@@ -69,7 +63,7 @@ const PetitionCard = ({
           >
             Sign petition
           </Button>
-        </HStack>
+        </Flex>
       </Box>
     </RouterLink>
   )

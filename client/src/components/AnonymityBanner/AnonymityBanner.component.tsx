@@ -14,6 +14,7 @@ export const AnonymityBanner = (): JSX.Element => {
       alignItems="center"
       className="banner"
       top={{ base: '108px', lg: '96px' }}
+      mx="-24px"
     >
       <Box width="70%" justifyContent="center" my="72px">
         <VStack>
