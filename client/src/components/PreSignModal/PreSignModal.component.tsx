@@ -63,7 +63,7 @@ export const PreSignModal = ({
           ) : (
             <Text textStyle={'body-2'} mb="16px">
               You will be using your Singpass login to sign this petition.
-              Please read through the petition carefully before endorsing it.
+              Please read through the petition carefully before signing it.
             </Text>
           )}
         </ModalBody>
