@@ -47,6 +47,7 @@ export class AuthController {
   ) => {
     const id = req.user?.id
     const type = req.user?.type
+    const fullname = req.user?.fullname ?? ''
 
     if (!id) {
       logger.error({
@@ -61,7 +62,7 @@ export class AuthController {
 
     if (type === UserAuthType.Public) {
       try {
-        return res.status(StatusCodes.OK).json({ id: id })
+        return res.status(StatusCodes.OK).json({ id: id, fullname: fullname })
       } catch (error) {
         logger.error({
           message: 'Database Error while loading public user',

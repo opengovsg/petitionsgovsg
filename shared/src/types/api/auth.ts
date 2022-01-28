@@ -8,6 +8,6 @@ export interface AuthUserDto {
   fullname: string
 }
 
-export type LoadPublicUserDto = Pick<AuthUserDto, 'id'> | null
+export type LoadPublicUserDto = Pick<AuthUserDto, 'id' | 'fullname'> | null
 
 export type LoadUserNameDto = Pick<AuthUserDto, 'fullname'> | null
