@@ -100,6 +100,7 @@ const SignForm = ({
         color="white"
         onClick={onPreSignModalClick}
         leftIcon={post?.status === PostStatus.Draft ? <BiPen /> : <BiLockAlt />}
+        alignSelf="center"
       >
         {post?.status === PostStatus.Draft
           ? `Endorse this petition`
