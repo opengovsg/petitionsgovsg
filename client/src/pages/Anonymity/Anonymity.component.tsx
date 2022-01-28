@@ -4,6 +4,7 @@ import {
   Box,
   ListItem,
   UnorderedList,
+  Link,
 } from '@chakra-ui/react'
 
 const Anonymity = (): JSX.Element => {
@@ -103,8 +104,18 @@ const Anonymity = (): JSX.Element => {
         <Text sx={styles.subheading}>Our open-source codebase</Text>
         <Box sx={styles.sectionBox}>
           <Text sx={styles.text}>
-            In the interest of transparency, our code is openly available here,
-            for members of the public to vet our engineering work.{' '}
+            In the interest of transparency, our code is openly available{' '}
+            <Link href="https://github.com/opengovsg/petitionsgovsg" isExternal>
+              <Text
+                _hover={{
+                  color: 'primary.600',
+                }}
+                as="u"
+              >
+                here
+              </Text>
+            </Link>
+            , for members of the public to vet our engineering work.
           </Text>
           <Text sx={styles.text}>
             If you have ideas for how we could further improve anonymity
