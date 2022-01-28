@@ -203,9 +203,8 @@ const Post = (): JSX.Element => {
             {((post?.status === PostStatus.Draft &&
               !userSignature &&
               !isPetitionOwner) ||
-              (post?.status === PostStatus.Open && !userSignature)) && (
-              <SignForm post={post} postId={postId} />
-            )}
+              (post?.status === PostStatus.Open && !userSignature) ||
+              !user) && <SignForm post={post} postId={postId} />}
 
             {post?.status === PostStatus.Draft && isPetitionOwner && (
               <Button
@@ -226,19 +225,20 @@ const Post = (): JSX.Element => {
             {user && userSignature && (
               <Center sx={styles.signed}>You have signed this petition.</Center>
             )}
-            {!userSignature && (
-              <Text sx={styles.caption}>
-                Proceed securely with Singpass. By signing, you accept the{' '}
-                <Link to="/terms" style={{ textDecoration: 'underline' }}>
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link to="/privacy" style={{ textDecoration: 'underline' }}>
-                  Privacy Policy
-                </Link>
-              </Text>
-            )}
-            {post?.status !== PostStatus.Draft && !isPetitionOwner && (
+            {(user && !userSignature) ||
+              (!user && (
+                <Text sx={styles.caption}>
+                  Proceed securely with Singpass. By signing, you accept the{' '}
+                  <Link to="/terms" style={{ textDecoration: 'underline' }}>
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link to="/privacy" style={{ textDecoration: 'underline' }}>
+                    Privacy Policy
+                  </Link>
+                </Text>
+              ))}
+            {post?.status === PostStatus.Open && (
               <Center py="8px">
                 <Button
                   onClick={onClick}

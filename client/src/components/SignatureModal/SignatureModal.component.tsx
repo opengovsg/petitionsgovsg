@@ -18,6 +18,7 @@ import {
   Textarea,
   useMultiStyleConfig,
   VStack,
+  Spinner,
 } from '@chakra-ui/react'
 import { CreateSignatureReqDto } from '../../api'
 import { useState } from 'react'
@@ -53,7 +54,7 @@ export const SignatureModal = ({
     reset()
   }
 
-  const { user } = useAuth()
+  const { user, isLoading: isUserLoading } = useAuth()
 
   const signatureComponent = (
     <>
@@ -121,7 +122,9 @@ export const SignatureModal = ({
       </Text>
     </Box>
   )
-  return (
+  return isUserLoading ? (
+    <Spinner />
+  ) : (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent>
