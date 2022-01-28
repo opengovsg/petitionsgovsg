@@ -18,7 +18,7 @@ const HowItWorksBanner = ({
     <SimpleGrid
       templateColumns={
         isMaxThreeInGrid
-          ? 'repeat(3,1fr)'
+          ? { base: '1fr', md: 'repeat(3,1fr)' }
           : {
               base: '1fr',
               md: 'repeat(3,1fr)',
