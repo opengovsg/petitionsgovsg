@@ -44,7 +44,7 @@ const Guidelines = (): JSX.Element => {
             <ListItem sx={styles.listHeading}>Gather signatures</ListItem>
             <Text sx={styles.text}>
               Once published, a petition is ready for public support - you will
-              need to gather 10,000 signatures before it closes in 90 days.
+              need to gather 10,000 signatures before it closes in 180 days.
               Signatories will need to log in via Singpass before they can sign,
               but can choose to sign anonymously.
             </Text>
@@ -55,7 +55,7 @@ const Guidelines = (): JSX.Element => {
             will have 90 days to respond to it.
           </Text>
           <Text sx={styles.text}>
-            Petitions that do not reach 10,000 signatures within 90 days, as
+            Petitions that do not reach 10,000 signatures within 180 days, as
             well as petitions that are rejected because they received
             significant reports against them, will be stored in an archive that
             is available for public discourse.

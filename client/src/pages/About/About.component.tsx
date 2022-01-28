@@ -1,5 +1,7 @@
-import { useMultiStyleConfig, Text, Box } from '@chakra-ui/react'
+import { useMultiStyleConfig, Text, Box, Link } from '@chakra-ui/react'
 import { InfoBox } from '../../components/InfoBox/InfoBox.component'
+import { Link as RouterLink } from 'react-router-dom'
+import HowItWorksBanner from '../../components/HowItWorks/HowItWorksBanner.component'
 
 const About = (): JSX.Element => {
   const styles = useMultiStyleConfig('About', {})
@@ -49,11 +51,22 @@ const About = (): JSX.Element => {
             signatures from the public. When the petition has collected 10,000
             or more signatures, it will be submitted to the relevant ministry.
           </Text>
-          <Text sx={styles.text}>(INSERT GRAPHIC)</Text>
           <Text sx={styles.text}>
-            To get started, please refer to the detailed process to submit a
-            petition, and petition guidelines.
+            To get started, please refer to the{' '}
+            <RouterLink to="/guidelines">
+              <Text
+                _hover={{
+                  color: 'primary.600',
+                }}
+                as="u"
+              >
+                detailed process to submit a petition, and petition guidelines.
+              </Text>
+            </RouterLink>
           </Text>
+          <Box mt="48px" mb="96px">
+            <HowItWorksBanner isMaxThreeInGrid={true} />
+          </Box>
         </Box>
         <Box sx={styles.sectionBox}>
           <Text sx={styles.subheading}>
@@ -90,8 +103,32 @@ const About = (): JSX.Element => {
                 civic participation in Singapore on certain topics. Open
                 Government Products has engineered significant protections to
                 protect your anonymity, even in the event of a complete data
-                breach of PetitionsSG. We detail our engineering efforts here,
-                and our open source codebase is publicly available here.
+                breach of PetitionsSG. We detail our engineering efforts{' '}
+                <RouterLink to="/anonymity">
+                  <Text
+                    _hover={{
+                      color: 'primary.600',
+                    }}
+                    as="u"
+                  >
+                    here
+                  </Text>
+                </RouterLink>
+                , and our open source codebase is publicly available{' '}
+                <Link
+                  href="https://github.com/opengovsg/petitionsgovsg"
+                  isExternal
+                >
+                  <Text
+                    _hover={{
+                      color: 'primary.600',
+                    }}
+                    as="u"
+                  >
+                    here
+                  </Text>
+                </Link>
+                .
               </Text>
             </Box>
           </InfoBox>
