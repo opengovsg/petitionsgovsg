@@ -43,7 +43,7 @@ export const SignatureModal = ({
   useFullname,
 }: SignatureModalProps): JSX.Element => {
   const [count, setCount] = useState(MAX_CHAR_COUNT)
-  const styles = useMultiStyleConfig('SignForm', {})
+  const styles = useMultiStyleConfig('SignatureModal', {})
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const [showDisclaimer, toggleShowDisclaimer] = useState(false)
   const onSubmit: SubmitHandler<CreateSignatureReqDto> = async ({
@@ -72,21 +72,19 @@ export const SignatureModal = ({
         })}
         onChange={(e) => setCount(MAX_CHAR_COUNT - e.target.value.length)}
       />
-      <Text textStyle="body-2" color="secondary.400">
-        {count} characters left
-      </Text>
+      <Text sx={styles.charactersLeft}>{count} characters left</Text>
     </>
   )
 
   const useNameComponent = (
     <FormControl display="flex" alignItems="center">
-      <VStack alignItems="flex-start" spacing="0" py="4px">
+      <VStack sx={styles.disclaimerBox}>
         {showDisclaimer ? (
           <Box>
             <FormLabel mb="0">
               I want to sign this petition using my full name, {user?.fullname}
             </FormLabel>
-            <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
+            <FormLabel sx={styles.disclaimerCaption}>
               Your full name will be visible as a signatory of this petition
             </FormLabel>
           </Box>
@@ -95,7 +93,7 @@ export const SignatureModal = ({
             <FormLabel mb="0">
               I want to sign this petition using my full name.
             </FormLabel>
-            <FormLabel fontSize="12px" fontWeight="400" color="secondary.400">
+            <FormLabel sx={styles.disclaimerCaption}>
               You will be an anonymous signer of this petition
             </FormLabel>
           </Box>
@@ -131,7 +129,7 @@ export const SignatureModal = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader fontSize="24px" py="4">
             {postTitle}
-            <Text textStyle="body-1" fontSize="16px" py="2">
+            <Text sx={styles.headerCaption}>
               You will not be able to revoke your signature once you click on
               Confirm.
             </Text>
@@ -140,12 +138,10 @@ export const SignatureModal = ({
           <ModalBody>
             <Divider mb="6" />
             <Flex mb="12px">
-              <Text textStyle="subhead-1" pr="8px" color="secondary.700">
+              <Text sx={styles.bodyText}>
                 Add a reason why you're signing this petition
               </Text>
-              <Text textStyle="body-2" color="neutral.700">
-                (optional)
-              </Text>
+              <Text sx={styles.optionalText}>(optional)</Text>
             </Flex>
             {signatureComponent}
             {useFullname ? endorserNameComponent : useNameComponent}
@@ -156,9 +152,8 @@ export const SignatureModal = ({
                     _hover={{
                       color: 'primary.600',
                     }}
-                    color="primary.500"
+                    sx={styles.anonymityButton}
                     as="u"
-                    mr="8px"
                   >
                     Read more about how we ensure anonymity
                   </Text>
@@ -172,8 +167,7 @@ export const SignatureModal = ({
           <ModalFooter>
             <Button
               onClick={onClose}
-              bg="transparent"
-              mx="8px"
+              sx={styles.cancelButton}
               _hover={{
                 bg: 'secondary.100',
               }}
@@ -182,13 +176,11 @@ export const SignatureModal = ({
             </Button>
             <Button
               type="submit"
-              bg="secondary.500"
               onClick={onClose}
-              fontStyle={'subhead-1'}
-              color="white"
               _hover={{
                 bg: 'secondary.600',
               }}
+              sx={styles.submitButton}
             >
               Confirm, sign petition
             </Button>

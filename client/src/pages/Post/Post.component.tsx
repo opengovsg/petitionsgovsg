@@ -146,23 +146,23 @@ const Post = (): JSX.Element => {
       <PageTitle title={`${post?.title} Petitions`} description="" />
       <Center>
         <Stack
+          sx={styles.content}
           spacing={{ base: '20px', lg: '88px' }}
           direction={{ base: 'column', lg: 'row' }}
-          sx={styles.content}
         >
           <Box className="post-page">
             <Text sx={styles.title}>{post?.title}</Text>
             {post ? (
-              <Box sx={styles.subtitle} className="subtitle-bar" my="12px">
-                <Box my="4px" fontWeight="500">
+              <Box sx={styles.subtitle} className="subtitle-bar">
+                <Box sx={styles.startedByBox}>
                   Started by{' '}
-                  <Text as="span" textDecoration="underline" textStyle="">
+                  <Text as="span" sx={styles.startedByText}>
                     {post?.fullname}
                   </Text>
                 </Box>
-                <Box my="4px" fontWeight="500">
+                <Box sx={styles.startedByBox}>
                   Addressed to the{' '}
-                  <Text as="span" textDecoration="underline">
+                  <Text as="span" sx={styles.startedByText}>
                     {post?.addressee.name} ({post.addressee.shortName})
                   </Text>
                 </Box>
@@ -193,7 +193,7 @@ const Post = (): JSX.Element => {
             </InfoBox>
             <PostSignatures post={post} />
           </Box>
-          <Stack sx={styles.sideSection} align="left">
+          <Stack sx={styles.sideSection}>
             <Box my="8px">
               <Text sx={styles.numberHeading}>{post?.signatureCount}</Text>
               <Text sx={styles.numberSubHeading}>
@@ -209,11 +209,7 @@ const Post = (): JSX.Element => {
             {post?.status === PostStatus.Draft && isPetitionOwner && (
               <Button
                 onClick={onEndorserModalOpen}
-                bg="secondary.500"
-                fontStyle={'subhead-1'}
-                color="white"
-                height="56px"
-                width="300px"
+                sx={styles.sharePrivateLinkButton}
                 _hover={{
                   background: 'secondary.400',
                 }}
@@ -242,12 +238,7 @@ const Post = (): JSX.Element => {
               <Center py="8px">
                 <Button
                   onClick={onClick}
-                  fontStyle={'subhead-1'}
-                  color="secondary.500"
-                  height="56px"
-                  width="300px"
-                  borderRadius="4px"
-                  borderColor="secondary.500"
+                  sx={styles.sharePetitionButton}
                   variant="outline"
                   leftIcon={<BiShareAlt />}
                 >
@@ -259,12 +250,7 @@ const Post = (): JSX.Element => {
               <Center py="8px">
                 <Button
                   onClick={() => navigate(`${location.pathname}/edit`)}
-                  fontStyle={'subhead-1'}
-                  color="secondary.500"
-                  height="56px"
-                  width="300px"
-                  borderRadius="4px"
-                  borderColor="secondary.500"
+                  sx={styles.sharePetitionButton}
                   variant="outline"
                   leftIcon={<BiEditAlt />}
                   disabled={post.signatureCount > 0}

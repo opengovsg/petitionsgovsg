@@ -29,6 +29,7 @@ export const Post: ComponentMultiStyleConfig = {
       textStyle: 'body-2',
       color: 'secondary.800',
       mb: '16px',
+      my: '12px',
     },
     private: {
       textStyle: 'body-2',
@@ -51,6 +52,7 @@ export const Post: ComponentMultiStyleConfig = {
       minW: { base: 'auto', lg: '300px' },
       pt: { base: '0px', sm: '60px', lg: '96px' },
       color: 'secondary.800',
+      align: 'left',
     },
     numberHeading: {
       mb: { base: '16px', sm: '0px' },
@@ -103,6 +105,28 @@ export const Post: ComponentMultiStyleConfig = {
       fontWeight: '400',
       fontSize: '14px',
       lineHeight: '20px',
+    },
+    startedByBox: {
+      my: '4px',
+      fontWeight: '500',
+    },
+    startedByText: {
+      textDecoration: 'underline',
+    },
+    sharePrivateLinkButton: {
+      bg: 'secondary.500',
+      fontStyle: 'subhead-1',
+      color: 'white',
+      height: '56px',
+      width: '300px',
+    },
+    sharePetitionButton: {
+      fontStyle: 'subhead-1',
+      color: 'secondary.500',
+      height: '56px',
+      width: '300px',
+      borderRadius: '4px',
+      borderColor: 'secondary.500',
     },
   }),
 }
