@@ -7,7 +7,6 @@ export const Banner = ({
 }): JSX.Element | null => {
   return (
     <Box
-      h="64px"
       minH="64px"
       color="neutral.100"
       background="primary.500"
@@ -17,11 +16,10 @@ export const Banner = ({
       className="banner"
       position="sticky"
       zIndex="999"
-      top={{ base: '108px', lg: '96px' }}
+      py={{ base: '16px', md: '8px' }}
+      top={{ base: '90px', lg: '96px' }}
     >
-      <Box width="80%" pl="32px" pr="48px">
-        {children}
-      </Box>
+      <Box width="80%">{children}</Box>
     </Box>
   )
 }

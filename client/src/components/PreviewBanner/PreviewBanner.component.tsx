@@ -37,11 +37,11 @@ export const PreviewBanner = ({
 
   return (
     <Banner>
-      <HStack justifyContent={'space-between'}>
+      <HStack justifyContent={'space-between'} flexWrap="wrap">
         <HStack alignItems={'flex-start'}>
           <Icon as={BiInfoCircle} />
           {isPetitionOwner ? (
-            <Text w="860px">
+            <Text w={{ base: '100%', md: '760px' }}>
               Share your private link with 3 people to get them to back your
               petition as Endorsers. A petition can't be edited once it has at
               least one endorser, so make sure your draft is final before you
@@ -63,6 +63,7 @@ export const PreviewBanner = ({
                   variant="outline"
                   _hover={{ bg: 'primary.600' }}
                   onClick={() => navigate(`${location.pathname}/edit`)}
+                  my="8px"
                 >
                   Edit petition
                 </Button>
@@ -73,6 +74,7 @@ export const PreviewBanner = ({
                 color="primary.500"
                 _hover={{ bg: 'primary.100' }}
                 onClick={onClick}
+                my="8px"
               >
                 Share private link
               </Button>
