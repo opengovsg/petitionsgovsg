@@ -12,6 +12,7 @@ export const Post: ComponentMultiStyleConfig = {
     },
     content: {
       maxW: '1188px',
+      w: '100%',
       px: { base: '24px', sm: '88px' },
     },
     title: {
@@ -48,7 +49,7 @@ export const Post: ComponentMultiStyleConfig = {
     sideSection: {
       w: { base: 'auto', lg: '300px' },
       minW: { base: 'auto', lg: '300px' },
-      pt: { base: '36px', sm: '60px', lg: '96px' },
+      pt: { base: '0px', sm: '60px', lg: '96px' },
       color: 'secondary.800',
     },
     numberHeading: {

@@ -5,6 +5,7 @@ export const Anonymity = makeMultiStyleConfig({
     m: 'auto',
     maxW: '680px',
     mt: '48px',
+    px: { base: '24px', md: '0px' },
   },
   heading: {
     textStyle: 'display-2',

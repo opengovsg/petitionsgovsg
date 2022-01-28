@@ -22,7 +22,7 @@ export const PostSignature = ({
         fontSize="16px"
         lineHeight="28px"
         color="secondary.400"
-        minWidth="600px"
+        minWidth="300px"
         noOfLines={2}
       >
         {signature.comment}

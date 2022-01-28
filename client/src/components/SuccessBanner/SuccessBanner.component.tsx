@@ -13,7 +13,7 @@ export const SuccessBanner = ({
       <HStack justifyContent={'space-between'}>
         <HStack alignItems={'flex-start'}>
           <Icon as={BiInfoCircle} mt="2px" />
-          <Text w="860px">Your post is now live!</Text>
+          <Text maxW="860px">Your post is now live!</Text>
         </HStack>
       </HStack>
     </Banner>

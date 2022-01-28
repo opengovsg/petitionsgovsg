@@ -2,7 +2,6 @@ import {
   Box,
   Flex,
   HStack,
-  Image,
   Link,
   Text,
   useDisclosure,
@@ -38,7 +37,7 @@ const Header = (): JSX.Element => {
           {/* <Text textStyle="body-2" mr={2} color="secondary.700">
             {user.fullname}
           </Text> */}
-          <Image
+          {/* <Image
             alt="user-logo"
             boxSize={8}
             borderRadius="3px"
@@ -46,7 +45,7 @@ const Header = (): JSX.Element => {
             alignItems="right"
             src={`https://secure.gravatar.com/avatar/${user.id}?s=164&d=identicon`}
             loading="lazy"
-          />
+          /> */}
           <LinkButton text={'Log out'} link={'/'} handleClick={logout} />
         </HStack>
       )}
