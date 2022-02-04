@@ -4,7 +4,7 @@ import { Pagination } from './Pagination'
 import { Post } from './Post'
 import { PostItem } from './PostItem'
 import { StyledToast } from './StyledToast'
-import { SignForm } from './SignForm'
+import { SignatureModal } from './SignatureModal'
 import { PetitionCard } from './PetitionCard'
 import { PetitionGrid } from './PetitionGrid'
 import { FormFields } from './FormFields'
@@ -13,6 +13,7 @@ import { Hero } from './Hero'
 import { HowItWorks } from './HowItWorks'
 import { About } from './About'
 import { Anonymity } from './Anonymity'
+import { PreSignModal } from './PreSignModal'
 
 export const components = {
   Button,
@@ -21,7 +22,7 @@ export const components = {
   Pagination,
   Post,
   PostItem,
-  SignForm,
+  SignatureModal,
   PetitionCard,
   PetitionGrid,
   FormFields,
@@ -30,4 +31,5 @@ export const components = {
   HowItWorks,
   About,
   Anonymity,
+  PreSignModal,
 }

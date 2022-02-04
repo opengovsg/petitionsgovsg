@@ -11,6 +11,7 @@ import {
   ModalProps,
   Text,
 } from '@chakra-ui/react'
+import { useMultiStyleConfig } from '@chakra-ui/system'
 import { useAuth } from '../../contexts/AuthContext'
 import { GetSinglePostDto } from '../../api'
 
@@ -32,6 +33,8 @@ export const PreSignModal = ({
   // If user is signed in, don't need to resign in through SP app
   const { user } = useAuth()
 
+  const styles = useMultiStyleConfig('PreSignModal', {})
+
   const onClickSgid = async (redirect: string) => {
     if (process.env.NODE_ENV === 'production') {
       window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${redirect}`
@@ -51,17 +54,17 @@ export const PreSignModal = ({
         <ModalBody>
           {isEndorser ? (
             <Box>
-              <Text textStyle={'body-2'} mb="16px">
+              <Text sx={styles.text}>
                 You have been requested by {petitionOwner} to be an endorser of
                 this petition. You will be using your Singpass login and having
                 your full name published on the petition page as an endorser.
               </Text>
-              <Text textStyle={'body-2'} mb="16px">
+              <Text sx={styles.text}>
                 Please read through the petition carefully before endorsing it.
               </Text>
             </Box>
           ) : (
-            <Text textStyle={'body-2'} mb="16px">
+            <Text sx={styles.text}>
               You will be using your Singpass login to sign this petition.
               Please read through the petition carefully before signing it.
             </Text>
@@ -70,8 +73,7 @@ export const PreSignModal = ({
         <ModalFooter>
           <Button
             onClick={onClose}
-            bg="transparent"
-            mx="8px"
+            sx={styles.cancelButton}
             _hover={{
               bg: 'secondary.100',
             }}
@@ -81,9 +83,7 @@ export const PreSignModal = ({
           {user ? (
             <Button
               type="submit"
-              bg="secondary.500"
-              fontStyle={'subhead-1'}
-              color="white"
+              sx={styles.proceedButton}
               onClick={onNext}
               _hover={{
                 bg: 'secondary.600',
@@ -93,9 +93,7 @@ export const PreSignModal = ({
             </Button>
           ) : (
             <Button
-              bg="secondary.500"
-              fontStyle={'subhead-1'}
-              color="white"
+              sx={styles.proceedButton}
               onClick={() => onClickSgid(`${location.pathname}?sign`)}
               _hover={{
                 bg: 'secondary.600',
