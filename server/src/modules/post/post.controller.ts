@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service'
 import { PostService, PostWithAddresseeAndSignatures } from './post.service'
 import { hashData, generateSalt } from '../../util/hash'
 import { UpdatePostRequestDto } from '../../types/post-type'
+import { decodeUserJWT } from '../../util/jwt'
 
 const logger = createLogger(module)
 
@@ -103,24 +104,6 @@ export class PostController {
         .json({ message: 'Server Error' })
     }
 
-    try {
-      await this.authService.verifyUserCanViewPost(
-        post,
-        req.user?.id.toString() ?? '',
-      )
-    } catch (error) {
-      logger.error({
-        message: 'Error while retrieving single post',
-        meta: {
-          function: 'getSinglePost',
-        },
-        error,
-      })
-      return res
-        .status(StatusCodes.FORBIDDEN)
-        .json({ message: 'User does not have permission to access this post' })
-    }
-
     return res.status(StatusCodes.OK).json(post)
   }
 
@@ -157,22 +140,11 @@ export class PostController {
     if (!errors.isEmpty()) {
       return res.status(StatusCodes.BAD_REQUEST).json(errors.array()[0].msg)
     }
-    if (!req.user) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'User not signed in' })
-    }
 
     try {
-      if (!req.user) {
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: 'User not signed in' })
-      }
-
+      const { id, fullname } = decodeUserJWT(req)
       const salt = await generateSalt()
-      const hashedUserSgid = await hashData(req.user.id, salt)
-      const fullname = req.user.fullname
+      const hashedUserSgid = await hashData(id, salt)
       const data = await this.postService.createPost({
         title: req.body.title,
         summary: req.body.summary,
@@ -213,7 +185,8 @@ export class PostController {
   deletePost: ControllerHandler<{ id: string }, Message> = async (req, res) => {
     const postId = Number(req.params.id)
     try {
-      const userId = req.user?.id
+      const { id } = decodeUserJWT(req)
+      const userId = id
       if (!userId) {
         logger.error({
           message: 'UserId is undefined after authenticated',
@@ -267,7 +240,7 @@ export class PostController {
     undefined
   > = async (req, res) => {
     const postId = Number(req.params.id)
-    const userId = req.user?.id
+    const { id: userId } = decodeUserJWT(req)
     try {
       if (!userId) {
         logger.error({
@@ -352,7 +325,7 @@ export class PostController {
   ) => {
     const postId = Number(req.params.id)
     try {
-      const userId = req.user?.id
+      const { id: userId } = decodeUserJWT(req)
       if (!userId) {
         logger.error({
           message: 'UserId is undefined after authenticated',

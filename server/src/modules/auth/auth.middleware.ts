@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { ControllerHandler } from '../../types/response-handler'
-
+import { decodeUserJWT } from '../../util/jwt'
 export class AuthMiddleware {
   /**
    * Middleware that only allows authenticated users to pass through to the next
@@ -10,7 +10,16 @@ export class AuthMiddleware {
    */
   authenticate: ControllerHandler = (req, res, next) => {
     // Check if user is authenticated
-    if (!req.isAuthenticated() || !req.user) {
+    const token = req.cookies.jwt
+    if (!token) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: 'User is unauthorized.' })
+    }
+
+    try {
+      decodeUserJWT(req)
+    } catch (error) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'User is unauthorized.' })
