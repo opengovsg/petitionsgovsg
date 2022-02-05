@@ -10,6 +10,7 @@ export class AuthMiddleware {
    */
   authenticate: ControllerHandler = (req, res, next) => {
     // Check if user is authenticated
+    console.log('check', req.cookies)
     const token = req.cookies.jwt
     if (!token) {
       return res
