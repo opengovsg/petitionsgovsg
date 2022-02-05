@@ -30,6 +30,8 @@ export const mockPosts = [
     summary: null,
     references: null,
     profile: null,
+    createdAt: '2022-01-01T00:00:00+00:00',
+    updatedAt: '2022-01-01T00:00:00+00:00',
   },
   {
     id: 2,
@@ -45,5 +47,7 @@ export const mockPosts = [
     summary: 'petition summary',
     references: 'wikipedia.com',
     profile: 'OGP',
+    createdAt: '2022-01-01T00:00:00+00:00',
+    updatedAt: '2022-01-01T00:00:00+00:00',
   },
 ]

@@ -7,7 +7,6 @@ import { Message } from '../../types/message-type'
 import { Signature } from '~shared/types/base'
 import { PostService } from '../post/post.service'
 import { hashData } from '../../util/hash'
-import { decodeUserJWT } from '../../util/jwt'
 
 const logger = createLogger(module)
 
@@ -61,7 +60,7 @@ export class SignatureController {
    * @param postId id of post to attach to
    * @body useName boolean field
    * @body fullname string field
-   * @returns 200 with new answer id
+   * @returns 200 with new signature id
    * @returns 400 if invalid request
    * @returns 401 if user not signed in
    * @returns 403 if user is not authorized to answer question
@@ -79,9 +78,14 @@ export class SignatureController {
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: errors.array()[0].msg })
     }
-    const { id, fullname } = decodeUserJWT(req)
+    if (!req.user) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: 'User not signed in' })
+    }
+
     const post = await this.postService.getSinglePost(Number(req.params.id))
-    const hashedUserSgid = await hashData(id, post.salt)
+    const hashedUserSgid = await hashData(req.user.id, post.salt)
     const signed = await this.signatureService.checkUserHasSigned(
       Number(req.params.id),
       hashedUserSgid,
@@ -96,57 +100,28 @@ export class SignatureController {
       // Save Signature in the database
       let name: string | null = null
       if (req.body.useName) {
-        name = fullname
+        name = req.user.fullname
       }
-      const data = await this.signatureService.createSignature({
+
+      const signatureId = await this.signatureService.createSignature({
         comment: req.body.comment,
         hashedUserSgid,
         postId: Number(req.params.id),
         fullname: name,
       })
-
       // Publish post publicly when signature count hits threshold
       if (post.signatures.length >= MIN_ENDORSER_COUNT) {
         await this.postService.publishPost(Number(req.params.id))
       }
 
-      return res.status(StatusCodes.OK).json(data)
+      return res.status(StatusCodes.OK).json(signatureId)
     } catch (error) {
       logger.error({
         message: 'Error while adding new signature',
         meta: {
           function: 'addSignature',
-          userId: id,
+          userId: req.user.id,
           postId: req.params.id,
-        },
-        error,
-      })
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: 'Server Error' })
-    }
-  }
-
-  /**
-   * Delete an signature. Currently not used as a post delete
-   * will archive the post and will not touch the signature.
-   * @param id of signature to delete
-   * @returns 200 on successful delete
-   * @returns 500 on database error
-   */
-  deleteSignature: ControllerHandler<{ id: string }, Message> = async (
-    req,
-    res,
-  ) => {
-    try {
-      await this.signatureService.deleteSignature(Number(req.params.id))
-      return res.status(StatusCodes.OK).end()
-    } catch (error) {
-      logger.error({
-        message: 'Error while deleting signature',
-        meta: {
-          function: 'deleteSignature',
-          signatureId: req.params.id,
         },
         error,
       })
@@ -161,14 +136,19 @@ export class SignatureController {
     Signature | Message | null
   > = async (req, res) => {
     try {
-      const { id: userId } = decodeUserJWT(req)
+      if (!req.user) {
+        return res
+          .status(StatusCodes.UNAUTHORIZED)
+          .json({ message: 'User not signed in' })
+      }
+
       const post = await this.postService.getSinglePost(Number(req.params.id))
-      const hashedUserSgid = await hashData(userId, post.salt)
-      const signature = await this.signatureService.checkUserHasSigned(
+      const hashedUserSgid = await hashData(req.user.id, post.salt)
+      const hasUserSigned = await this.signatureService.checkUserHasSigned(
         Number(req.params.id),
         hashedUserSgid,
       )
-      return res.status(StatusCodes.OK).json(signature)
+      return res.status(StatusCodes.OK).json(hasUserSigned)
     } catch (error) {
       logger.error({
         message: 'Error while checking if user has signature',

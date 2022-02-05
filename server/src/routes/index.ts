@@ -1,5 +1,4 @@
 import express from 'express'
-import { OwnershipCheck } from '../middleware/checkOwnership'
 import { AddresseeController } from '../modules/addressee/addressee.controller'
 import { routeAddressees } from '../modules/addressee/addressee.routes'
 import { AuthController } from '../modules/auth/auth.controller'
@@ -16,7 +15,6 @@ type ApiRouterOptions = {
   signature: {
     controller: SignatureController
     authMiddleware: AuthMiddleware
-    checkOwnership: OwnershipCheck
   }
   env: EnvController
   auth: {

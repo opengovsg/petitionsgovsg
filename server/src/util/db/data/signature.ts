@@ -1,9 +1,12 @@
 export const mockSignature = {
+  id: 4,
   hashedUserSgid:
     '$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW',
   fullname: null,
-  comment: null,
+  comment: 'I want to support this cause.',
   postId: 1,
+  createdAt: '2022-01-01T00:00:00+00:00',
+  updatedAt: '2022-01-01T00:00:00+00:00',
 }
 
 export const mockSignatures = [
@@ -13,6 +16,8 @@ export const mockSignatures = [
     fullname: null,
     comment: null,
     postId: 1,
+    createdAt: '2022-01-01T00:00:00+00:00',
+    updatedAt: '2022-01-01T00:00:00+00:00',
   },
   {
     id: 2,
@@ -20,6 +25,8 @@ export const mockSignatures = [
     fullname: 'John Doe',
     comment: null,
     postId: 1,
+    createdAt: '2022-01-01T00:00:00+00:00',
+    updatedAt: '2022-01-01T00:00:00+00:00',
   },
   {
     id: 3,
@@ -27,12 +34,7 @@ export const mockSignatures = [
     fullname: null,
     comment: 'I support this cause!',
     postId: 1,
-  },
-  {
-    id: 4,
-    hashedUserSgid: '4321',
-    fullname: 'Mary Jane',
-    comment: 'Worthy cause',
-    postId: 2,
+    createdAt: '2022-01-01T00:00:00+00:00',
+    updatedAt: '2022-01-01T00:00:00+00:00',
   },
 ]

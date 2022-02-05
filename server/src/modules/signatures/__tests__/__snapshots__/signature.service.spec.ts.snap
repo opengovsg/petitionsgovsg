@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignatureService checkUserHasSigned returns a signature if user has signed a petition 1`] = `
+Object {
+  "comment": null,
+  "createdAt": Any<Date>,
+  "fullname": null,
+  "hashedUserSgid": "hashedUserSgid",
+  "id": 4,
+  "postId": 1,
+  "updatedAt": Any<Date>,
+}
+`;
+
+exports[`SignatureService checkUserHasSigned returns null if user has not signed a petition 1`] = `null`;
+
+exports[`SignatureService createSignature returns a signature for specified post id 1`] = `
+Object {
+  "comment": "I want to support this cause.",
+  "createdAt": Any<Date>,
+  "fullname": null,
+  "hashedUserSgid": "$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW",
+  "id": 4,
+  "postId": 1,
+  "updatedAt": Any<Date>,
+}
+`;
+
+exports[`SignatureService listSignatures returns only signatures associated with specified post id 1`] = `
+Array [
+  Object {
+    "comment": null,
+    "createdAt": 2022-01-01T00:00:00.000Z,
+    "fullname": null,
+    "hashedUserSgid": "1234",
+    "id": 1,
+    "postId": 1,
+    "updatedAt": 2022-01-01T00:00:00.000Z,
+  },
+  Object {
+    "comment": null,
+    "createdAt": 2022-01-01T00:00:00.000Z,
+    "fullname": "John Doe",
+    "hashedUserSgid": "5678",
+    "id": 2,
+    "postId": 1,
+    "updatedAt": 2022-01-01T00:00:00.000Z,
+  },
+  Object {
+    "comment": "I support this cause!",
+    "createdAt": 2022-01-01T00:00:00.000Z,
+    "fullname": null,
+    "hashedUserSgid": "8765",
+    "id": 3,
+    "postId": 1,
+    "updatedAt": 2022-01-01T00:00:00.000Z,
+  },
+]
+`;
