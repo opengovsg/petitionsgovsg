@@ -106,9 +106,6 @@ describe('PostController', () => {
     })
     it('retrieves post with specified id', async () => {
       postService.getSinglePost.mockResolvedValueOnce(mockPost)
-      authService.verifyUserCanViewPost.mockImplementationOnce(() =>
-        Promise.resolve(),
-      )
 
       const response = await request.get(postPath)
 
@@ -129,9 +126,9 @@ describe('PostController', () => {
 
     it('returns FORBIDDEN on unauthorised user', async () => {
       postService.getSinglePost.mockResolvedValueOnce(mockPost)
-      authService.verifyUserCanViewPost.mockRejectedValue(
-        errAsync(new UserCannotViewPostError()),
-      )
+      authService.verifyUserCanViewPost.mockImplementation(() => {
+        throw new UserCannotViewPostError()
+      })
 
       const response = await request.get(postPath)
 
@@ -284,7 +281,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: [],
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       postService.updatePost.mockResolvedValueOnce(true)
       const postAttributes = {
         title: mockPost.title,
@@ -312,7 +309,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: [mockSignature],
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       postService.updatePost.mockResolvedValueOnce(true)
       const postAttributes = {
         title: mockPost.title,
@@ -342,7 +339,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: [],
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       postService.updatePost.mockRejectedValue(errAsync(new DatabaseError()))
       const postAttributes = {
         title: mockPost.title,
@@ -372,7 +369,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: [],
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       postService.updatePost.mockResolvedValueOnce(false)
       const postAttributes = {
         title: mockPost.title,
@@ -430,7 +427,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: mockSignatures,
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       postService.publishPost.mockResolvedValueOnce(true)
 
       const response = await request.post(publishPath)
@@ -447,7 +444,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: mockSignatures,
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(false)
+      authService.verifyPetitionOwner.mockReturnValueOnce(false)
 
       const response = await request.post(publishPath)
 
@@ -465,7 +462,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: [],
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
 
       const response = await request.post(publishPath)
 
@@ -483,7 +480,7 @@ describe('PostController', () => {
         ...post?.get(),
         signatures: mockSignatures,
       })
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       postService.publishPost.mockRejectedValue(errAsync(new DatabaseError()))
 
       const response = await request.post(publishPath)

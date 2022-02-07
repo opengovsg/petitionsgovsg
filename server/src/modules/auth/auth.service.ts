@@ -8,10 +8,7 @@ export class AuthService {
    * @param userId id of user
    * @returns true if user can view post
    */
-  verifyUserCanViewPost = async (
-    post: Post,
-    userId?: string,
-  ): Promise<void> => {
+  verifyUserCanViewPost = (post: Post, userId?: string): void => {
     // If post is public, anyone can view
     if (post.status === PostStatus.Open || post.status === PostStatus.Draft)
       return
@@ -22,10 +19,7 @@ export class AuthService {
     return
   }
 
-  verifyPetitionOwner = async (
-    post: Post,
-    userId?: string,
-  ): Promise<boolean> => {
+  verifyPetitionOwner = (post: Post, userId?: string): boolean => {
     // If post is private or archived, only petition owner sees a personalised message
     if (userId) {
       // check that user id is the same as post user id

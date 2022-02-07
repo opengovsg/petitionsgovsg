@@ -103,7 +103,7 @@ export class PostController {
     }
 
     try {
-      await this.authService.verifyUserCanViewPost(post, req.user?.id)
+      this.authService.verifyUserCanViewPost(post, req.user?.id)
     } catch (error) {
       logger.error({
         message: 'Error while retrieving single post',
@@ -219,7 +219,7 @@ export class PostController {
       // Check that user is owner of petition
       const post = await this.postService.getSinglePost(Number(req.params.id))
       const hashedUserSgid = await hashData(req.user.id, post.salt)
-      const hasPermission = await this.authService.verifyPetitionOwner(
+      const hasPermission = this.authService.verifyPetitionOwner(
         post,
         hashedUserSgid,
       )
@@ -290,7 +290,7 @@ export class PostController {
       // Check that user is owner of petition
       const post = await this.postService.getSinglePost(postId)
       const hashedUserSgid = await hashData(req.user.id, post.salt)
-      const hasPermission = await this.authService.verifyPetitionOwner(
+      const hasPermission = this.authService.verifyPetitionOwner(
         post,
         hashedUserSgid,
       )
