@@ -57,9 +57,7 @@ app.use(cookieParser())
 const bannerMessage = bannerConfig.siteWideMessage
 const googleAnalyticsId = googleAnalyticsConfig.googleAnalyticsId
 
-const authService = new AuthService({
-  Post,
-})
+const authService = new AuthService()
 const authMiddleware = new AuthMiddleware()
 const postService = new PostService({
   Signature,

@@ -1,14 +1,7 @@
 import { Post, PostStatus } from '~shared/types/base'
-import { ModelDef } from '../../types/sequelize'
 import { UserCannotViewPostError } from '../post/post.errors'
 
 export class AuthService {
-  private Post: ModelDef<Post>
-
-  constructor({ Post }: { Post: ModelDef<Post> }) {
-    this.Post = Post
-  }
-
   /**
    * Check if a user is able to view the post
    * @param post post to be viewed
