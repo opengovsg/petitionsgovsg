@@ -145,7 +145,6 @@ export class PostController {
       addresseeId: number
       profile: string | null
       email: string
-      salt: string
     },
     undefined
   > = async (req, res) => {
