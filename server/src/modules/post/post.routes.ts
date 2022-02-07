@@ -2,6 +2,7 @@ import { AuthMiddleware } from '../auth/auth.middleware'
 import express from 'express'
 import { check, param } from 'express-validator'
 import { PostController } from './post.controller'
+import { limiter } from '../../middleware/limiter'
 
 export const routePosts = ({
   controller,
@@ -44,6 +45,7 @@ export const routePosts = ({
     '/',
     [
       authMiddleware.authenticate,
+      limiter,
       check(
         'title',
         'Enter a title with minimum of 15 characters and maximum 150 characters',
@@ -76,6 +78,7 @@ export const routePosts = ({
     '/:id([0-9]+$)',
     [
       authMiddleware.authenticate,
+      limiter,
       check(
         'title',
         'Enter a title with minimum of 15 characters and maximum 150 characters',

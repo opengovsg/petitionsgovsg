@@ -2,6 +2,7 @@ import { AuthMiddleware } from '../auth/auth.middleware'
 import express from 'express'
 import { body } from 'express-validator'
 import { SignatureController } from './signature.controller'
+import { limiter } from '../../middleware/limiter'
 
 export const routeSignatures = ({
   controller,
@@ -35,6 +36,7 @@ export const routeSignatures = ({
     '/:id([0-9]+$)',
     [
       authenticate,
+      limiter,
       body('useName', 'useName is a required boolean').isBoolean(),
     ],
     controller.createSignature,
@@ -48,6 +50,11 @@ export const routeSignatures = ({
    * @returns 500 if database error
    * @access  Private
    */
-  router.get('/check/:id([0-9]+$)', authenticate, controller.checkUserHasSigned)
+  router.get(
+    '/check/:id([0-9]+$)',
+    authenticate,
+    limiter,
+    controller.checkUserHasSigned,
+  )
   return router
 }

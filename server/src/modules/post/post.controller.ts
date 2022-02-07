@@ -133,7 +133,7 @@ export class PostController {
    * @return 500 if database error
    */
   createPost: ControllerHandler<
-    undefined,
+    never,
     { data: number } | Message,
     {
       title: string

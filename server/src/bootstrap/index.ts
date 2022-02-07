@@ -24,6 +24,7 @@ import { Addressee, Post, sequelize, Signature } from './sequelize'
 import { bannerConfig } from './config/banner'
 import { googleAnalyticsConfig } from './config/googleAnalytics'
 import cookieParser from 'cookie-parser'
+import csrf from 'csurf'
 
 export { sequelize } from './sequelize'
 export const app = express()
@@ -52,6 +53,11 @@ app.use(express.json())
 
 // cookie-parser
 app.use(cookieParser())
+app.use(csrf({ cookie: { httpOnly: true } }))
+app.use((req, res, next) => {
+  res.cookie('XSRF-TOKEN', req.csrfToken())
+  next()
+})
 
 // all the api routes
 const bannerMessage = bannerConfig.siteWideMessage
