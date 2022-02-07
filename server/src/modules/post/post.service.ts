@@ -1,10 +1,13 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
 import Sequelize, { Model, OrderItem, ProjectionAlias, Op } from 'sequelize'
-import { Post, PostStatus } from '~shared/types/base'
-import { Signature, Addressee } from '../../models'
+import { Post, PostStatus, Signature, Addressee } from '~shared/types/base'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
-import { MissingPublicPostError, PostUpdateError } from './post.errors'
+import {
+  MissingPublicPostError,
+  PostUpdateError,
+  AddresseeDoesNotExistError,
+} from './post.errors'
 import { PostEditType } from '../../types/post-type'
 
 export type PostWithAddresseeAndSignatures = Model &
@@ -204,18 +207,19 @@ export class PostService {
     email: string
     salt: string
   }): Promise<number> => {
-    try {
-      const postId = await this.sequelize.transaction(async (transaction) => {
-        const post = await this.Post.create(
-          { ...newPost, status: PostStatus.Draft },
-          { transaction },
-        )
-        return post.id
-      })
-      return postId
-    } catch (error) {
-      throw error
+    // Check if addresseeId is valid
+    const addresseeExists = await this.Addressee.findByPk(newPost.addresseeId)
+    if (!addresseeExists) {
+      throw new AddresseeDoesNotExistError()
     }
+    const postId = await this.sequelize.transaction(async (transaction) => {
+      const post = await this.Post.create(
+        { ...newPost, status: PostStatus.Draft },
+        { transaction },
+      )
+      return post.id
+    })
+    return postId
   }
 
   /**
@@ -226,11 +230,10 @@ export class PostService {
   deletePost = async (id: number): Promise<void> => {
     try {
       await this.sequelize.transaction(async (transaction) => {
-        const dbUpdate = await this.Post.update(
+        const [dbUpdate] = await this.Post.update(
           { status: PostStatus.Closed },
           { where: { id: id }, transaction },
         )
-
         if (!dbUpdate) {
           throw new PostUpdateError()
         }
@@ -256,31 +259,32 @@ export class PostService {
     profile,
     email,
   }: PostEditType): Promise<boolean> => {
-    try {
-      const updated = await this.sequelize.transaction(async (transaction) => {
-        const dbUpdate = await this.Post.update(
-          {
-            title,
-            summary,
-            reason,
-            request,
-            references,
-            addresseeId,
-            profile,
-            email,
-          },
-          {
-            where: { id: id },
-            transaction,
-          },
-        )
-        return dbUpdate
-      })
-      if (updated) return true
-      else return false
-    } catch (error) {
-      throw error
+    // Check if addresseeId is valid
+    const addresseeExists = await this.Addressee.findByPk(addresseeId)
+    if (!addresseeExists) {
+      throw new AddresseeDoesNotExistError()
     }
+
+    const updated = await this.sequelize.transaction(async (transaction) => {
+      const dbUpdate = await this.Post.update(
+        {
+          title,
+          summary,
+          reason,
+          request,
+          references,
+          addresseeId,
+          profile,
+          email,
+        },
+        {
+          where: { id: id },
+          transaction,
+        },
+      )
+      return dbUpdate
+    })
+    return !!updated
   }
 
   /**
@@ -289,19 +293,14 @@ export class PostService {
    * @returns void if successful
    */
   publishPost = async (id: number): Promise<void> => {
-    try {
-      await this.sequelize.transaction(async (transaction) => {
-        const dbUpdate = await this.Post.update(
-          { status: PostStatus.Open },
-          { where: { id: id }, transaction },
-        )
-
-        if (!dbUpdate) {
-          throw new PostUpdateError()
-        }
-      })
-    } catch (error) {
-      throw error
-    }
+    await this.sequelize.transaction(async (transaction) => {
+      const [dbUpdate] = await this.Post.update(
+        { status: PostStatus.Open },
+        { where: { id: id }, transaction },
+      )
+      if (!dbUpdate) {
+        throw new PostUpdateError()
+      }
+    })
   }
 }

@@ -10,7 +10,7 @@ import { hashData } from '../../util/hash'
 
 const logger = createLogger(module)
 
-const MIN_ENDORSER_COUNT = 2
+export const MIN_ENDORSER_COUNT = 2
 
 export class SignatureController {
   private signatureService: Public<SignatureService>

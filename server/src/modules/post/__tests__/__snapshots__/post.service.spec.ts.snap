@@ -1,0 +1,348 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostService createPost creates post on good input 1`] = `
+Object {
+  "addresseeId": 1,
+  "createdAt": Any<Date>,
+  "email": "john@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "id": 3,
+  "profile": null,
+  "reason": "Reason for post goes here",
+  "references": null,
+  "request": "Request for post goes her",
+  "salt": "abcdef",
+  "status": "DRAFT",
+  "summary": "A short description or summary ",
+  "title": "Title should be concise",
+  "updatedAt": Any<Date>,
+}
+`;
+
+exports[`PostService createPost throws on bad addressee 1`] = `"Addressee does not exist"`;
+
+exports[`PostService deletePost archives post successfully 1`] = `
+Object {
+  "addresseeId": 1,
+  "createdAt": Any<Date>,
+  "email": "John@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "id": 1,
+  "profile": null,
+  "reason": "reason for",
+  "references": null,
+  "request": "request",
+  "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "status": "CLOSED",
+  "summary": null,
+  "title": "Basic petition without optional items",
+  "updatedAt": Any<Date>,
+}
+`;
+
+exports[`PostService deletePost throws an error on invalid id 1`] = `"Post update failed"`;
+
+exports[`PostService getSinglePost returns a single post with specified post id 1`] = `
+Object {
+  "addressee": Object {
+    "name": "Ministry of Environment",
+    "shortName": "MoE",
+  },
+  "addresseeId": 1,
+  "createdAt": 2022-01-01T00:00:00.000Z,
+  "email": "John@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "profile": null,
+  "reason": "reason for",
+  "references": null,
+  "request": "request",
+  "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "signatureCount": 3,
+  "signatures": Array [
+    Object {
+      "comment": null,
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "fullname": null,
+      "hashedUserSgid": "1234",
+      "id": 1,
+      "postId": 1,
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+    Object {
+      "comment": null,
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "fullname": "John Doe",
+      "hashedUserSgid": "5678",
+      "id": 2,
+      "postId": 1,
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+    Object {
+      "comment": "I support this cause!",
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "fullname": null,
+      "hashedUserSgid": "8765",
+      "id": 3,
+      "postId": 1,
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+  ],
+  "status": "OPEN",
+  "summary": null,
+  "title": "Basic petition without optional items",
+  "updatedAt": 2022-01-01T00:00:00.000Z,
+}
+`;
+
+exports[`PostService getSinglePost throws an error if post is not public 1`] = `"No public post with this id"`;
+
+exports[`PostService listPosts returns posts ordered by date created 1`] = `
+Object {
+  "posts": Array [
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": 2022-02-02T00:00:00.000Z,
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 3,
+      "profile": null,
+      "reason": "reason for",
+      "references": null,
+      "request": "request",
+      "signatureCount": 0,
+      "signatures": Array [],
+      "status": "OPEN",
+      "summary": null,
+      "title": "Basic petition without optional items",
+      "updatedAt": 2022-02-02T00:00:00.000Z,
+    },
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 1,
+      "profile": null,
+      "reason": "reason for",
+      "references": null,
+      "request": "request",
+      "signatureCount": 3,
+      "signatures": Array [
+        Object {
+          "comment": null,
+          "createdAt": 2022-01-01T00:00:00.000Z,
+          "fullname": null,
+          "hashedUserSgid": "1234",
+          "id": 1,
+          "postId": 1,
+          "updatedAt": 2022-01-01T00:00:00.000Z,
+        },
+        Object {
+          "comment": null,
+          "createdAt": 2022-01-01T00:00:00.000Z,
+          "fullname": "John Doe",
+          "hashedUserSgid": "5678",
+          "id": 2,
+          "postId": 1,
+          "updatedAt": 2022-01-01T00:00:00.000Z,
+        },
+        Object {
+          "comment": "I support this cause!",
+          "createdAt": 2022-01-01T00:00:00.000Z,
+          "fullname": null,
+          "hashedUserSgid": "8765",
+          "id": 3,
+          "postId": 1,
+          "updatedAt": 2022-01-01T00:00:00.000Z,
+        },
+      ],
+      "status": "OPEN",
+      "summary": null,
+      "title": "Basic petition without optional items",
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 2,
+      "profile": "OGP",
+      "reason": "reason",
+      "references": "wikipedia.com",
+      "request": "request",
+      "signatureCount": 0,
+      "signatures": Array [],
+      "status": "OPEN",
+      "summary": "petition summary",
+      "title": "Petition with summary, references, profile",
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+  ],
+  "totalItems": 3,
+}
+`;
+
+exports[`PostService listPosts returns posts ordered by signature count 1`] = `
+Object {
+  "posts": Array [
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 1,
+      "profile": null,
+      "reason": "reason for",
+      "references": null,
+      "request": "request",
+      "signatureCount": 3,
+      "signatures": Array [
+        Object {
+          "comment": null,
+          "createdAt": 2022-01-01T00:00:00.000Z,
+          "fullname": null,
+          "hashedUserSgid": "1234",
+          "id": 1,
+          "postId": 1,
+          "updatedAt": 2022-01-01T00:00:00.000Z,
+        },
+        Object {
+          "comment": null,
+          "createdAt": 2022-01-01T00:00:00.000Z,
+          "fullname": "John Doe",
+          "hashedUserSgid": "5678",
+          "id": 2,
+          "postId": 1,
+          "updatedAt": 2022-01-01T00:00:00.000Z,
+        },
+        Object {
+          "comment": "I support this cause!",
+          "createdAt": 2022-01-01T00:00:00.000Z,
+          "fullname": null,
+          "hashedUserSgid": "8765",
+          "id": 3,
+          "postId": 1,
+          "updatedAt": 2022-01-01T00:00:00.000Z,
+        },
+      ],
+      "status": "OPEN",
+      "summary": null,
+      "title": "Basic petition without optional items",
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": 2022-01-01T00:00:00.000Z,
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 2,
+      "profile": "OGP",
+      "reason": "reason",
+      "references": "wikipedia.com",
+      "request": "request",
+      "signatureCount": 0,
+      "signatures": Array [],
+      "status": "OPEN",
+      "summary": "petition summary",
+      "title": "Petition with summary, references, profile",
+      "updatedAt": 2022-01-01T00:00:00.000Z,
+    },
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": 2022-02-02T00:00:00.000Z,
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 3,
+      "profile": null,
+      "reason": "reason for",
+      "references": null,
+      "request": "request",
+      "signatureCount": 0,
+      "signatures": Array [],
+      "status": "OPEN",
+      "summary": null,
+      "title": "Basic petition without optional items",
+      "updatedAt": 2022-02-02T00:00:00.000Z,
+    },
+  ],
+  "totalItems": 3,
+}
+`;
+
+exports[`PostService publishPost returns void on making post public 1`] = `
+Object {
+  "addresseeId": 1,
+  "createdAt": Any<Date>,
+  "email": "John@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "id": 3,
+  "profile": null,
+  "reason": "reason for",
+  "references": null,
+  "request": "request",
+  "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "status": "OPEN",
+  "summary": null,
+  "title": "Basic petition without optional items",
+  "updatedAt": Any<Date>,
+}
+`;
+
+exports[`PostService publishPost throws an error on invalid id 1`] = `"Post update failed"`;
+
+exports[`PostService updatePost throws on bad addressee 1`] = `"Addressee does not exist"`;
+
+exports[`PostService updatePost updates post on good input 1`] = `
+Object {
+  "addresseeId": 2,
+  "createdAt": Any<Date>,
+  "email": "updated@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "id": 1,
+  "profile": "User profile",
+  "reason": "More compelling reason",
+  "references": null,
+  "request": "More compelling request",
+  "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "status": "OPEN",
+  "summary": "A longer description or summary",
+  "title": "Title should be even more concise",
+  "updatedAt": Any<Date>,
+}
+`;

@@ -1,6 +1,7 @@
 import { PostStatus } from '~shared/types/base'
 
 export const mockPost = {
+  id: 3,
   title: 'Basic petition without optional items',
   reason: 'reason for',
   request: 'request',

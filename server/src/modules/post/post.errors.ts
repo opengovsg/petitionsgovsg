@@ -18,3 +18,21 @@ export class PostUpdateError extends ApplicationError {
     super(message, statusCode)
   }
 }
+
+export class AddresseeDoesNotExistError extends ApplicationError {
+  constructor(
+    message = 'Addressee does not exist',
+    statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
+  ) {
+    super(message, statusCode)
+  }
+}
+
+export class UserCannotViewPostError extends ApplicationError {
+  constructor(
+    message = 'User must be logged in to access private post',
+    statusCode = StatusCodes.FORBIDDEN,
+  ) {
+    super(message, statusCode)
+  }
+}
