@@ -30,7 +30,11 @@ export const routePosts = ({
    * @return 500 for database error
    * @access Public
    */
-  router.get('/:id', [param('id').isInt().toInt()], controller.getSinglePost)
+  router.get(
+    '/:id',
+    [limiter, param('id').isInt().toInt()],
+    controller.getSinglePost,
+  )
 
   /**
    * Create a new post

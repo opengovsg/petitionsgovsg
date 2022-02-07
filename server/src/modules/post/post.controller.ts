@@ -69,7 +69,7 @@ export class PostController {
   }
 
   /**
-   * Get a single post and all the users associated with it
+   * Get a single post and all the signatures associated with it
    * @param postId Id of the post
    * @query relatedPosts if true, return related posts
    * @return 200 with post
@@ -77,7 +77,7 @@ export class PostController {
    * @return 500 for database error
    */
   getSinglePost: ControllerHandler<
-    { id: number },
+    { id: string },
     PostWithAddresseeAndSignatures | Message,
     undefined,
     { relatedPosts?: number }
@@ -88,7 +88,7 @@ export class PostController {
     }
     let post
     try {
-      post = await this.postService.getSinglePost(req.params.id)
+      post = await this.postService.getSinglePost(Number(req.params.id))
     } catch (error) {
       logger.error({
         message: 'Error while retrieving single post',
