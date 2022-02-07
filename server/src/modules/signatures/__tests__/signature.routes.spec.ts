@@ -96,7 +96,7 @@ describe('/signatures', () => {
     })
     it('returns UNAUTHORIZED on no user', async () => {
       authUser = undefined
-      jwt = mockUserJWT
+      jwt = undefined
       const response = await request
         .post(`/${POST_ID}`)
         .send({ useName: true, comment: null })
