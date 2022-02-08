@@ -9,5 +9,6 @@ export const decodeUserJWT = (req: any): AuthUserDto => {
 }
 
 export const encodeUserJWT = (claims: AuthUserDto): string => {
-  return JWT.sign(claims, JWT_SECRET, { expiresIn: 60 * 60 })
+  // set expiry to 5 minutes
+  return JWT.sign(claims, JWT_SECRET, { expiresIn: 5 * 60 })
 }

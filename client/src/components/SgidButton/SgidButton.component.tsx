@@ -1,9 +1,6 @@
 import { Button } from '@chakra-ui/react'
 import { BiRightArrowAlt } from 'react-icons/bi'
 
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
-
 const onClick = async (redirect: string) => {
   if (process.env.NODE_ENV === 'production') {
     window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${redirect}`
@@ -21,26 +18,6 @@ const SgidButtonWithArrow = ({
   width?: string
   height?: string
 }): JSX.Element => {
-  const { user } = useAuth()
-  const navigate = useNavigate()
-  if (user) {
-    return (
-      <Button
-        backgroundColor="secondary.500"
-        _hover={{
-          background: 'secondary.400',
-        }}
-        width={{ base: '100%', md: '176px' }}
-        height={{ base: '56px', md: '44px' }}
-        borderRadius="4px"
-        color="white"
-        rightIcon={<BiRightArrowAlt />}
-        onClick={() => navigate(redirect)}
-      >
-        {text}
-      </Button>
-    )
-  }
   return (
     <Button
       rightIcon={<BiRightArrowAlt />}

@@ -13,6 +13,7 @@ import { PostStatus } from '~shared/types/base'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { BiLockAlt, BiPen } from 'react-icons/bi'
+import { useAuth } from '../../contexts/AuthContext'
 
 type FormValues = CreateSignatureReqDto
 const refreshPage = async () => window.location.reload()
@@ -25,7 +26,7 @@ const SignForm = ({
   postId: string | undefined
 }): JSX.Element => {
   const toast = useStyledToast()
-
+  const { user } = useAuth()
   const [searchParams] = useSearchParams()
   const openSignatureModal = searchParams.has('sign')
 
@@ -61,10 +62,6 @@ const SignForm = ({
     })
     onSubscriptionModalOpen()
   }
-  const onClick = async () => {
-    onPreSignModalClose()
-    onSignatureModalOpen()
-  }
 
   // Init Subscription Modal
   const {
@@ -82,7 +79,7 @@ const SignForm = ({
   }
 
   useEffect(() => {
-    if (openSignatureModal) {
+    if (openSignatureModal && user) {
       onSignatureModalOpen()
     }
   }, [])
@@ -122,7 +119,6 @@ const SignForm = ({
       <PreSignModal
         isOpen={isPreSignModalOpen}
         onClose={onPreSignModalClose}
-        onNext={onClick}
         isEndorser={post?.status === PostStatus.Draft}
         petitionOwner={post?.fullname || ''}
         post={post}
