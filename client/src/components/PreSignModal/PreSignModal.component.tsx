@@ -16,7 +16,8 @@ import {
 } from '@chakra-ui/react'
 import { useMultiStyleConfig } from '@chakra-ui/system'
 import { GetSinglePostDto } from '../../api'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { PostStatus } from '~shared/types/base'
 
 type PreSignModalProps = Pick<ModalProps, 'isOpen' | 'onClose'> & {
   isEndorser: boolean
@@ -30,8 +31,8 @@ export const PreSignModal = ({
   onClose,
   isEndorser,
   petitionOwner,
+  post,
 }: PreSignModalProps): JSX.Element => {
-  // If user is signed in, don't need to resign in through SP app
   const [useName, setUseName] = useState(false)
 
   const styles = useMultiStyleConfig('PreSignModal', {})
@@ -68,6 +69,12 @@ export const PreSignModal = ({
     </Flex>
   )
 
+  useEffect(() => {
+    if (post?.status === PostStatus.Draft) {
+      setUseName(true)
+    }
+  })
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
@@ -94,7 +101,7 @@ export const PreSignModal = ({
               Please read through the petition carefully before signing it.
             </Text>
           )}
-          {useNameComponent}
+          {post?.status === PostStatus.Open && useNameComponent}
         </ModalBody>
         <ModalFooter>
           <Button

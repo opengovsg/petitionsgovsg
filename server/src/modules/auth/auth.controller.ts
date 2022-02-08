@@ -89,6 +89,7 @@ export class AuthController {
 
     // store redirect to post in state
     const { url: authUrl } = client.authorizationUrl(redirect, scopes)
+    res.clearCookie('jwt')
     return res.redirect(authUrl)
   }
   /**

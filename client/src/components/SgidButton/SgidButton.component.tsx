@@ -3,9 +3,9 @@ import { BiRightArrowAlt } from 'react-icons/bi'
 
 const onClick = async (redirect: string) => {
   if (process.env.NODE_ENV === 'production') {
-    window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${redirect}`
+    window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${redirect}&useName=true`
   } else {
-    window.location.href = `http://localhost:6174/api/v1/auth/sgid/login?redirect=${redirect}`
+    window.location.href = `http://localhost:6174/api/v1/auth/sgid/login?redirect=${redirect}&useName=true`
   }
 }
 
