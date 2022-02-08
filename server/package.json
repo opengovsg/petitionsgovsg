@@ -93,7 +93,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "find-my-way": "^5.2.0",
-    "jest": "^27.5.0",
+    "jest": "^27.5.1",
     "lint-staged": "12.3",
     "neat-csv": "^7.0.0",
     "prettier": "^2.5.1",
