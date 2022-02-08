@@ -32,7 +32,8 @@ export const AuthProvider = ({
   const whoami = () => {
     setLoading(true)
     ApiClient.get<LoadPublicUserDto>('/auth')
-      .then(({ data }) => {
+      .then(({ data, headers }) => {
+        ApiClient.defaults.headers.common['xsrf-token'] = headers['xsrf-token']
         if (data) {
           setUser(data)
         }

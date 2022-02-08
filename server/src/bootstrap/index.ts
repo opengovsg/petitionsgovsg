@@ -55,7 +55,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(csrf({ cookie: { httpOnly: true } }))
 app.use((req, res, next) => {
-  res.cookie('XSRF-TOKEN', req.csrfToken())
+  res.header('XSRF-TOKEN', req.csrfToken())
   next()
 })
 
