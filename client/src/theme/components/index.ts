@@ -5,6 +5,7 @@ import { Post } from './Post'
 import { PostForm } from './PostForm'
 import { PostItem } from './PostItem'
 import { PostSection } from './PostSection'
+import { PrivacyTerms } from './PrivacyTerms'
 import { StyledToast } from './StyledToast'
 import { SignatureModal } from './SignatureModal'
 import { PetitionCard } from './PetitionCard'
@@ -26,6 +27,7 @@ export const components = {
   PostForm,
   PostItem,
   PostSection,
+  PrivacyTerms,
   SignatureModal,
   PetitionCard,
   PetitionGrid,
