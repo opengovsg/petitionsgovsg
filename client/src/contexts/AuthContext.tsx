@@ -1,14 +1,12 @@
 import { AxiosError } from 'axios'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { ApiClient, getApiErrorMessage } from '../api'
+import { ApiClient } from '../api'
 import { LoadPublicUserDto } from '~shared/types/api'
-import { useStyledToast } from '../components/StyledToast/StyledToast'
 import { useLocation } from 'react-router-dom'
 
 interface AuthContextProps {
   user: LoadPublicUserDto
   isLoading: boolean
-  logout: () => void
 }
 
 const authContext = createContext<AuthContextProps | undefined>(undefined)
@@ -25,7 +23,6 @@ export const AuthProvider = ({
   children: JSX.Element
 }): JSX.Element => {
   const [isLoading, setLoading] = useState<boolean>(true)
-  const toast = useStyledToast()
   const [user, setUser] = useState<LoadPublicUserDto>(null)
   const { pathname } = useLocation()
 
@@ -49,23 +46,9 @@ export const AuthProvider = ({
       })
   }
 
-  const logout = () => {
-    ApiClient.post('/auth/logout')
-      .then(() => {
-        setUser(null)
-      })
-      .catch((error) => {
-        toast({
-          status: 'error',
-          description: getApiErrorMessage(error),
-        })
-      })
-  }
-
   const auth = {
     user,
     isLoading,
-    logout,
   }
 
   const initialize = () => {

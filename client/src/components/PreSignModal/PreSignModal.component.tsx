@@ -10,17 +10,21 @@ import {
   ModalOverlay,
   ModalProps,
   Text,
+  VStack,
+  Flex,
+  Switch,
 } from '@chakra-ui/react'
 import { useMultiStyleConfig } from '@chakra-ui/system'
-import { useAuth } from '../../contexts/AuthContext'
 import { GetSinglePostDto } from '../../api'
+import { useEffect, useState } from 'react'
+import { PostStatus } from '~shared/types/base'
+import { SGID_REDIRECT_URI } from '../../api/Sgid'
 
 type PreSignModalProps = Pick<ModalProps, 'isOpen' | 'onClose'> & {
   isEndorser: boolean
   petitionOwner: string
   post: GetSinglePostDto | undefined
   postId: string | undefined
-  onNext: () => Promise<void>
 }
 
 export const PreSignModal = ({
@@ -28,20 +32,45 @@ export const PreSignModal = ({
   onClose,
   isEndorser,
   petitionOwner,
-  onNext,
+  post,
 }: PreSignModalProps): JSX.Element => {
-  // If user is signed in, don't need to resign in through SP app
-  const { user } = useAuth()
+  const [useName, setUseName] = useState(false)
 
   const styles = useMultiStyleConfig('PreSignModal', {})
 
   const onClickSgid = async (redirect: string) => {
-    if (process.env.NODE_ENV === 'production') {
-      window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${redirect}`
-    } else {
-      window.location.href = `http://localhost:6174/api/v1/auth/sgid/login?redirect=${redirect}`
-    }
+    window.location.href = `${SGID_REDIRECT_URI}?redirect=${redirect}&useName=${useName}`
   }
+
+  const useNameComponent = (
+    <Flex>
+      <VStack sx={styles.disclaimerBox}>
+        <Box>
+          <Text sx={styles.disclaimerHeader}>
+            I want to sign this petition using my full name.
+          </Text>
+          <Text sx={styles.disclaimerCaption}>
+            Your full name will be visible as a signatory of this petition
+          </Text>
+        </Box>
+      </VStack>
+      <Flex ms="auto">
+        <Switch
+          alignSelf="center"
+          colorScheme="green"
+          onChange={() => {
+            setUseName(!useName)
+          }}
+        />
+      </Flex>
+    </Flex>
+  )
+
+  useEffect(() => {
+    if (post?.status === PostStatus.Draft) {
+      setUseName(true)
+    }
+  })
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -69,6 +98,7 @@ export const PreSignModal = ({
               Please read through the petition carefully before signing it.
             </Text>
           )}
+          {post?.status === PostStatus.Open && useNameComponent}
         </ModalBody>
         <ModalFooter>
           <Button
@@ -80,28 +110,15 @@ export const PreSignModal = ({
           >
             Cancel
           </Button>
-          {user ? (
-            <Button
-              type="submit"
-              sx={styles.proceedButton}
-              onClick={onNext}
-              _hover={{
-                bg: 'secondary.600',
-              }}
-            >
-              Proceed and sign
-            </Button>
-          ) : (
-            <Button
-              sx={styles.proceedButton}
-              onClick={() => onClickSgid(`${location.pathname}?sign`)}
-              _hover={{
-                bg: 'secondary.600',
-              }}
-            >
-              Proceed and sign
-            </Button>
-          )}
+          <Button
+            sx={styles.proceedButton}
+            onClick={() => onClickSgid(`${location.pathname}?sign`)}
+            _hover={{
+              bg: 'secondary.600',
+            }}
+          >
+            Proceed and sign
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

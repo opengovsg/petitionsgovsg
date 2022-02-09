@@ -32,14 +32,6 @@ export const routeAuth = ({
   router.get('/fullname', authMiddleware.authenticate, controller.loadUserName)
 
   /**
-   * Logout
-   * @route   POST /api/auth/logout
-   * @returns 200 if logged out
-   * @access  private
-   */
-  router.post('/logout', controller.handleLogout)
-
-  /**
    * Sgid Login
    * @route   POST /api/auth/sgid/login
    * @returns 302 with sgid oidc link

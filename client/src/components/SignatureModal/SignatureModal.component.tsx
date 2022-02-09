@@ -79,7 +79,7 @@ export const SignatureModal = ({
   const useNameComponent = (
     <FormControl display="flex" alignItems="center">
       <VStack sx={styles.disclaimerBox}>
-        {showDisclaimer ? (
+        {showDisclaimer && user?.fullname ? (
           <Box>
             <FormLabel mb="0">
               I want to sign this petition using my full name, {user?.fullname}
@@ -91,7 +91,7 @@ export const SignatureModal = ({
         ) : (
           <Box>
             <FormLabel mb="0">
-              I want to sign this petition using my full name.
+              I want to sign this petition anonymously.
             </FormLabel>
             <FormLabel sx={styles.disclaimerCaption}>
               You will be an anonymous signer of this petition
@@ -99,16 +99,18 @@ export const SignatureModal = ({
           </Box>
         )}
       </VStack>
-      <Flex ms="auto">
-        <Switch
-          alignSelf="flex-end"
-          colorScheme="green"
-          {...register('useName', {})}
-          onChange={() => {
-            toggleShowDisclaimer(!showDisclaimer)
-          }}
-        />
-      </Flex>
+      {user?.fullname && (
+        <Flex ms="auto">
+          <Switch
+            alignSelf="flex-end"
+            colorScheme="green"
+            {...register('useName', {})}
+            onChange={() => {
+              toggleShowDisclaimer(!showDisclaimer)
+            }}
+          />
+        </Flex>
+      )}
     </FormControl>
   )
 

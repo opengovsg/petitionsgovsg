@@ -11,46 +11,11 @@ import { useEffect, useState } from 'react'
 import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom'
 import { ReactComponent as Petition } from '../../assets/petitions-sg.svg'
 import { ReactComponent as PetitionMobile } from '../../assets/petitions-mobile.svg'
-import { useAuth } from '../../contexts/AuthContext'
-
-import LinkButton from '../LinkButton/LinkButton.component'
 import Masthead from '../Masthead/Masthead.component'
-import Spinner from '../Spinner/Spinner.component'
 
 const Header = (): JSX.Element => {
   const styles = useMultiStyleConfig('Header', {})
-  const { user, logout } = useAuth()
-
   const location = useLocation()
-  // const matchPost = matchPath('/questions/:id', location.pathname)
-  // const postId = matchPost?.params?.id
-
-  // Similar logic to find agency as login component
-  // if post is linked to multiple agencies via agencyTag
-  // take the first agencyTag found as agency
-  const AuthLinks = () => (
-    <Flex mx={6} flexDirection="column" alignItems="flex-end">
-      {user === null ? (
-        <Spinner centerWidth="50px" centerHeight="50px" />
-      ) : (
-        <HStack>
-          {/* <Text textStyle="body-2" mr={2} color="secondary.700">
-            {user.fullname}
-          </Text> */}
-          {/* <Image
-            alt="user-logo"
-            boxSize={8}
-            borderRadius="3px"
-            mr={4}
-            alignItems="right"
-            src={`https://secure.gravatar.com/avatar/${user.id}?s=164&d=identicon`}
-            loading="lazy"
-          /> */}
-          <LinkButton text={'Log out'} link={'/'} handleClick={logout} />
-        </HStack>
-      )}
-    </Flex>
-  )
 
   // Look for /questions to catch search result and post pages
   const matchQuestions = matchPath('/questions/*', location.pathname)
@@ -137,7 +102,6 @@ const Header = (): JSX.Element => {
               <RouterLink to="/anonymity">
                 <Text sx={styles.mobileHeaderLink}>Anonymity</Text>
               </RouterLink>
-              {user && <AuthLinks />}
             </HStack>
           </Flex>
         </>
@@ -152,7 +116,6 @@ const Header = (): JSX.Element => {
               <RouterLink to="/anonymity">
                 <Text>Ensuring Anonymity</Text>
               </RouterLink>
-              {user && <AuthLinks />}
             </HStack>
           </Flex>
         </HStack>

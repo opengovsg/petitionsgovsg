@@ -157,10 +157,16 @@ export class PostController {
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'User not signed in' })
     }
+    if (!req.user.fullname) {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: 'User not signed in' })
+    }
 
     try {
       const salt = await generateSalt()
       const hashedUserSgid = await hashData(req.user.id, salt)
+
       const data = await this.postService.createPost({
         title: req.body.title,
         summary: req.body.summary,

@@ -12,6 +12,7 @@ import {
 } from '../../services/AddresseeService'
 import { useQuery } from 'react-query'
 import { Navigate } from 'react-router-dom'
+import { SGID_REDIRECT_URI } from '../../api/Sgid'
 
 const PostForm = (): JSX.Element => {
   const { user, isLoading: isUserLoading } = useAuth()
@@ -75,9 +76,7 @@ const PostForm = (): JSX.Element => {
   ) : (
     <Navigate
       to={
-        process.env.NODE_ENV === 'production'
-          ? (window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${location.pathname}`)
-          : (window.location.href = `http://localhost:6174/api/v1/auth/sgid/login?redirect=${location.pathname}`)
+        (window.location.href = `${SGID_REDIRECT_URI}?redirect=${location.pathname}`)
       }
     />
   )

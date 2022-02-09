@@ -152,7 +152,6 @@ docker-compose stop
 - `GET /auth`
 - `GET /auth/sgid/login`
 - `GET /auth/callback`
-- `GET /auth/logout`
 
 #### Posts
 

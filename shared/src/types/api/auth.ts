@@ -5,7 +5,7 @@ export enum UserAuthType {
 export interface AuthUserDto {
   id: string
   type: UserAuthType
-  fullname: string
+  fullname: string | null
 }
 
 export type LoadPublicUserDto = Pick<AuthUserDto, 'id' | 'fullname'> | null

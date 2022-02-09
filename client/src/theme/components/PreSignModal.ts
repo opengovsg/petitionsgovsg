@@ -14,4 +14,17 @@ export const PreSignModal = makeMultiStyleConfig({
     fontStyle: 'secondary.500',
     color: 'white',
   },
+  disclaimerBox: {
+    alignItems: 'flex-start',
+    spacing: '0',
+    py: '4px',
+  },
+  disclaimerHeader: {
+    textStyle: 'subhead-1',
+  },
+  disclaimerCaption: {
+    fontSize: '12px',
+    fontWeight: '400',
+    color: 'secondary.400',
+  },
 })
