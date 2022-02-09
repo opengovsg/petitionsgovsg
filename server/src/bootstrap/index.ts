@@ -152,7 +152,6 @@ if (baseConfig.nodeEnv === Environment.Prod) {
     '/agency-terms',
     '/privacy',
     '/agency-privacy',
-    '/login',
     '/about',
     '/guidelines',
     '/unauthorised',

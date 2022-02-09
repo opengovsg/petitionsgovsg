@@ -35,7 +35,7 @@ const baseSchema: Schema<BaseConfig> = {
   hostUrl: {
     doc: 'Host url',
     format: String,
-    default: 'https://ask.gov.sg',
+    default: 'https://petitions.hack.gov.sg',
     env: 'HOST_URL',
   },
 }

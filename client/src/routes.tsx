@@ -10,7 +10,6 @@ import HomePage from './pages/HomePage/HomePage.component'
 import NotFound from './pages/NotFound/NotFound.component'
 import Post from './pages/Post/Post.component'
 import PostForm from './pages/PostForm/PostForm.component'
-import UserLogin from './pages/UserLogin/UserLogin.component'
 import withPageTitle from './services/withPageTitle'
 import About from './pages/About/About.component'
 import Guidelines from './pages/Guidelines/Guidelines.component'
@@ -59,11 +58,6 @@ const AgencyPrivacyComponent = withPageTitle({
   title: 'Privacy (Agency)',
 })
 
-const UserLoginComponent = withPageTitle({
-  component: UserLogin,
-  title: 'User Login',
-})
-
 const AboutComponent = withPageTitle({
   component: About,
   title: 'About',
@@ -90,7 +84,6 @@ const Routes = (): JSX.Element => {
       <Route path="/agency-terms" element={<AgencyTermsComponent />} />
       <Route path="/privacy" element={<CitizenPrivacyComponent />} />
       <Route path="/agency-privacy" element={<AgencyPrivacyComponent />} />
-      <Route path="/login" element={<UserLoginComponent />} />
       <Route path="/about" element={<AboutComponent />} />
       <Route path="/guidelines" element={<GuidelinesComponent />} />
       <Route path="/anonymity" element={<AnonymityComponent />} />
