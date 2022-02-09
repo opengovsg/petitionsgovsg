@@ -2,6 +2,7 @@ import { Button } from './Button'
 import { Header } from './Header'
 import { Pagination } from './Pagination'
 import { Post } from './Post'
+import { PostForm } from './PostForm'
 import { PostItem } from './PostItem'
 import { PostSection } from './PostSection'
 import { StyledToast } from './StyledToast'
@@ -22,6 +23,7 @@ export const components = {
   StyledToast,
   Pagination,
   Post,
+  PostForm,
   PostItem,
   PostSection,
   SignatureModal,
