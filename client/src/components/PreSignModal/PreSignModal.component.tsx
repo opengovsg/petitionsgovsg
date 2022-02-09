@@ -18,6 +18,7 @@ import { useMultiStyleConfig } from '@chakra-ui/system'
 import { GetSinglePostDto } from '../../api'
 import { useEffect, useState } from 'react'
 import { PostStatus } from '~shared/types/base'
+import { SGID_REDIRECT_URI } from '../../api/Sgid'
 
 type PreSignModalProps = Pick<ModalProps, 'isOpen' | 'onClose'> & {
   isEndorser: boolean
@@ -38,11 +39,7 @@ export const PreSignModal = ({
   const styles = useMultiStyleConfig('PreSignModal', {})
 
   const onClickSgid = async (redirect: string) => {
-    if (process.env.NODE_ENV === 'production') {
-      window.location.href = `${process.env.PUBLIC_URL}/api/v1/auth/sgid/login?redirect=${redirect}&useName=${useName}`
-    } else {
-      window.location.href = `http://localhost:6174/api/v1/auth/sgid/login?redirect=${redirect}&useName=${useName}`
-    }
+    window.location.href = `${SGID_REDIRECT_URI}?redirect=${redirect}&useName=${useName}`
   }
 
   const useNameComponent = (
