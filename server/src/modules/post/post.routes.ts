@@ -2,6 +2,7 @@ import { AuthMiddleware } from '../auth/auth.middleware'
 import express from 'express'
 import { check, param } from 'express-validator'
 import { PostController } from './post.controller'
+import { limiter } from '../../middleware/limiter'
 
 export const routePosts = ({
   controller,
@@ -29,7 +30,11 @@ export const routePosts = ({
    * @return 500 for database error
    * @access Public
    */
-  router.get('/:id', [param('id').isInt().toInt()], controller.getSinglePost)
+  router.get(
+    '/:id',
+    [limiter, param('id').isInt().toInt()],
+    controller.getSinglePost,
+  )
 
   /**
    * Create a new post
@@ -44,6 +49,7 @@ export const routePosts = ({
     '/',
     [
       authMiddleware.authenticate,
+      limiter,
       check(
         'title',
         'Enter a title with minimum of 15 characters and maximum 150 characters',
@@ -65,21 +71,6 @@ export const routePosts = ({
   )
 
   /**
-   * Delete a post
-   * @route  DELETE /api/posts/:id
-   * @return 200 if successful
-   * @return 401 if user is not logged in
-   * @return 403 if user does not have permission to delete post
-   * @return 500 if database error
-   * @access Private
-   */
-  router.delete(
-    '/:id([0-9]+$)',
-    [authMiddleware.authenticate],
-    controller.deletePost,
-  )
-
-  /**
    * Update a post
    * @route PUT /api/posts/update/:id
    * @return 200 if successful
@@ -89,22 +80,27 @@ export const routePosts = ({
    */
   router.put(
     '/:id([0-9]+$)',
-    [authMiddleware.authenticate],
+    [
+      authMiddleware.authenticate,
+      limiter,
+      check(
+        'title',
+        'Enter a title with minimum of 15 characters and maximum 150 characters',
+      ).isLength({
+        min: 15,
+        max: 150,
+      }),
+      check('email', 'Enter an email with a minimum of 1 characters').isLength({
+        min: 1,
+      }),
+      check('reason', 'Enter a reason with minimum 1 character').isLength({
+        min: 1,
+      }),
+      check('request', 'Enter a request with minimum 1 character').isLength({
+        min: 1,
+      }),
+    ],
     controller.updatePost,
-  )
-
-  /**
-   * Publish a post
-   * @route PUT /api/posts/:id
-   * @return 200 if successful
-   * @return 401 if user is not logged in
-   * @return 500 if database error
-   */
-
-  router.put(
-    '/:id([0-9]+$)',
-    [authMiddleware.authenticate],
-    controller.publishPost,
   )
 
   return router

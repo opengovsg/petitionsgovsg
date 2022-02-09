@@ -49,43 +49,41 @@ export class SignatureService {
     Signature,
     'comment' | 'postId' | 'hashedUserSgid' | 'fullname'
   >): Promise<number> => {
-    try {
-      const signatureId = await this.sequelize.transaction(
-        async (transaction) => {
-          const signature = await this.Signature.create(
-            {
-              postId: postId,
-              comment: comment,
-              hashedUserSgid: hashedUserSgid,
-              fullname: fullname,
-            },
-            { transaction },
-          )
-          return signature.id
-        },
-      )
-      return signatureId
-    } catch (error) {
-      throw error
-    }
+    const signatureId = await this.sequelize.transaction(
+      async (transaction) => {
+        const signature = await this.Signature.create(
+          {
+            postId: postId,
+            comment: comment,
+            hashedUserSgid: hashedUserSgid,
+            fullname: fullname,
+          },
+          { transaction },
+        )
+        return signature.id
+      },
+    )
+    return signatureId
   }
 
   /**
-   * Delete a signature.
-   * @param id of signature to delete
+   * Checks if a user has signed a petition
+   * @param post with signatures and addressees
+   * @param hashedUserSgid of user against petition's salt
    */
-  deleteSignature = async (id: number): Promise<void> => {
-    await this.Signature.destroy({ where: { id } })
-  }
-
   checkUserHasSigned = async (
     postId: number,
     hashedUserSgid: string,
   ): Promise<Signature | null> => {
     // Hash user id / sgid with salt
-    const signature = await this.Signature.findOne({
+    const signatureModelInstance = await this.Signature.findOne({
       where: { hashedUserSgid: hashedUserSgid, postId: postId },
     })
-    return signature
+
+    if (!signatureModelInstance) {
+      return null
+    }
+
+    return signatureModelInstance.get()
   }
 }

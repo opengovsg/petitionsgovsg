@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/posts Get / retrieves all posts 1`] = `
+Object {
+  "posts": Array [
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": "2022-01-01T00:00:00.000Z",
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 1,
+      "profile": null,
+      "reason": "reason for",
+      "references": null,
+      "request": "request",
+      "signatureCount": 3,
+      "signatures": Array [
+        Object {
+          "comment": null,
+          "createdAt": "2022-01-01T00:00:00.000Z",
+          "fullname": null,
+          "hashedUserSgid": "1234",
+          "id": 1,
+          "postId": 1,
+          "updatedAt": "2022-01-01T00:00:00.000Z",
+        },
+        Object {
+          "comment": null,
+          "createdAt": "2022-01-01T00:00:00.000Z",
+          "fullname": "John Doe",
+          "hashedUserSgid": "5678",
+          "id": 2,
+          "postId": 1,
+          "updatedAt": "2022-01-01T00:00:00.000Z",
+        },
+        Object {
+          "comment": "I support this cause!",
+          "createdAt": "2022-01-01T00:00:00.000Z",
+          "fullname": null,
+          "hashedUserSgid": "8765",
+          "id": 3,
+          "postId": 1,
+          "updatedAt": "2022-01-01T00:00:00.000Z",
+        },
+      ],
+      "status": "OPEN",
+      "summary": null,
+      "title": "Basic petition without optional items",
+      "updatedAt": "2022-01-01T00:00:00.000Z",
+    },
+    Object {
+      "addressee": Object {
+        "name": "Ministry of Environment",
+        "shortName": "MoE",
+      },
+      "addresseeId": 1,
+      "createdAt": "2022-01-01T00:00:00.000Z",
+      "email": "John@email.com",
+      "fullname": "John Doe",
+      "hashedUserSgid": "wxyz",
+      "id": 2,
+      "profile": "OGP",
+      "reason": "reason",
+      "references": "wikipedia.com",
+      "request": "request",
+      "signatureCount": 0,
+      "signatures": Array [],
+      "status": "OPEN",
+      "summary": "petition summary",
+      "title": "Petition with summary, references, profile",
+      "updatedAt": "2022-01-01T00:00:00.000Z",
+    },
+  ],
+  "totalItems": 2,
+}
+`;
+
+exports[`/posts Get /:id retrieves posts with specified id 1`] = `
+Object {
+  "addressee": Object {
+    "name": "Ministry of Environment",
+    "shortName": "MoE",
+  },
+  "addresseeId": 1,
+  "createdAt": "2022-01-01T00:00:00.000Z",
+  "email": "John@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "profile": null,
+  "reason": "reason for",
+  "references": null,
+  "request": "request",
+  "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "signatureCount": 3,
+  "signatures": Array [
+    Object {
+      "comment": null,
+      "createdAt": "2022-01-01T00:00:00.000Z",
+      "fullname": null,
+      "hashedUserSgid": "1234",
+      "id": 1,
+      "postId": 1,
+      "updatedAt": "2022-01-01T00:00:00.000Z",
+    },
+    Object {
+      "comment": null,
+      "createdAt": "2022-01-01T00:00:00.000Z",
+      "fullname": "John Doe",
+      "hashedUserSgid": "5678",
+      "id": 2,
+      "postId": 1,
+      "updatedAt": "2022-01-01T00:00:00.000Z",
+    },
+    Object {
+      "comment": "I support this cause!",
+      "createdAt": "2022-01-01T00:00:00.000Z",
+      "fullname": null,
+      "hashedUserSgid": "8765",
+      "id": 3,
+      "postId": 1,
+      "updatedAt": "2022-01-01T00:00:00.000Z",
+    },
+  ],
+  "status": "OPEN",
+  "summary": null,
+  "title": "Basic petition without optional items",
+  "updatedAt": "2022-01-01T00:00:00.000Z",
+}
+`;
+
+exports[`/posts Post / returns BAD REQUEST on bad request 1`] = `"Enter a title with minimum of 15 characters and maximum 150 characters"`;
+
+exports[`/posts Post / returns OK on valid submission 1`] = `
+Object {
+  "data": 3,
+}
+`;
+
+exports[`/posts Post / returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;
+
+exports[`/posts Put /:id returns BAD REQUEST on bad request 1`] = `"Enter a title with minimum of 15 characters and maximum 150 characters"`;
+
+exports[`/posts Put /:id returns OK on valid submission 1`] = `
+Object {
+  "message": "Petition updated",
+}
+`;
+
+exports[`/posts Put /:id returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "You must be logged in to update posts.",
+}
+`;

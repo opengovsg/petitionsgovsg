@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddresseeController listAddressees retrieves all addressees 1`] = `
+Array [
+  Object {
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "id": 1,
+    "name": "Ministry of Environment",
+    "shortName": "MoE",
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+  Object {
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "id": 2,
+    "name": "Ministry of Labour",
+    "shortName": "MoL",
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+]
+`;
+
+exports[`AddresseeController listAddressees returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;

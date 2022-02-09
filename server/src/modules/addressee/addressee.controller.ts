@@ -35,18 +35,16 @@ export class AddresseeController {
       const data = await this.addresseeService.listAddressees()
       return res.status(StatusCodes.OK).json(data)
     } catch (error) {
-      if (error instanceof Error) {
-        logger.error({
-          message: 'Error while listing addresees',
-          meta: {
-            function: 'listAddressees',
-          },
-          error,
-        })
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Server Error' })
-      }
+      logger.error({
+        message: 'Error while listing addresees',
+        meta: {
+          function: 'listAddressees',
+        },
+        error,
+      })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Server Error' })
     }
   }
 }

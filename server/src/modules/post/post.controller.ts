@@ -9,7 +9,7 @@ import { AuthService } from '../auth/auth.service'
 import { PostService, PostWithAddresseeAndSignatures } from './post.service'
 import { hashData, generateSalt } from '../../util/hash'
 import { UpdatePostRequestDto } from '../../types/post-type'
-import { decodeUserJWT } from '../../util/jwt'
+import { MIN_ENDORSER_COUNT } from '../signatures/signature.controller'
 
 const logger = createLogger(module)
 
@@ -55,23 +55,21 @@ export class PostController {
       })
       return res.status(StatusCodes.OK).json(data)
     } catch (error) {
-      if (error instanceof Error) {
-        logger.error({
-          message: 'Error while listing posts',
-          meta: {
-            function: 'listPosts',
-          },
-          error,
-        })
-        return res
-          .status(StatusCodes.INTERNAL_SERVER_ERROR)
-          .json({ message: 'Server Error' })
-      }
+      logger.error({
+        message: 'Error while listing posts',
+        meta: {
+          function: 'listPosts',
+        },
+        error,
+      })
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Server Error' })
     }
   }
 
   /**
-   * Get a single post and all the users associated with it
+   * Get a single post and all the signatures associated with it
    * @param postId Id of the post
    * @query relatedPosts if true, return related posts
    * @return 200 with post
@@ -79,7 +77,7 @@ export class PostController {
    * @return 500 for database error
    */
   getSinglePost: ControllerHandler<
-    { id: number },
+    { id: string },
     PostWithAddresseeAndSignatures | Message,
     undefined,
     { relatedPosts?: number }
@@ -90,7 +88,7 @@ export class PostController {
     }
     let post
     try {
-      post = await this.postService.getSinglePost(req.params.id)
+      post = await this.postService.getSinglePost(Number(req.params.id))
     } catch (error) {
       logger.error({
         message: 'Error while retrieving single post',
@@ -102,6 +100,21 @@ export class PostController {
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: 'Server Error' })
+    }
+
+    try {
+      this.authService.verifyUserCanViewPost(post, req.user?.id)
+    } catch (error) {
+      logger.error({
+        message: 'Error while retrieving single post',
+        meta: {
+          function: 'getSinglePost',
+        },
+        error,
+      })
+      return res
+        .status(StatusCodes.FORBIDDEN)
+        .json({ message: 'User does not have permission to access this post' })
     }
 
     return res.status(StatusCodes.OK).json(post)
@@ -120,7 +133,7 @@ export class PostController {
    * @return 500 if database error
    */
   createPost: ControllerHandler<
-    undefined,
+    never,
     { data: number } | Message,
     {
       title: string
@@ -132,7 +145,6 @@ export class PostController {
       addresseeId: number
       profile: string | null
       email: string
-      salt: string
     },
     undefined
   > = async (req, res) => {
@@ -140,11 +152,15 @@ export class PostController {
     if (!errors.isEmpty()) {
       return res.status(StatusCodes.BAD_REQUEST).json(errors.array()[0].msg)
     }
+    if (!req.user) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: 'User not signed in' })
+    }
 
     try {
-      const { id, fullname } = decodeUserJWT(req)
       const salt = await generateSalt()
-      const hashedUserSgid = await hashData(id, salt)
+      const hashedUserSgid = await hashData(req.user.id, salt)
       const data = await this.postService.createPost({
         title: req.body.title,
         summary: req.body.summary,
@@ -152,7 +168,7 @@ export class PostController {
         request: req.body.request,
         hashedUserSgid: hashedUserSgid,
         references: req.body.references,
-        fullname: fullname,
+        fullname: req.user.fullname,
         addresseeId: req.body.addresseeId,
         profile: req.body.profile,
         email: req.body.email,
@@ -170,57 +186,7 @@ export class PostController {
       })
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: 'Server error' })
-    }
-  }
-
-  /**
-   * Delete a post
-   * @param id Post to be deleted
-   * @return 200 if successful
-   * @return 401 if user is not logged in
-   * @return 403 if user does not have permission to delete post
-   * @return 500 if database error
-   */
-  deletePost: ControllerHandler<{ id: string }, Message> = async (req, res) => {
-    const postId = Number(req.params.id)
-    try {
-      const { id } = decodeUserJWT(req)
-      const userId = id
-      if (!userId) {
-        logger.error({
-          message: 'UserId is undefined after authenticated',
-          meta: {
-            function: 'deletePost',
-          },
-        })
-        return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: 'You must be logged in to delete posts.' })
-      }
-      // TODO
-      // const hasPermission = await this.authService.hasPermissionToEditPost(
-      //   userId,
-      //   postId,
-      // )
-      // if (!hasPermission) {
-      //   return res
-      //     .status(StatusCodes.FORBIDDEN)
-      //     .json({ message: 'You do not have permission to delete this post.' })
-      // }
-      await this.postService.deletePost(postId)
-      return res.status(StatusCodes.OK).send({ message: 'OK' })
-    } catch (error) {
-      logger.error({
-        message: 'Error while deleting post',
-        meta: {
-          function: 'deletePost',
-        },
-        error,
-      })
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: 'Server error' })
+        .json({ message: 'Server Error' })
     }
   }
 
@@ -240,23 +206,20 @@ export class PostController {
     undefined
   > = async (req, res) => {
     const postId = Number(req.params.id)
-    const { id: userId } = decodeUserJWT(req)
     try {
-      if (!userId) {
-        logger.error({
-          message: 'UserId is undefined after authenticated',
-          meta: {
-            function: 'updatePost',
-          },
-        })
+      const errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        return res.status(StatusCodes.BAD_REQUEST).json(errors.array()[0].msg)
+      }
+      if (!req.user) {
         return res
           .status(StatusCodes.UNAUTHORIZED)
           .json({ message: 'You must be logged in to update posts.' })
       }
       // Check that user is owner of petition
       const post = await this.postService.getSinglePost(Number(req.params.id))
-      const hashedUserSgid = await hashData(userId, post.salt)
-      const hasPermission = await this.authService.verifyPetitionOwner(
+      const hashedUserSgid = await hashData(req.user.id, post.salt)
+      const hasPermission = this.authService.verifyPetitionOwner(
         post,
         hashedUserSgid,
       )
@@ -278,23 +241,17 @@ export class PostController {
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .json({ message: 'Something went wrong, please try again.' })
     }
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: errors.array()[0].msg })
-    }
     // Update post in database
     try {
       const updated = await this.postService.updatePost({
         title: req.body.title,
         summary: req.body.summary ?? '',
-        reason: req.body.reason ?? '',
-        request: req.body.request ?? '',
+        reason: req.body.reason,
+        request: req.body.request,
         references: req.body.references ?? '',
         addresseeId: req.body.addresseeId ?? 0,
         profile: req.body.profile ?? '',
-        email: req.body.email ?? '',
+        email: req.body.email,
         id: postId,
       })
 
@@ -323,19 +280,26 @@ export class PostController {
     req,
     res,
   ) => {
+    if (!req.user) {
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ message: 'You must be logged in to publish posts.' })
+    }
     const postId = Number(req.params.id)
     try {
-      const { id: userId } = decodeUserJWT(req)
-      if (!userId) {
-        logger.error({
-          message: 'UserId is undefined after authenticated',
-          meta: {
-            function: 'publishPost',
-          },
-        })
+      // Check that user is owner of petition
+      const post = await this.postService.getSinglePost(postId)
+      const hashedUserSgid = await hashData(req.user.id, post.salt)
+      const hasPermission = this.authService.verifyPetitionOwner(
+        post,
+        hashedUserSgid,
+      )
+      const signatureCount = post.signatures.length
+      // User cannot publish if a) he is not the owner or b) signature count is below 3
+      if (!hasPermission || signatureCount <= MIN_ENDORSER_COUNT) {
         return res
-          .status(StatusCodes.UNAUTHORIZED)
-          .json({ message: 'You must be logged in to publish post.' })
+          .status(StatusCodes.FORBIDDEN)
+          .json({ message: 'You do not have permission to publish this post.' })
       }
       await this.postService.publishPost(postId)
       return res.status(StatusCodes.OK).send({ message: 'OK' })

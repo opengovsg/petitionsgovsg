@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/addressees Get /:id retrieves all addressees 1`] = `
+Array [
+  Object {
+    "id": 1,
+    "name": "Ministry of Environment",
+    "shortName": "MoE",
+  },
+  Object {
+    "id": 2,
+    "name": "Ministry of Labour",
+    "shortName": "MoL",
+  },
+]
+`;

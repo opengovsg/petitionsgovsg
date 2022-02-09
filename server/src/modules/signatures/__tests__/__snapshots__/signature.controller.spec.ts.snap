@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignatureController checkUserHasSigned returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`SignatureController checkUserHasSigned returns OK with null body on user has not signed 1`] = `null`;
+
+exports[`SignatureController checkUserHasSigned returns OK with user signature on user has signed 1`] = `
+Object {
+  "comment": "I want to support this cause.",
+  "createdAt": "2022-01-01T00:00:00+00:00",
+  "fullname": null,
+  "hashedUserSgid": "$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW",
+  "id": 4,
+  "postId": 1,
+  "updatedAt": "2022-01-01T00:00:00+00:00",
+}
+`;
+
+exports[`SignatureController checkUserHasSigned returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;
+
+exports[`SignatureController createSignature returns BAD_REQUEST on invalidated request 1`] = `Object {}`;
+
+exports[`SignatureController createSignature returns BAD_REQUEST on user has alaready signed 1`] = `
+Object {
+  "message": "User has already signed this petition",
+}
+`;
+
+exports[`SignatureController createSignature returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`SignatureController createSignature returns OK on valid submission with post published when signature count hits threshold 1`] = `4`;
+
+exports[`SignatureController createSignature returns OK on valid submission with useName set to false 1`] = `4`;
+
+exports[`SignatureController createSignature returns OK on valid submission with useName set to true 1`] = `4`;
+
+exports[`SignatureController createSignature returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;
+
+exports[`SignatureController listSignatures retrieves all signatures to a post with /:id 1`] = `
+Array [
+  Object {
+    "comment": null,
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "fullname": null,
+    "hashedUserSgid": "1234",
+    "id": 1,
+    "postId": 1,
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+  Object {
+    "comment": null,
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "fullname": "John Doe",
+    "hashedUserSgid": "5678",
+    "id": 2,
+    "postId": 1,
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+  Object {
+    "comment": "I support this cause!",
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "fullname": null,
+    "hashedUserSgid": "8765",
+    "id": 3,
+    "postId": 1,
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+]
+`;
+
+exports[`SignatureController listSignatures returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;

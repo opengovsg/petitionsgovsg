@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostController createPost returns BAD_REQUEST on invalidated request 1`] = `""`;
+
+exports[`PostController createPost returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`PostController createPost returns OK on valid submission 1`] = `
+Object {
+  "data": 3,
+}
+`;
+
+exports[`PostController createPost returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;
+
+exports[`PostController getSinglePost retrieves post with specified id 1`] = `
+Object {
+  "addresseeId": 1,
+  "email": "John@email.com",
+  "fullname": "John Doe",
+  "hashedUserSgid": "wxyz",
+  "id": 3,
+  "profile": null,
+  "reason": "reason for",
+  "references": null,
+  "request": "request",
+  "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "status": "OPEN",
+  "summary": null,
+  "title": "Basic petition without optional items",
+}
+`;
+
+exports[`PostController getSinglePost returns BAD_REQUEST on invalidated request 1`] = `""`;
+
+exports[`PostController getSinglePost returns FORBIDDEN on unauthorised user 1`] = `
+Object {
+  "message": "User does not have permission to access this post",
+}
+`;
+
+exports[`PostController getSinglePost returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`PostController listPosts retrieves all post 1`] = `
+Array [
+  Object {
+    "addresseeId": 1,
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "email": "John@email.com",
+    "fullname": "John Doe",
+    "hashedUserSgid": "wxyz",
+    "id": 1,
+    "profile": null,
+    "reason": "reason for",
+    "references": null,
+    "request": "request",
+    "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+    "status": "OPEN",
+    "summary": null,
+    "title": "Basic petition without optional items",
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+  Object {
+    "addresseeId": 1,
+    "createdAt": "2022-01-01T00:00:00+00:00",
+    "email": "John@email.com",
+    "fullname": "John Doe",
+    "hashedUserSgid": "wxyz",
+    "id": 2,
+    "profile": "OGP",
+    "reason": "reason",
+    "references": "wikipedia.com",
+    "request": "request",
+    "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tX.",
+    "status": "OPEN",
+    "summary": "petition summary",
+    "title": "Petition with summary, references, profile",
+    "updatedAt": "2022-01-01T00:00:00+00:00",
+  },
+]
+`;
+
+exports[`PostController listPosts returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`PostController publishPost returns FORBIDDEN on post not meeting minimum endorser count 1`] = `
+Object {
+  "message": "You do not have permission to publish this post.",
+}
+`;
+
+exports[`PostController publishPost returns FORBIDDEN on user is not post owner 1`] = `
+Object {
+  "message": "You do not have permission to publish this post.",
+}
+`;
+
+exports[`PostController publishPost returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Server error",
+}
+`;
+
+exports[`PostController publishPost returns OK on valid submission 1`] = `
+Object {
+  "message": "OK",
+}
+`;
+
+exports[`PostController publishPost returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "You must be logged in to publish posts.",
+}
+`;
+
+exports[`PostController updatePost returns FORBIDDEN on posts that have already been signed 1`] = `
+Object {
+  "message": "You do not have permission to update this post.",
+}
+`;
+
+exports[`PostController updatePost returns INTERNAL_SERVER_ERROR on bad service 1`] = `
+Object {
+  "message": "Petition failed to update",
+}
+`;
+
+exports[`PostController updatePost returns INTERNAL_SERVER_ERROR on failed update 1`] = `
+Object {
+  "message": "Petition failed to update",
+}
+`;
+
+exports[`PostController updatePost returns OK on valid submission 1`] = `
+Object {
+  "message": "Petition updated",
+}
+`;
+
+exports[`PostController updatePost returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "You must be logged in to update posts.",
+}
+`;

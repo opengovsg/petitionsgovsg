@@ -14,15 +14,15 @@ export class AuthMiddleware {
     if (!token) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'User is unauthorized.' })
+        .json({ message: 'User not signed in.' })
     }
 
     try {
-      decodeUserJWT(req)
+      req.user = decodeUserJWT(req)
     } catch (error) {
       return res
         .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'User is unauthorized.' })
+        .json({ message: 'User not signed in.' })
     }
     return next()
   }

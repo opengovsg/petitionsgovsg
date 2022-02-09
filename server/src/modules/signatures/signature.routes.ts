@@ -1,17 +1,15 @@
 import { AuthMiddleware } from '../auth/auth.middleware'
-import { OwnershipCheck } from '../../middleware/checkOwnership'
 import express from 'express'
-import { check } from 'express-validator'
+import { body } from 'express-validator'
 import { SignatureController } from './signature.controller'
+import { limiter } from '../../middleware/limiter'
 
 export const routeSignatures = ({
   controller,
   authMiddleware,
-  checkOwnership,
 }: {
   controller: SignatureController
   authMiddleware: AuthMiddleware
-  checkOwnership: OwnershipCheck
 }): express.Router => {
   const router = express.Router()
   const { authenticate } = authMiddleware
@@ -36,24 +34,27 @@ export const routeSignatures = ({
    */
   router.post(
     '/:id([0-9]+$)',
-    [authenticate, check('useName', 'useName is required').not().isEmpty()],
+    [
+      authenticate,
+      limiter,
+      body('useName', 'useName is a required boolean').isBoolean(),
+    ],
     controller.createSignature,
   )
 
   /**
-   * Delete an signature. Currently not used as a post delete
-   * will archive the post and will not touch the signature.
-   * @route   DELETE /api/posts/signatures/:id
-   * @returns 200 on successful delete
-   * @returns 500 on database error
+   * Create an signature attached to a post
+   * @route   POST /api/posts/signatures/:id
+   * @returns 200 with signature body if user has signed
+   * @returns 200 with null body if user has not signed
+   * @returns 500 if database error
    * @access  Private
    */
-  router.delete(
-    '/:id([0-9]+$)',
-    [authenticate, checkOwnership],
-    controller.deleteSignature,
+  router.get(
+    '/check/:id([0-9]+$)',
+    authenticate,
+    limiter,
+    controller.checkUserHasSigned,
   )
-
-  router.get('/check/:id([0-9]+$)', authenticate, controller.checkUserHasSigned)
   return router
 }

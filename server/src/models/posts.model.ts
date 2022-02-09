@@ -52,7 +52,7 @@ export const definePost = (
     },
     profile: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     email: {
       type: DataTypes.STRING,

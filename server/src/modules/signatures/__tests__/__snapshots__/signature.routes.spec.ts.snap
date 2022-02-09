@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/signatures Get /:id retrieves all signatures to a post with /:id 1`] = `
+Array [
+  Object {
+    "comment": null,
+    "createdAt": "2022-01-01T00:00:00.000Z",
+    "fullname": null,
+    "hashedUserSgid": "1234",
+    "id": 1,
+    "postId": 1,
+    "updatedAt": "2022-01-01T00:00:00.000Z",
+  },
+  Object {
+    "comment": null,
+    "createdAt": "2022-01-01T00:00:00.000Z",
+    "fullname": "John Doe",
+    "hashedUserSgid": "5678",
+    "id": 2,
+    "postId": 1,
+    "updatedAt": "2022-01-01T00:00:00.000Z",
+  },
+  Object {
+    "comment": "I support this cause!",
+    "createdAt": "2022-01-01T00:00:00.000Z",
+    "fullname": null,
+    "hashedUserSgid": "8765",
+    "id": 3,
+    "postId": 1,
+    "updatedAt": "2022-01-01T00:00:00.000Z",
+  },
+]
+`;
+
+exports[`/signatures Post /:id returns BAD REQUEST on no useName 1`] = `
+Object {
+  "message": "useName is a required boolean",
+}
+`;
+
+exports[`/signatures Post /:id returns OK on valid submission 1`] = `4`;
+
+exports[`/signatures Post /:id returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;
+
+exports[`/signatures Post /check/:id returns OK with null body on user has not signed 1`] = `null`;
+
+exports[`/signatures Post /check/:id returns OK with signature on user has signed 1`] = `
+Object {
+  "comment": null,
+  "createdAt": Any<String>,
+  "fullname": "John Doe",
+  "hashedUserSgid": "$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW",
+  "id": 4,
+  "postId": 1,
+  "updatedAt": Any<String>,
+}
+`;
+
+exports[`/signatures Post /check/:id returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;
