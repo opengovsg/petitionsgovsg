@@ -3,6 +3,7 @@ import { Header } from './Header'
 import { Pagination } from './Pagination'
 import { Post } from './Post'
 import { PostItem } from './PostItem'
+import { PostSection } from './PostSection'
 import { StyledToast } from './StyledToast'
 import { SignatureModal } from './SignatureModal'
 import { PetitionCard } from './PetitionCard'
@@ -22,6 +23,7 @@ export const components = {
   Pagination,
   Post,
   PostItem,
+  PostSection,
   SignatureModal,
   PetitionCard,
   PetitionGrid,
