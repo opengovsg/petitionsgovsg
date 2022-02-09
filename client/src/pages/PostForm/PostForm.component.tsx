@@ -1,10 +1,9 @@
-import { Spacer, Spinner } from '@chakra-ui/react'
+import { Box, Spacer, Spinner, useMultiStyleConfig } from '@chakra-ui/react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
 import { useStyledToast } from '../../components/StyledToast/StyledToast'
 import * as PostService from '../../services/PostService'
 import FormFields, { FormSubmission } from './FormFields/FormFields.component'
-import './PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
 import {
   GET_ADDRESSEES_QUERY_KEY,
@@ -16,6 +15,7 @@ import { SGID_REDIRECT_URI } from '../../api/Sgid'
 
 const PostForm = (): JSX.Element => {
   const { user, isLoading: isUserLoading } = useAuth()
+  const styles = useMultiStyleConfig('PostForm', {})
   const toast = useStyledToast()
   const navigate = useNavigate()
   const location = useLocation()
@@ -57,20 +57,20 @@ const PostForm = (): JSX.Element => {
     <Spinner />
   ) : user ? (
     <>
-      <div className="post-form-container">
-        <div className="post-form-content">
+      <Box sx={styles.container}>
+        <Box sx={styles.content}>
           <Spacer h={['64px', '64px', '84px']} />
-          <div className="post-form-section">
-            <div className="postform" style={{ width: '100%' }}>
+          <Box sx={styles.section}>
+            <Box sx={styles.form}>
               <FormFields
                 addresseeOptions={addresseeData ?? []}
                 onSubmit={onSubmit}
                 submitButtonText="Save &amp; Preview"
               />
-            </div>
-          </div>
-        </div>
-      </div>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
       <Spacer minH={20} />
     </>
   ) : (

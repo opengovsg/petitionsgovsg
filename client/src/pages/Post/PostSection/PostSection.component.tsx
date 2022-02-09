@@ -1,23 +1,24 @@
-import { Box } from '@chakra-ui/react'
-import PostCell from './PostCell/PostCell.component'
-
+import { Box, Text, useMultiStyleConfig } from '@chakra-ui/react'
+import { RichTextPreview } from '../../../components/RichText/RichTextEditor.component'
 const PostSection = ({
   post,
 }: {
   post?: { reason: string; request: string }
 }): JSX.Element => {
+  const styles = useMultiStyleConfig('PostSection', {})
   return (
-    <>
-      <Box
-        className="post"
-        display="grid"
-        my="16px"
-        gridTemplateColumns="max-content 1fr"
-        color="neutral.900"
-      >
-        <PostCell post={post} />
-      </Box>
-    </>
+    <Box sx={styles.container}>
+      {post?.reason && (
+        <Box sx={styles.content}>
+          <Text sx={styles.request}>
+            What would you like the ministry to do?
+          </Text>
+          <RichTextPreview value={post.request} />
+          <Text sx={styles.reason}>What is the reason for your petition?</Text>
+          <RichTextPreview value={post.reason} />
+        </Box>
+      )}
+    </Box>
   )
 }
 

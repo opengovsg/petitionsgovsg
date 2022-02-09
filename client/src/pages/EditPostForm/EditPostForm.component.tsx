@@ -1,4 +1,4 @@
-import { Spacer, Spinner } from '@chakra-ui/react'
+import { Box, Spacer, Spinner, useMultiStyleConfig } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
 import { getApiErrorMessage } from '../../api/ApiClient'
@@ -7,7 +7,6 @@ import * as PostService from '../../services/PostService'
 import FormFields, {
   FormSubmission,
 } from '../PostForm/FormFields/FormFields.component'
-import '../PostForm/PostForm.styles.scss'
 import { useAuth } from '../../contexts/AuthContext'
 import {
   GET_ADDRESSEES_QUERY_KEY,
@@ -26,6 +25,7 @@ import {
 
 const EditPostForm = (): JSX.Element => {
   const { user, isLoading: isUserLoading } = useAuth()
+  const styles = useMultiStyleConfig('PostForm', {})
   const queryclient = useQueryClient()
   const toast = useStyledToast()
   const navigate = useNavigate()
@@ -101,11 +101,11 @@ const EditPostForm = (): JSX.Element => {
       <Spinner />
     ) : (
       <>
-        <div className="post-form-container">
-          <div className="post-form-content">
+        <Box sx={styles.container}>
+          <Box sx={styles.content}>
             <Spacer h={['64px', '64px', '84px']} />
-            <div className="post-form-section">
-              <div className="postform" style={{ width: '100%' }}>
+            <Box sx={styles.section}>
+              <Box sx={styles.form}>
                 <FormFields
                   inputPostData={{
                     email: post?.email ?? '',
@@ -123,10 +123,10 @@ const EditPostForm = (): JSX.Element => {
                   onSubmit={onSubmit}
                   submitButtonText="Save &amp; Preview"
                 />
-              </div>
-            </div>
-          </div>
-        </div>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
         <Spacer minH={20} />
       </>
     )
