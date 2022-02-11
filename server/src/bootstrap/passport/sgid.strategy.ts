@@ -1,6 +1,5 @@
 import passport from 'passport'
 import { Strategy, Issuer, TokenSet, UserinfoResponse } from 'openid-client'
-import { ModelCtor } from 'sequelize/dist'
 import { AuthUserDto, UserAuthType } from '~shared/types/api'
 import * as jose from 'jose'
 

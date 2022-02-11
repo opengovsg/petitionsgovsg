@@ -6,7 +6,7 @@ import {
   resetAndSetupDb,
   SequelizeWithModels,
 } from '../../../util/db/jest-db'
-import { Model } from 'sequelize/dist'
+import { Model } from 'sequelize'
 import { Post } from '~shared/types/base'
 import { Creation } from '../../../types/sequelize'
 import { routeSignatures } from '../signature.routes'
