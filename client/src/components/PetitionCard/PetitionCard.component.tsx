@@ -53,7 +53,9 @@ const PetitionCard = ({
         <Flex justifyContent="space-between" flexWrap="wrap">
           <Box>
             <Text sx={styles.signatureCount}>{signatureCount} signed</Text>
-            <Text sx={styles.duration}>{getDateDistance(createdAt)} to go</Text>
+            <Text sx={styles.duration}>
+              {getDateDistance(`${createdAt}`)} to go
+            </Text>
           </Box>
           <Button
             sx={styles.signButton}

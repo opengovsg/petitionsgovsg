@@ -1,11 +1,4 @@
-import { BaseModelParams, MessageResponse } from './common'
-
-export type BaseSignatureDto = BaseModelParams & {
-  comment: string | null
-  hashedUserSgid: number
-  postId: number
-  fullname: string | null
-}
+import { MessageResponse } from './common'
 
 export type CreateSignatureReqDto = {
   comment: string | null

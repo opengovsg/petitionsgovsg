@@ -1,14 +1,7 @@
-import { BaseModelParams, MessageResponse } from './common'
+import { Addressee } from '~shared/types/base'
+import { MessageResponse } from './common'
 
-export type BaseAddresseeDto = BaseModelParams & {
-  name: string
-  shortName: string | null
-}
-
-export type CreateAddresseeReqDto = {
-  name: string
-  shortName: string | null
-}
+export type CreateAddresseeReqDto = Pick<Addressee, 'name' | 'shortName'>
 
 // Returns signature ID
 export type CreateAddresseeResDto = MessageResponse & { data: number }
