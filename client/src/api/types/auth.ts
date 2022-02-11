@@ -1,5 +1,3 @@
-import { BaseModelParams } from './common'
+import { AuthUserDto } from '~shared/types/api'
 
-export type BaseUserNameDto = BaseModelParams & {
-  fullname: string
-}
+export type BaseUserNameDto = Pick<AuthUserDto, 'fullname'>

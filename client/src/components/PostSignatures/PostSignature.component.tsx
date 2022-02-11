@@ -1,18 +1,18 @@
-import { BaseSignatureDto } from '../../api'
 import { Box, HStack, Text } from '@chakra-ui/react'
 import { formatDistanceToNow } from 'date-fns'
+import { Signature } from '~shared/types/base'
 
 export const PostSignature = ({
   signature,
 }: {
-  signature: Pick<BaseSignatureDto, 'comment' | 'createdAt' | 'fullname'>
+  signature: Pick<Signature, 'comment' | 'createdAt' | 'fullname'>
 }): JSX.Element => {
   return (
     <Box my="16px">
       <HStack h="24px" color="secondary.700" my="8px" fontWeight="500">
         <Text>
           {signature.fullname ?? 'anon'} •{' '}
-          {formatDistanceToNow(Date.parse(signature.createdAt), {
+          {formatDistanceToNow(new Date(signature.createdAt), {
             addSuffix: true,
           })}
         </Text>
