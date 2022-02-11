@@ -10,13 +10,14 @@ export class AuthService {
    */
   verifyUserCanViewPost = (post: Post, userId?: string): void => {
     // If post is public, anyone can view
-    if (post.status === PostStatus.Open || post.status === PostStatus.Draft)
-      return
-
     // If private or archived, must be logged in
-    if (!userId) throw new UserCannotViewPostError()
-
-    return
+    if (
+      post.status === PostStatus.Open ||
+      post.status === PostStatus.Draft ||
+      userId
+    )
+      return
+    throw new UserCannotViewPostError()
   }
 
   verifyPetitionOwner = (post: Post, userId?: string): boolean => {
@@ -25,6 +26,7 @@ export class AuthService {
       // check that user id is the same as post user id
       const postUserId = post.hashedUserSgid
       return postUserId === userId
-    } else return false
+    }
+    return false
   }
 }

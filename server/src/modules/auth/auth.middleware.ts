@@ -10,14 +10,8 @@ export class AuthMiddleware {
    */
   authenticate: ControllerHandler = (req, res, next) => {
     // Check if user is authenticated
-    const token = req.cookies.jwt
-    if (!token) {
-      return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ message: 'User not signed in.' })
-    }
-
     try {
+      const token = req.cookies.jwt
       req.user = decodeUserJWT(req)
     } catch (error) {
       return res

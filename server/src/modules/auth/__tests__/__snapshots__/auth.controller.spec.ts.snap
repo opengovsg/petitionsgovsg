@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthController handleSgidLogin should return 200 on valid login 1`] = `"http://localhost:5156/sgid/v1/oauth/authorize?client_id=petitionsgov&scope=openid%20myinfo.name&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000&nonce=abc&state=%2Fcreate"`;
+
+exports[`AuthController loadUser should return 200 when jwt is valid 1`] = `
+Object {
+  "fullname": "John Doe",
+  "id": "sgid",
+}
+`;
+
+exports[`AuthController loadUser should return 500 when jwt is invalid 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`AuthController loadUserName should return 200 with user fullname 1`] = `
+Object {
+  "fullname": "John Doe",
+}
+`;
+
+exports[`AuthController loadUserName should return 500 on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;
+
+exports[`AuthController loadUserName should return 500 when fullname is not found 1`] = `null`;
+
+exports[`AuthController verifyPetitionOwner should return 200 false when user is not post owner 1`] = `false`;
+
+exports[`AuthController verifyPetitionOwner should return 200 true when user is post owner 1`] = `true`;
+
+exports[`AuthController verifyPetitionOwner should return 500 on bad service 1`] = `
+Object {
+  "message": "Server Error",
+}
+`;

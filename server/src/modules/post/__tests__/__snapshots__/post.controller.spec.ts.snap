@@ -23,6 +23,7 @@ Object {
 exports[`PostController getSinglePost retrieves post with specified id 1`] = `
 Object {
   "addresseeId": 1,
+  "createdAt": "2022-01-01T00:00:00+00:00",
   "email": "John@email.com",
   "fullname": "John Doe",
   "hashedUserSgid": "wxyz",
@@ -35,6 +36,7 @@ Object {
   "status": "OPEN",
   "summary": null,
   "title": "Basic petition without optional items",
+  "updatedAt": "2022-01-01T00:00:00+00:00",
 }
 `;
 
@@ -59,7 +61,7 @@ Array [
     "createdAt": "2022-01-01T00:00:00+00:00",
     "email": "John@email.com",
     "fullname": "John Doe",
-    "hashedUserSgid": "wxyz",
+    "hashedUserSgid": "$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW",
     "id": 1,
     "profile": null,
     "reason": "reason for",

@@ -1,4 +1,5 @@
 import express from 'express'
+import { limiter } from '../../middleware/limiter'
 import { AuthController } from './auth.controller'
 import { AuthMiddleware } from './auth.middleware'
 
@@ -16,7 +17,7 @@ export const routeAuth = ({
    * @route   GET /api/auth
    * @returns 200 with user details
    * @returns 401 if user not signed in
-   * @returns 500 if database error
+   * @returns 500 if service error
    * @access  Private
    */
   router.get('/', authMiddleware.authenticate, controller.loadUser)
@@ -26,10 +27,14 @@ export const routeAuth = ({
    * @route   GET /api/auth
    * @returns 200 with user's fullname
    * @returns 401 if user not signed in
-   * @returns 500 if database error
+   * @returns 500 if service error
    * @access  Private
    */
-  router.get('/fullname', authMiddleware.authenticate, controller.loadUserName)
+  router.get(
+    '/fullname',
+    [authMiddleware.authenticate, limiter],
+    controller.loadUserName,
+  )
 
   /**
    * Sgid Login
@@ -37,7 +42,7 @@ export const routeAuth = ({
    * @returns 302 with sgid oidc link
    * @access  private
    */
-  router.get('/sgid/login', controller.handleSgidLogin)
+  router.get('/sgid/login', limiter, controller.handleSgidLogin)
 
   /**
    * Sgid Callback
@@ -53,11 +58,11 @@ export const routeAuth = ({
    * Verify petition owner check
    * @route GET /api/auth/checkpetitionowner/:id
    * @returns 200 on successful check
-   * @returns 500 on database error
+   * @returns 500 on service error
    */
   router.get(
     '/checkpetitionowner/:id([0-9]+$)',
-    authMiddleware.authenticate,
+    [authMiddleware.authenticate, limiter],
     controller.verifyPetitionOwner,
   )
 

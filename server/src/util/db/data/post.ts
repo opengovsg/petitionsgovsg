@@ -14,6 +14,8 @@ export const mockPost = {
   summary: null,
   references: null,
   profile: null,
+  createdAt: '2022-01-01T00:00:00+00:00',
+  updatedAt: '2022-01-01T00:00:00+00:00',
 }
 
 export const mockPosts = [
@@ -25,7 +27,8 @@ export const mockPosts = [
     status: PostStatus.Open,
     fullname: 'John Doe',
     salt: '$2b$10$72TKINiR4.ZMaJZmuN5tW.',
-    hashedUserSgid: 'wxyz',
+    hashedUserSgid:
+      '$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW',
     email: 'John@email.com',
     addresseeId: 1,
     summary: null,
