@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { callbackRedirectURL } from '../../bootstrap/config/auth'
+import { formCallbackRedirectURL } from '../../bootstrap/config/auth'
 import { Message } from 'src/types/message-type'
 import {
   ErrorDto,
@@ -12,32 +12,27 @@ import { ControllerHandler } from '../../types/response-handler'
 import { AuthService } from '../auth/auth.service'
 import { PostService } from '../post/post.service'
 import { hashData } from '../../util/hash'
-import SgidClient from '@opengovsg/sgid-client'
 import { decodeUserJWT, encodeUserJWT } from '../../util/jwt'
+import SgidClient from '@opengovsg/sgid-client'
 
 const logger = createLogger(module)
-const privateKeyPem = (process.env.SGID_PRIV_KEY ?? '').replace(/\\n/g, '\n')
-const client = new SgidClient({
-  endpoint: `${process.env.SGID_ENDPOINT}`,
-  clientId: process.env.SGID_CLIENT_ID ?? 'petitionsgov',
-  clientSecret: process.env.SGID_CLIENT_SECRET ?? '',
-  redirectUri: process.env.SGID_REDIRECT_URI ?? 'http://localhost:3000',
-  privateKey: privateKeyPem,
-})
-
 export class AuthController {
   private authService: Public<AuthService>
   private postService: Public<PostService>
+  private sgidClient: SgidClient
 
   constructor({
     authService,
     postService,
+    sgidClient,
   }: {
     authService: Public<AuthService>
     postService: Public<PostService>
+    sgidClient: SgidClient
   }) {
     this.authService = authService
     this.postService = postService
+    this.sgidClient = sgidClient
   }
 
   /**
@@ -50,50 +45,45 @@ export class AuthController {
     req,
     res,
   ) => {
-    const { id, fullname } = decodeUserJWT(req)
-
-    if (!id) {
-      logger.error({
-        message: 'User not found after being authenticated',
-        meta: {
-          function: 'loadUser',
-          userId: id,
-        },
-      })
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
-    }
-
     try {
+      const { id, fullname } = decodeUserJWT(req)
       return res.status(StatusCodes.OK).json({ id, fullname })
     } catch (error) {
       logger.error({
-        message: 'Database Error while loading public user',
+        message: 'Error while loading user',
         meta: {
           function: 'loadUser',
-          userId: id,
         },
         error,
       })
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Server Error' })
     }
   }
 
   handleSgidLogin: ControllerHandler<
+    never,
     undefined,
     undefined,
-    undefined,
-    { redirect: string; useName: string }
+    { redirect: string; useName: string; nonce: string | undefined }
   > = async (req, res) => {
-    const { redirect, useName } = req.query
+    const { redirect, useName, nonce } = req.query
+
     const scopes = useName === 'true' ? 'openid myinfo.name' : 'openid'
 
     // store redirect to post in state
-    const { url: authUrl } = client.authorizationUrl(redirect, scopes)
+    const { url: authUrl } = this.sgidClient.authorizationUrl(
+      redirect,
+      scopes,
+      nonce,
+    )
     res.clearCookie('jwt')
     return res.redirect(authUrl)
   }
+
   /**
-   * Verify otp received by the user
+   * Handle callback from sgid
    * @params code
    * @params state
    * @returns 302 to home page if successful login
@@ -107,8 +97,8 @@ export class AuthController {
     { code: string; state: string | undefined }
   > = async (req, res) => {
     const { state, code } = req.query
-    const { sub, accessToken } = await client.callback(code, undefined)
-    const { data } = await client.userinfo(accessToken)
+    const { sub, accessToken } = await this.sgidClient.callback(code, undefined)
+    const { data } = await this.sgidClient.userinfo(accessToken)
     const claims = {
       id: sub,
       type: UserAuthType.Public,
@@ -120,7 +110,8 @@ export class AuthController {
       sameSite: 'strict',
       maxAge: 60 * 60 * 1000,
     })
-    return res.redirect(callbackRedirectURL(state))
+    const redirectUrl = formCallbackRedirectURL(state)
+    return res.redirect(redirectUrl)
   }
 
   /**
@@ -133,18 +124,31 @@ export class AuthController {
     req,
     res,
   ) => {
-    const { id, fullname } = decodeUserJWT(req)
-    if (!fullname) {
+    try {
+      const { id, fullname } = decodeUserJWT(req)
+      if (!fullname) {
+        logger.error({
+          message: "Error loading user's name",
+          meta: {
+            function: 'loadUserName',
+            userId: id,
+          },
+        })
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
+      }
+      return res.status(StatusCodes.OK).json({ fullname: fullname })
+    } catch (error) {
       logger.error({
-        message: 'User name not found after being authenticated',
+        message: "Error while loading user's name",
         meta: {
-          function: 'loadUserName',
-          userId: id,
+          function: 'loadUser',
         },
+        error,
       })
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(null)
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Server Error' })
     }
-    return res.status(StatusCodes.OK).json({ fullname: fullname })
   }
 
   /**

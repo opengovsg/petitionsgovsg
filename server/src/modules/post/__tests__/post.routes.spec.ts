@@ -129,7 +129,7 @@ describe('/posts', () => {
 
   describe('Put /:id', () => {
     it('returns OK on valid submission', async () => {
-      authService.verifyPetitionOwner.mockResolvedValueOnce(true)
+      authService.verifyPetitionOwner.mockReturnValueOnce(true)
       const modifiedPostAttributes = {
         ...postAttributes,
         title: 'Newly updated title',
@@ -152,7 +152,7 @@ describe('/posts', () => {
     it('returns UNAUTHORIZED on no user', async () => {
       authUser = undefined
       jwt = undefined
-      authService.verifyPetitionOwner.mockResolvedValueOnce(false)
+      authService.verifyPetitionOwner.mockReturnValueOnce(false)
       const modifiedPostAttributes = {
         ...postAttributes,
         title: 'Newly updated title',

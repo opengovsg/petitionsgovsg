@@ -25,6 +25,8 @@ import { bannerConfig } from './config/banner'
 import { googleAnalyticsConfig } from './config/googleAnalytics'
 import cookieParser from 'cookie-parser'
 import csrf from 'csurf'
+import SgidClient from '@opengovsg/sgid-client'
+import { sgidConfig } from './config/sgid'
 
 export { sequelize } from './sequelize'
 export const app = express()
@@ -63,6 +65,14 @@ app.use((req, res, next) => {
 const bannerMessage = bannerConfig.siteWideMessage
 const googleAnalyticsId = googleAnalyticsConfig.googleAnalyticsId
 
+const sgidClient = new SgidClient({
+  endpoint: sgidConfig.endpoint,
+  clientId: sgidConfig.clientId,
+  clientSecret: sgidConfig.clientSecret,
+  redirectUri: sgidConfig.redirectUri,
+  privateKey: sgidConfig.privateKey,
+})
+
 const authService = new AuthService()
 const authMiddleware = new AuthMiddleware()
 const postService = new PostService({
@@ -89,7 +99,7 @@ const apiOptions = {
     checkOwnership: checkOwnershipUsing({ Post, Signature }),
   },
   auth: {
-    controller: new AuthController({ authService, postService }),
+    controller: new AuthController({ authService, postService, sgidClient }),
     authMiddleware,
   },
   env: new EnvController({ bannerMessage, googleAnalyticsId }),

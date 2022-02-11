@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthService verifyUserCanViewPost throws on archived post without userId 1`] = `"User must be logged in to access private post"`;

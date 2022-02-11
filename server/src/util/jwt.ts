@@ -1,7 +1,8 @@
 import * as JWT from 'jsonwebtoken'
+import { authConfig } from '../bootstrap/config/auth'
 import { AuthUserDto } from '~shared/types/api'
 
-const JWT_SECRET = process.env.JWT_SECRET ?? ''
+const JWT_SECRET = authConfig.jwtSecret
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const decodeUserJWT = (req: any): AuthUserDto => {

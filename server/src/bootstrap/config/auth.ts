@@ -2,6 +2,7 @@ import convict, { Schema } from 'convict'
 import { baseConfig, Environment } from './base'
 
 export type AuthConfig = {
+  jwtSecret: string
   sessionSecret: string
   govEmailGlob: string
 }
@@ -12,6 +13,13 @@ const authSchema: Schema<AuthConfig> = {
     format: String,
     default: '',
     env: 'SESSION_SECRET',
+    sensitive: true,
+  },
+  jwtSecret: {
+    doc: 'JWT secret',
+    format: String,
+    default: 'myJwtSecret',
+    env: 'JWT_SECRET',
     sensitive: true,
   },
   govEmailGlob: {
@@ -26,7 +34,7 @@ export const authConfig = convict(authSchema)
   .validate({ allowed: 'strict' })
   .getProperties()
 
-export const callbackRedirectURL = (state: string | undefined) =>
+export const formCallbackRedirectURL = (state: string | undefined) =>
   baseConfig.nodeEnv === Environment.Dev
     ? `http://localhost:3000${state}`
     : `https://petitions.hack.gov.sg${state}`

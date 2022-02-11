@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/auth Get / retrieves authenticated user 1`] = `
+Object {
+  "fullname": "John Doe",
+  "id": "sgid",
+}
+`;
+
+exports[`/auth Get / returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in.",
+}
+`;
+
+exports[`/auth Get /checkpetitionowner/:id returns OK false on user is not petition owner 1`] = `false`;
+
+exports[`/auth Get /checkpetitionowner/:id returns OK true on user is petition owner 1`] = `true`;
+
+exports[`/auth Get /checkpetitionowner/:id returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in.",
+}
+`;
+
+exports[`/auth Get /fullname returns OK with fullname 1`] = `
+Object {
+  "fullname": "John Doe",
+}
+`;
+
+exports[`/auth Get /fullname returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in.",
+}
+`;
