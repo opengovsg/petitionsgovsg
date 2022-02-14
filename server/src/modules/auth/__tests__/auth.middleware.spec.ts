@@ -1,9 +1,9 @@
-import supertest from 'supertest'
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
+import supertest from 'supertest'
+import { ControllerHandler } from '../../../types/response-handler'
 import { mockUserJWT } from '../../../util/db/data/user'
 import { AuthMiddleware } from '../auth.middleware'
-import { ControllerHandler } from 'src/types/response-handler'
 
 describe('auth.middleware', () => {
   // Set up auth middleware to inject user

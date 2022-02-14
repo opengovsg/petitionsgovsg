@@ -1,24 +1,24 @@
-import supertest from 'supertest'
+import SgidClient from '@opengovsg/sgid-client'
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
-import {
-  createTestDatabase,
-  resetAndSetupDb,
-  SequelizeWithModels,
-} from '../../../util/db/jest-db'
+import supertest from 'supertest'
+import { PostService } from '../../../modules/post/post.service'
+import { ControllerHandler } from '../../../types/response-handler'
+import { POST_ID } from '../../../util/db/constants'
 import {
   mockOtherUserJWT,
   mockUser,
   mockUserJWT,
 } from '../../../util/db/data/user'
-import { POST_ID } from '../../../util/db/constants'
-import { routeAuth } from '../auth.routes'
+import {
+  createTestDatabase,
+  resetAndSetupDb,
+  SequelizeWithModels,
+} from '../../../util/db/jest-db'
 import { AuthController } from '../auth.controller'
-import { PostService } from '../../../modules/post/post.service'
-import { AuthService } from '../auth.service'
 import { AuthMiddleware } from '../auth.middleware'
-import SgidClient from '@opengovsg/sgid-client'
-import { ControllerHandler } from 'src/types/response-handler'
+import { routeAuth } from '../auth.routes'
+import { AuthService } from '../auth.service'
 
 describe('/auth', () => {
   let db: SequelizeWithModels
