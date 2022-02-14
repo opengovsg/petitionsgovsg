@@ -1,19 +1,19 @@
+import SgidClient from '@opengovsg/sgid-client'
 import { StatusCodes } from 'http-status-codes'
-import { formCallbackRedirectURL } from '../../bootstrap/config/auth'
-import { Message } from 'src/types/message-type'
 import {
   ErrorDto,
   LoadPublicUserDto,
   LoadUserNameDto,
   UserAuthType,
 } from '~shared/types/api'
+import { formCallbackRedirectURL } from '../../bootstrap/config/auth'
 import { createLogger } from '../../bootstrap/logging'
+import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
-import { AuthService } from '../auth/auth.service'
-import { PostService } from '../post/post.service'
 import { hashData } from '../../util/hash'
 import { decodeUserJWT, encodeUserJWT } from '../../util/jwt'
-import SgidClient from '@opengovsg/sgid-client'
+import { AuthService } from '../auth/auth.service'
+import { PostService } from '../post/post.service'
 
 const logger = createLogger(module)
 export class AuthController {
