@@ -1,19 +1,20 @@
 import { Button, useDisclosure } from '@chakra-ui/react'
+import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
-import { CreateSignatureReqDto, GetSinglePostDto } from '../../api'
+import { BiLockAlt, BiPen } from 'react-icons/bi'
+import { useSearchParams } from 'react-router-dom'
+import { CreateSignatureReqDto } from '~shared/types/api'
+import { PostStatus } from '~shared/types/base'
+import { GetSinglePostDto } from '../../api'
+import { PreSignModal } from '../../components/PreSignModal/PreSignModal.component'
+import { useAuth } from '../../contexts/AuthContext'
 import * as SignatureService from '../../services/SignatureService'
 import { SignatureModal } from '../SignatureModal/SignatureModal.component'
-import {
-  SubscriptionModal,
-  SubscriptionFormValues,
-} from '../SubscriptionModal/SubscriptionModal.component'
-import { PreSignModal } from '../../components/PreSignModal/PreSignModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
-import { PostStatus } from '~shared/types/base'
-import { useSearchParams } from 'react-router-dom'
-import { useEffect } from 'react'
-import { BiLockAlt, BiPen } from 'react-icons/bi'
-import { useAuth } from '../../contexts/AuthContext'
+import {
+  SubscriptionFormValues,
+  SubscriptionModal,
+} from '../SubscriptionModal/SubscriptionModal.component'
 
 type FormValues = CreateSignatureReqDto
 const refreshPage = async () => window.location.reload()

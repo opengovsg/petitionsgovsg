@@ -1,5 +1,5 @@
+import { MessageData } from '~shared/types/api'
 import { Addressee, Post, Signature } from '~shared/types/base'
-import { MessageResponse } from './common'
 
 // Backend does not select updatedAt
 export type GetSinglePostDto = Post & {
@@ -25,8 +25,8 @@ export type CreatePostReqDto = Pick<
   | 'email'
 >
 
-export type CreatePostResDto = MessageResponse & { data: number }
+export type CreatePostResDto = MessageData<number>
 
 export type UpdatePostReqDto = CreatePostReqDto
 
-export type UpdatePostResDto = MessageResponse
+export type UpdatePostResDto = MessageData

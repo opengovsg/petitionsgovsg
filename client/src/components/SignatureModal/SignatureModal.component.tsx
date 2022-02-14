@@ -13,18 +13,18 @@ import {
   ModalHeader,
   ModalOverlay,
   ModalProps,
+  Spinner,
   Switch,
   Text,
   Textarea,
   useMultiStyleConfig,
   VStack,
-  Spinner,
 } from '@chakra-ui/react'
-import { CreateSignatureReqDto } from '../../api'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Link as RouterLink } from 'react-router-dom'
 import { BiLinkExternal } from 'react-icons/bi'
+import { Link as RouterLink } from 'react-router-dom'
+import { CreateSignatureReqDto } from '~shared/types/api'
 import { useAuth } from '../../contexts/AuthContext'
 
 const MAX_CHAR_COUNT = 200
