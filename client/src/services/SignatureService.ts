@@ -1,7 +1,7 @@
 import { AxiosResponse } from 'axios'
 import { Signature } from '~shared/types/base'
 import { ApiClient } from '../api'
-import { CreateSignatureReqDto } from '../api/types/signature'
+import { CreateSignatureReqDto } from '~shared/types/api'
 
 export const getUserSignatureForPost = async (
   postId: number,

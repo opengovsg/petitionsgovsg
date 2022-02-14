@@ -1,12 +1,13 @@
 import { validationResult } from 'express-validator'
-import { SignatureService } from './signature.service'
-import { createLogger } from '../../bootstrap/logging'
 import { StatusCodes } from 'http-status-codes'
-import { ControllerHandler } from '../../types/response-handler'
-import { Message } from '../../types/message-type'
+import { CreateSignatureReqDto } from '~shared/types/api'
 import { Signature } from '~shared/types/base'
-import { PostService } from '../post/post.service'
+import { createLogger } from '../../bootstrap/logging'
+import { Message } from '../../types/message-type'
+import { ControllerHandler } from '../../types/response-handler'
 import { hashData } from '../../util/hash'
+import { PostService } from '../post/post.service'
+import { SignatureService } from './signature.service'
 
 const logger = createLogger(module)
 
@@ -69,7 +70,7 @@ export class SignatureController {
   createSignature: ControllerHandler<
     { id: string },
     number | Message,
-    { useName: boolean; comment: string | null },
+    CreateSignatureReqDto,
     undefined
   > = async (req, res) => {
     const errors = validationResult(req)

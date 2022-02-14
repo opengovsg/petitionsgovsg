@@ -1,7 +1,8 @@
-import { ApiClient, BaseUserNameDto } from '../api'
+import { LoadUserNameDto } from '~shared/types/api'
+import { ApiClient } from '../api'
 
-export const getUserName = async (): Promise<BaseUserNameDto> => {
-  return ApiClient.get<BaseUserNameDto>(`/auth/fullname`, {}).then(
+export const getUserName = async (): Promise<LoadUserNameDto> => {
+  return ApiClient.get<LoadUserNameDto>(`/auth/fullname`, {}).then(
     ({ data }) => data,
   )
 }
