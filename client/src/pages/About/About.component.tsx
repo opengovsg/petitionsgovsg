@@ -28,8 +28,7 @@ const About = (): JSX.Element => {
           </Text>
           <Text sx={styles.text}>
             Petitions with 10,000 or more signatures will be brought to the
-            relevant ministry by the Ministry of Culture, Community, and Youth
-            (MCCY) for a government response.
+            relevant ministry by REACH Singapore for a government response.
           </Text>
         </Box>
         <Box sx={styles.sectionBox}>
@@ -73,15 +72,15 @@ const About = (): JSX.Element => {
             What happens when a petition reaches 10,000 signatures?
           </Text>
           <Text sx={styles.text}>
-            Petitions will be brought to the relevant ministry by the Ministry
-            of Culture, Community, and Youth (MCCY) within 30 days of it
-            gathering 10,000 signatures. Once submitted, the relevant ministry
-            will have 90 days to respond to the petition.
+            Petitions will be brought to the relevant ministry by REACH
+            Singapore within 30 days of it gathering 10,000 signatures. Once
+            submitted, the relevant ministry will have 90 days to respond to the
+            petition.
           </Text>
           <Text sx={styles.text}>
             The petitioner’s and endorsers’ names and email addresses will be
-            provided to the ministry and the MCCY for any follow-ups that may be
-            required.
+            provided to the ministry and REACH Singapore for any follow-ups that
+            may be required.
           </Text>
         </Box>
         <Box sx={styles.sectionBox}>
