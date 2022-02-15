@@ -1,20 +1,23 @@
 import { AxiosResponse } from 'axios'
 import {
-  ApiClient,
-  GetSinglePostDto,
   CreatePostReqDto,
-  CreatePostResDto,
+  ListPostsDto,
+  PostWithAddresseeAndSignatures,
   UpdatePostReqDto,
+  CreatePostResDto,
   UpdatePostResDto,
-  GetPostsDto,
-} from '../api'
+} from '~shared/types/api'
+import { ApiClient } from '../api'
 
 const POST_API_BASE = '/posts'
 
-export const getPostById = async (id: number): Promise<GetSinglePostDto> => {
-  return ApiClient.get<GetSinglePostDto>(`${POST_API_BASE}/${id}`, {}).then(
-    ({ data }) => data,
-  )
+export const getPostById = async (
+  id: number,
+): Promise<PostWithAddresseeAndSignatures> => {
+  return ApiClient.get<PostWithAddresseeAndSignatures>(
+    `${POST_API_BASE}/${id}`,
+    {},
+  ).then(({ data }) => data)
 }
 export const GET_POST_BY_ID_QUERY_KEY = 'getPostById'
 
@@ -22,8 +25,8 @@ export const listPosts = async (
   sort?: string,
   page?: number,
   size?: number,
-): Promise<GetPostsDto> => {
-  return ApiClient.get<GetPostsDto>(`${POST_API_BASE}`, {
+): Promise<ListPostsDto> => {
+  return ApiClient.get<ListPostsDto>(`${POST_API_BASE}`, {
     params: {
       sort,
       page,

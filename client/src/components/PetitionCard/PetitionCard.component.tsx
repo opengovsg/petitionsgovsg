@@ -7,11 +7,11 @@ import {
   useMultiStyleConfig,
   Divider,
 } from '@chakra-ui/react'
-import { GetSinglePostDto } from '../../api'
 import { useNavigate } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
 import { getDateDistance } from '../../util/date'
 import { Link as RouterLink } from 'react-router-dom'
+import { PostWithAddresseeAndSignatures } from '~shared/types/api'
 
 export const replaceRichTextTag = (value: string): string =>
   value.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
@@ -20,7 +20,7 @@ const PetitionCard = ({
   post: { id, title, request, status, fullname, signatureCount, createdAt },
 }: {
   post: Pick<
-    GetSinglePostDto,
+    PostWithAddresseeAndSignatures,
     | 'id'
     | 'title'
     | 'request'

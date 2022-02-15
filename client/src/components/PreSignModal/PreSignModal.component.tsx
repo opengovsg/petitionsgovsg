@@ -1,6 +1,7 @@
 import {
-  Button,
   Box,
+  Button,
+  Flex,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,21 +10,20 @@ import {
   ModalHeader,
   ModalOverlay,
   ModalProps,
+  Switch,
   Text,
   VStack,
-  Flex,
-  Switch,
 } from '@chakra-ui/react'
 import { useMultiStyleConfig } from '@chakra-ui/system'
-import { GetSinglePostDto } from '../../api'
 import { useEffect, useState } from 'react'
+import { PostWithAddresseeAndSignatures } from '~shared/types/api'
 import { PostStatus } from '~shared/types/base'
 import { SGID_REDIRECT_URI } from '../../api/Sgid'
 
 type PreSignModalProps = Pick<ModalProps, 'isOpen' | 'onClose'> & {
   isEndorser: boolean
   petitionOwner: string
-  post: GetSinglePostDto | undefined
+  post: PostWithAddresseeAndSignatures | undefined
   postId: string | undefined
 }
 

@@ -1,21 +1,18 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
-import Sequelize, { Model, OrderItem, ProjectionAlias, Op } from 'sequelize'
-import { Post, PostStatus, Signature, Addressee } from '~shared/types/base'
+import Sequelize, { Model, Op, OrderItem, ProjectionAlias } from 'sequelize'
+import {
+  ListPostsDto,
+  PostWithAddresseeAndSignatures,
+  UpdatePostReqDto,
+} from '~shared/types/api'
+import { Addressee, Post, PostStatus, Signature } from '~shared/types/base'
 import { ModelDef } from '../../types/sequelize'
 import { SortType } from '../../types/sort-type'
 import {
+  AddresseeDoesNotExistError,
   MissingPublicPostError,
   PostUpdateError,
-  AddresseeDoesNotExistError,
 } from './post.errors'
-import { PostEditType } from '../../types/post-type'
-
-export type PostWithAddresseeAndSignatures = Model &
-  Post & {
-    signatureCount: number
-    signatures: Signature[]
-    addressee: Addressee
-  }
 
 export class PostService {
   private Signature: ModelDef<Signature>
@@ -64,11 +61,11 @@ export class PostService {
    * @returns paginated post array and total items in the original array
    */
   private getPaginatedPosts = (
-    posts: Post[],
+    posts: PostWithAddresseeAndSignatures[],
     page?: number,
     size?: number,
   ): {
-    posts: Post[]
+    posts: PostWithAddresseeAndSignatures[]
     totalItems: number
   } => {
     const totalItems = posts.length
@@ -97,10 +94,7 @@ export class PostService {
     sort: SortType
     page?: number
     size?: number
-  }): Promise<{
-    posts: Post[]
-    totalItems: number
-  }> => {
+  }): Promise<ListPostsDto> => {
     const whereobj = {
       status: PostStatus.Open,
     }
@@ -135,7 +129,7 @@ export class PostService {
         'email',
         this.signatureCountLiteral,
       ],
-    })) as PostWithAddresseeAndSignatures[]
+    })) as (Model & PostWithAddresseeAndSignatures)[]
 
     if (!posts) {
       return { posts: [], totalItems: 0 }
@@ -181,7 +175,7 @@ export class PostService {
         'email',
         this.signatureCountLiteral,
       ],
-    })) as PostWithAddresseeAndSignatures
+    })) as Model & PostWithAddresseeAndSignatures
     if (!post) {
       throw new MissingPublicPostError()
     } else {
@@ -258,7 +252,7 @@ export class PostService {
     addresseeId,
     profile,
     email,
-  }: PostEditType): Promise<boolean> => {
+  }: UpdatePostReqDto & { id: number }): Promise<boolean> => {
     // Check if addresseeId is valid
     const addresseeExists = await this.Addressee.findByPk(addresseeId)
     if (!addresseeExists) {

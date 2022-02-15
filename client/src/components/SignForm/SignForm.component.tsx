@@ -3,9 +3,11 @@ import { useEffect } from 'react'
 import { SubmitHandler } from 'react-hook-form'
 import { BiLockAlt, BiPen } from 'react-icons/bi'
 import { useSearchParams } from 'react-router-dom'
-import { CreateSignatureReqDto } from '~shared/types/api'
+import {
+  CreateSignatureReqDto,
+  PostWithAddresseeAndSignatures,
+} from '~shared/types/api'
 import { PostStatus } from '~shared/types/base'
-import { GetSinglePostDto } from '../../api'
 import { PreSignModal } from '../../components/PreSignModal/PreSignModal.component'
 import { useAuth } from '../../contexts/AuthContext'
 import * as SignatureService from '../../services/SignatureService'
@@ -23,7 +25,7 @@ const SignForm = ({
   post,
   postId,
 }: {
-  post: GetSinglePostDto | undefined
+  post?: PostWithAddresseeAndSignatures
   postId: string | undefined
 }): JSX.Element => {
   const toast = useStyledToast()

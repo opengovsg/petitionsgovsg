@@ -1,8 +1,5 @@
-export type ErrorDto = {
+export type Message = {
   message: string
 }
 
-export type MessageData<T = unknown> = {
-  message: string
-  data: T
-}
+export type ErrorDto = Message

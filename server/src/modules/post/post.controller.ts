@@ -1,15 +1,22 @@
 import { validationResult } from 'express-validator'
 import { StatusCodes } from 'http-status-codes'
-import { Post } from '~shared/types/base'
+import {
+  CreatePostReqDto,
+  CreatePostResDto,
+  ErrorDto,
+  ListPostsDto,
+  Message,
+  PostWithAddresseeAndSignatures,
+  UpdatePostReqDto,
+  UpdatePostResDto,
+} from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
-import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { SortType } from '../../types/sort-type'
+import { generateSalt, hashData } from '../../util/hash'
 import { AuthService } from '../auth/auth.service'
-import { PostService, PostWithAddresseeAndSignatures } from './post.service'
-import { hashData, generateSalt } from '../../util/hash'
-import { UpdatePostRequestDto } from '../../types/post-type'
 import { MIN_ENDORSER_COUNT } from '../signatures/signature.controller'
+import { PostService } from './post.service'
 
 const logger = createLogger(module)
 
@@ -38,7 +45,7 @@ export class PostController {
    */
   listPosts: ControllerHandler<
     undefined,
-    { posts: Post[]; totalItems: number } | Message,
+    ListPostsDto | ErrorDto,
     undefined,
     {
       page?: number
@@ -78,7 +85,7 @@ export class PostController {
    */
   getSinglePost: ControllerHandler<
     { id: string },
-    PostWithAddresseeAndSignatures | Message,
+    PostWithAddresseeAndSignatures | ErrorDto,
     undefined,
     { relatedPosts?: number }
   > = async (req, res) => {
@@ -134,18 +141,8 @@ export class PostController {
    */
   createPost: ControllerHandler<
     never,
-    { data: number } | Message,
-    {
-      title: string
-      summary: string | null
-      reason: string
-      request: string
-      references: string | null
-      fullname: string
-      addresseeId: number
-      profile: string | null
-      email: string
-    },
+    CreatePostResDto | ErrorDto,
+    CreatePostReqDto,
     undefined
   > = async (req, res) => {
     const errors = validationResult(req)
@@ -207,8 +204,8 @@ export class PostController {
    */
   updatePost: ControllerHandler<
     { id: string },
-    Message,
-    UpdatePostRequestDto,
+    UpdatePostResDto,
+    UpdatePostReqDto,
     undefined
   > = async (req, res) => {
     const postId = Number(req.params.id)

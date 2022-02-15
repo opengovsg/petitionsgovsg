@@ -8,7 +8,6 @@ import {
 } from '~shared/types/api'
 import { formCallbackRedirectURL } from '../../bootstrap/config/auth'
 import { createLogger } from '../../bootstrap/logging'
-import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { hashData } from '../../util/hash'
 import { decodeUserJWT, encodeUserJWT } from '../../util/jwt'
@@ -158,7 +157,7 @@ export class AuthController {
    */
   verifyPetitionOwner: ControllerHandler<
     { id: string },
-    boolean | Message | null
+    boolean | ErrorDto | null
   > = async (req, res) => {
     try {
       const { id } = decodeUserJWT(req)
