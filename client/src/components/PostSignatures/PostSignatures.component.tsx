@@ -1,12 +1,12 @@
-import { filterSignaturesWithComments } from '../../services/SignatureService'
-import { GetSinglePostDto } from '../../api'
-import { PostSignature } from './PostSignature.component'
 import { Text } from '@chakra-ui/react'
+import { PostWithAddresseeAndSignatures } from '~shared/types/api'
+import { filterSignaturesWithComments } from '../../services/SignatureService'
+import { PostSignature } from './PostSignature.component'
 
 export const PostSignatures = ({
   post,
 }: {
-  post: GetSinglePostDto | undefined
+  post?: PostWithAddresseeAndSignatures
 }): JSX.Element => {
   const signatures = filterSignaturesWithComments(post?.signatures ?? [])
   const showAllComments = signatures

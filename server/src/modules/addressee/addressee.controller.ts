@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
+import { ErrorDto } from '~shared/types/api'
 import { createLogger } from '../../bootstrap/logging'
-import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { AddresseeDto, AddresseeService } from './addressee.service'
 
@@ -27,7 +27,7 @@ export class AddresseeController {
    */
   listAddressees: ControllerHandler<
     undefined,
-    AddresseeDto[] | Message,
+    AddresseeDto[] | ErrorDto,
     undefined,
     undefined
   > = async (req, res) => {

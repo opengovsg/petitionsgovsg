@@ -40,9 +40,9 @@ import {
   verifyPetitionOwner,
   VERIFY_PETITION_OWNER,
 } from '../../services/AuthService'
-import { GetSinglePostDto } from '../../api'
 import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
 import SignForm from '../../components/SignForm/SignForm.component'
+import { PostWithAddresseeAndSignatures } from '~shared/types/api'
 
 const Post = (): JSX.Element => {
   // Does not need to handle logic when public post with id postId is not found because this is handled by server
@@ -103,7 +103,7 @@ const Post = (): JSX.Element => {
     isOpen: isEndorserModalOpen,
   } = useDisclosure()
 
-  const showRecentActivity = (post: GetSinglePostDto | undefined) => {
+  const showRecentActivity = (post?: PostWithAddresseeAndSignatures) => {
     // Clone signatures into a new array
     const signatures = [...(post?.signatures ?? [])]
     return (

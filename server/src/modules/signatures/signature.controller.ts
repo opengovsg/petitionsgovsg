@@ -1,9 +1,8 @@
 import { validationResult } from 'express-validator'
 import { StatusCodes } from 'http-status-codes'
-import { CreateSignatureReqDto } from '~shared/types/api'
+import { CreateSignatureReqDto, ErrorDto } from '~shared/types/api'
 import { Signature } from '~shared/types/base'
 import { createLogger } from '../../bootstrap/logging'
-import { Message } from '../../types/message-type'
 import { ControllerHandler } from '../../types/response-handler'
 import { hashData } from '../../util/hash'
 import { PostService } from '../post/post.service'
@@ -34,7 +33,7 @@ export class SignatureController {
    * @returns 200 with array of answers
    * @returns 500 if database error occurs
    */
-  listSignatures: ControllerHandler<{ id: string }, Signature[] | Message> =
+  listSignatures: ControllerHandler<{ id: string }, Signature[] | ErrorDto> =
     async (req, res) => {
       try {
         const signatures = await this.signatureService.listSignatures(
@@ -69,7 +68,7 @@ export class SignatureController {
    */
   createSignature: ControllerHandler<
     { id: string },
-    number | Message,
+    number | ErrorDto,
     CreateSignatureReqDto,
     undefined
   > = async (req, res) => {
@@ -134,7 +133,7 @@ export class SignatureController {
 
   checkUserHasSigned: ControllerHandler<
     { id: string },
-    Signature | Message | null
+    Signature | ErrorDto | null
   > = async (req, res) => {
     try {
       if (!req.user) {

@@ -1,21 +1,21 @@
 import {
+  Box,
+  Button,
+  ButtonGroup,
+  HStack,
   Icon,
   Text,
-  HStack,
-  Button,
-  Box,
   useDisclosure,
-  ButtonGroup,
 } from '@chakra-ui/react'
 import { BiInfoCircle } from 'react-icons/bi'
-import { Banner } from '../Banner/Banner.component'
-import { GetSinglePostDto } from '../../api'
-import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { PostWithAddresseeAndSignatures } from '~shared/types/api'
+import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
+import { Banner } from '../Banner/Banner.component'
 
 interface PreviewBannerProps {
   isPetitionOwner: boolean | undefined
-  post: GetSinglePostDto
+  post: PostWithAddresseeAndSignatures
 }
 
 export const PreviewBanner = ({

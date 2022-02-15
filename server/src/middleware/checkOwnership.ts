@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { Signature, Post } from '~shared/types/base'
-import { Message } from '../types/message-type'
+import { Message } from '~shared/types/api'
 import { ControllerHandler } from '../types/response-handler'
 import { ModelDef } from '../types/sequelize'
 
