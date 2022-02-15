@@ -73,7 +73,7 @@ const HowItWorksBanner = ({
           Ministry responds
         </Text>
         <Text textStyle="body1" color="secondary.500">
-          MCCY Singapore will submit the petition to the relevant ministry, who
+          REACH Singapore will submit the petition to the relevant ministry, who
           will then have 90 days to respond.
         </Text>
       </GridItem>
