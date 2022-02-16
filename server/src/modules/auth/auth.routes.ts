@@ -1,5 +1,5 @@
 import express from 'express'
-import { limiter } from '../../middleware/limiter'
+import { limiter } from '@/middleware/limiter'
 import { AuthController } from './auth.controller'
 import { AuthMiddleware } from './auth.middleware'
 
