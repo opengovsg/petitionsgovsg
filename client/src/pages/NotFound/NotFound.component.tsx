@@ -1,7 +1,7 @@
 import { Button, Center, Flex, Heading, Spacer, Text } from '@chakra-ui/react'
 import { Fragment } from 'react'
 import { Link as ReachLink } from 'react-router-dom'
-import { BackToHome } from '../../components/BackToHome/BackToHome'
+import { BackToHome } from '@/components/BackToHome/BackToHome'
 
 const NotFound = (): JSX.Element => {
   const pagePX = { base: 8, md: 12 }

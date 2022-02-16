@@ -1,7 +1,7 @@
 import { useMultiStyleConfig, Text, Box, Link } from '@chakra-ui/react'
-import { InfoBox } from '../../components/InfoBox/InfoBox.component'
+import { InfoBox } from '@/components/InfoBox/InfoBox.component'
 import { Link as RouterLink } from 'react-router-dom'
-import HowItWorksBanner from '../../components/HowItWorks/HowItWorksBanner.component'
+import HowItWorksBanner from '@/components/HowItWorks/HowItWorksBanner.component'
 
 const About = (): JSX.Element => {
   const styles = useMultiStyleConfig('About', {})

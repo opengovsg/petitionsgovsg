@@ -9,11 +9,11 @@ import {
   MenuItem,
   Button,
 } from '@chakra-ui/react'
-import PageTitle from '../../components/PageTitle/PageTitle.component'
-import PetitionGridComponent from '../../components/PetitionGrid/PetitionGrid.component'
-import Hero from '../../components/Hero/Hero.component'
-import HowItWorks from '../../components/HowItWorks/HowItWorks.component'
-import { AnonymityBanner } from '../../components/AnonymityBanner/AnonymityBanner.component'
+import PageTitle from '@/components/PageTitle/PageTitle.component'
+import PetitionGridComponent from '@/components/PetitionGrid/PetitionGrid.component'
+import Hero from '@/components/Hero/Hero.component'
+import HowItWorks from '@/components/HowItWorks/HowItWorks.component'
+import { AnonymityBanner } from '@/components/AnonymityBanner/AnonymityBanner.component'
 import { useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
 

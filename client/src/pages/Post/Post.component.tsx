@@ -12,8 +12,8 @@ import { format, utcToZonedTime } from 'date-fns-tz'
 import { useQuery } from 'react-query'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
-import PageTitle from '../../components/PageTitle/PageTitle.component'
-import Spinner from '../../components/Spinner/Spinner.component'
+import PageTitle from '@/components/PageTitle/PageTitle.component'
+import Spinner from '@/components/Spinner/Spinner.component'
 import {
   getPostById,
   GET_POST_BY_ID_QUERY_KEY,
@@ -24,24 +24,24 @@ import {
 } from '../../services/SignatureService'
 import { useAuth } from '../../contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
-import { PreviewBanner } from '../../components/PreviewBanner/PreviewBanner.component'
-import { PostSignatures } from '../../components/PostSignatures/PostSignatures.component'
+import { PreviewBanner } from '@/components/PreviewBanner/PreviewBanner.component'
+import { PostSignatures } from '@/components/PostSignatures/PostSignatures.component'
 import { Button, useDisclosure } from '@chakra-ui/react'
 import { BiEditAlt, BiShareAlt } from 'react-icons/bi'
 import {
   SubscriptionModal,
   SubscriptionFormValues,
-} from '../../components/SubscriptionModal/SubscriptionModal.component'
+} from '@/components/SubscriptionModal/SubscriptionModal.component'
 import { SubmitHandler } from 'react-hook-form'
-import { InfoBox } from '../../components/InfoBox/InfoBox.component'
-import { replaceRichTextTag } from '../../components/PetitionCard/PetitionCard.component'
-import { SuccessBanner } from '../../components/SuccessBanner/SuccessBanner.component'
+import { InfoBox } from '@/components/InfoBox/InfoBox.component'
+import { replaceRichTextTag } from '@/components/PetitionCard/PetitionCard.component'
+import { SuccessBanner } from '@/components/SuccessBanner/SuccessBanner.component'
 import {
   verifyPetitionOwner,
   VERIFY_PETITION_OWNER,
 } from '../../services/AuthService'
-import { EndorserModal } from '../../components/EndorserModal/EndorserModal.component'
-import SignForm from '../../components/SignForm/SignForm.component'
+import { EndorserModal } from '@/components/EndorserModal/EndorserModal.component'
+import SignForm from '@/components/SignForm/SignForm.component'
 import { PostWithAddresseeAndSignatures } from '~shared/types/api'
 
 const Post = (): JSX.Element => {

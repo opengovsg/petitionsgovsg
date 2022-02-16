@@ -1,5 +1,5 @@
 import { Box, Text, useMultiStyleConfig } from '@chakra-ui/react'
-import { RichTextPreview } from '../../../components/RichText/RichTextEditor.component'
+import { RichTextPreview } from '@/components/RichText/RichTextEditor.component'
 const PostSection = ({
   post,
 }: {

@@ -1,7 +1,7 @@
 import { Box, Spacer, Spinner, useMultiStyleConfig } from '@chakra-ui/react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getApiErrorMessage } from '@/api/ApiClient'
-import { useStyledToast } from '../../components/StyledToast/StyledToast'
+import { useStyledToast } from '@/components/StyledToast/StyledToast'
 import * as PostService from '../../services/PostService'
 import FormFields, { FormSubmission } from './FormFields/FormFields.component'
 import { useAuth } from '../../contexts/AuthContext'

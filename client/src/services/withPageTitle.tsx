@@ -1,4 +1,4 @@
-import PageTitle from '../components/PageTitle/PageTitle.component'
+import PageTitle from '@/components/PageTitle/PageTitle.component'
 
 const withPageTitle = ({
   component: Component,

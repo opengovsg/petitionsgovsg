@@ -2,7 +2,7 @@ import { Box, Spacer, Spinner, useMultiStyleConfig } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
 import { getApiErrorMessage } from '@/api/ApiClient'
-import { useStyledToast } from '../../components/StyledToast/StyledToast'
+import { useStyledToast } from '@/components/StyledToast/StyledToast'
 import * as PostService from '../../services/PostService'
 import FormFields, {
   FormSubmission,

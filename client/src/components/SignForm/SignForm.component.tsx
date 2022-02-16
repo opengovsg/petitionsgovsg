@@ -8,7 +8,7 @@ import {
   PostWithAddresseeAndSignatures,
 } from '~shared/types/api'
 import { PostStatus } from '~shared/types/base'
-import { PreSignModal } from '../../components/PreSignModal/PreSignModal.component'
+import { PreSignModal } from '@/components/PreSignModal/PreSignModal.component'
 import { useAuth } from '../../contexts/AuthContext'
 import * as SignatureService from '../../services/SignatureService'
 import { SignatureModal } from '../SignatureModal/SignatureModal.component'

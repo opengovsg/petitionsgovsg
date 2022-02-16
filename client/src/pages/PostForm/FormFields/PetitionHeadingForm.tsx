@@ -12,7 +12,7 @@ import { Addressee } from '~shared/types/base'
 import { useMemo } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import Select from 'react-select'
-import { InfoBox } from '../../../components/InfoBox/InfoBox.component'
+import { InfoBox } from '@/components/InfoBox/InfoBox.component'
 
 const TITLE_MAX_LEN = 150
 
