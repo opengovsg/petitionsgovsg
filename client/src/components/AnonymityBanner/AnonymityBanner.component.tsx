@@ -1,5 +1,5 @@
 import { Box, Text, Button, VStack } from '@chakra-ui/react'
-import { ReactComponent as Anonymity } from '../../assets/anonymity.svg'
+import { ReactComponent as Anonymity } from '@/assets/anonymity.svg'
 import { useNavigate } from 'react-router-dom'
 
 export const AnonymityBanner = (): JSX.Element => {

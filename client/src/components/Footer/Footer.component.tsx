@@ -1,5 +1,5 @@
 import { FaLinkedinIn, FaFacebookF } from 'react-icons/fa'
-import OGPLogo from '../../assets/ogp-logo.svg'
+import OGPLogo from '@/assets/ogp-logo.svg'
 import { OGP } from '../Icons'
 import { Link as RouterLink } from 'react-router-dom'
 import {

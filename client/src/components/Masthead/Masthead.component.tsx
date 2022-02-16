@@ -1,6 +1,6 @@
 import { FC, useState } from 'react'
 
-import LionHeadSymbol from '../../assets/lion-head-symbol.svg'
+import LionHeadSymbol from '@/assets/lion-head-symbol.svg'
 import {
   Text,
   Flex,
