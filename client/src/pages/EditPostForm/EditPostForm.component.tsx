@@ -7,7 +7,7 @@ import * as PostService from '../../services/PostService'
 import FormFields, {
   FormSubmission,
 } from '../PostForm/FormFields/FormFields.component'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext'
 import {
   GET_ADDRESSEES_QUERY_KEY,
   getAddressees,

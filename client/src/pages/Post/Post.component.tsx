@@ -22,7 +22,7 @@ import {
   getUserSignatureForPost,
   GET_USER_SIGNATURE_FOR_POST_QUERY_KEY,
 } from '../../services/SignatureService'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
 import { PreviewBanner } from '@/components/PreviewBanner/PreviewBanner.component'
 import { PostSignatures } from '@/components/PostSignatures/PostSignatures.component'
