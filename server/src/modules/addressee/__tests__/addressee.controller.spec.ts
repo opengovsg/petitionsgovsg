@@ -7,7 +7,7 @@ import {
   SequelizeWithModels,
 } from '../../../util/db/jest-db'
 import { errAsync } from 'neverthrow'
-import { DatabaseError } from '../../core/core.errors'
+import { DatabaseError } from '@/modules/core/core.errors'
 import { AddresseeController } from '../addressee.controller'
 import { mockAddressees } from '../../../util/db/data/addressee'
 

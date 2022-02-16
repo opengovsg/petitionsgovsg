@@ -15,7 +15,7 @@ import { Model } from 'sequelize'
 import { Post } from '~shared/types/base/post'
 import { Creation } from '../../../types/sequelize'
 import { errAsync } from 'neverthrow'
-import { DatabaseError } from '../../core/core.errors'
+import { DatabaseError } from '@/modules/core/core.errors'
 
 describe('SignatureController', () => {
   let db: SequelizeWithModels
