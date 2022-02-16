@@ -18,7 +18,7 @@ import { useMultiStyleConfig } from '@chakra-ui/system'
 import { useEffect, useState } from 'react'
 import { PostWithAddresseeAndSignatures } from '~shared/types/api'
 import { PostStatus } from '~shared/types/base'
-import { SGID_REDIRECT_URI } from '../../api/Sgid'
+import { SGID_REDIRECT_URI } from '@/api/Sgid'
 
 type PreSignModalProps = Pick<ModalProps, 'isOpen' | 'onClose'> & {
   isEndorser: boolean

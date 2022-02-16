@@ -5,7 +5,7 @@ import {
 } from '../../services/PostService'
 import { useMutation, useQueryClient } from 'react-query'
 import { useStyledToast } from '../StyledToast/StyledToast'
-import { getApiErrorMessage } from '../../api'
+import { getApiErrorMessage } from '@/api'
 
 interface PublishButtonProps {
   postId: string | undefined

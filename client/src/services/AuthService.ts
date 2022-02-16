@@ -1,5 +1,5 @@
 import { LoadUserNameDto } from '~shared/types/api'
-import { ApiClient } from '../api'
+import { ApiClient } from '@/api'
 
 export const getUserName = async (): Promise<LoadUserNameDto> => {
   return ApiClient.get<LoadUserNameDto>(`/auth/fullname`, {}).then(

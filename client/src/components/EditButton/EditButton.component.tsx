@@ -11,7 +11,7 @@ import {
 import { BiChevronDown, BiTrash } from 'react-icons/bi'
 import { useMutation, useQueryClient } from 'react-query'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
-import { getApiErrorMessage } from '../../api'
+import { getApiErrorMessage } from '@/api'
 import {
   deletePost,
   LIST_POSTS_QUERY_KEY,
