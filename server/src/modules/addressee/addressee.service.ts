@@ -1,5 +1,5 @@
 import { Addressee } from '~shared/types/base'
-import { ModelDef } from '../../types/sequelize'
+import { ModelDef } from '@/types/sequelize'
 
 export type AddresseeDto = Pick<Addressee, 'id' | 'name' | 'shortName'>
 

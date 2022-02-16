@@ -1,6 +1,6 @@
 import type { Sequelize as SequelizeType } from 'sequelize'
 import { Signature, Post } from '~shared/types/base'
-import { ModelDef } from '../../types/sequelize'
+import { ModelDef } from '@/types/sequelize'
 
 export class SignatureService {
   private Post: ModelDef<Post>

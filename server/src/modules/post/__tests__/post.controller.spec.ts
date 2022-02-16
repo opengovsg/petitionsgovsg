@@ -7,7 +7,7 @@ import {
   SequelizeWithModels,
 } from '../../../util/db/jest-db'
 import { POST_ID } from '../../../util/db/constants'
-import { ControllerHandler } from '../../../types/response-handler'
+import { ControllerHandler } from '@/types/response-handler'
 import { mockUser, mockUserJWT } from '../../../util/db/data/user'
 import { errAsync } from 'neverthrow'
 import { DatabaseError } from '@/modules/core/core.errors'

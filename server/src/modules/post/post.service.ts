@@ -6,8 +6,8 @@ import {
   UpdatePostReqDto,
 } from '~shared/types/api'
 import { Addressee, Post, PostStatus, Signature } from '~shared/types/base'
-import { ModelDef } from '../../types/sequelize'
-import { SortType } from '../../types/sort-type'
+import { ModelDef } from '@/types/sequelize'
+import { SortType } from '@/types/sort-type'
 import {
   AddresseeDoesNotExistError,
   MissingPublicPostError,

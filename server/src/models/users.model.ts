@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize'
-import { ModelDef } from '../types/sequelize'
+import { ModelDef } from '@/types/sequelize'
 import { IMinimatch } from 'minimatch'
 import { User } from '~shared/types/base'
 

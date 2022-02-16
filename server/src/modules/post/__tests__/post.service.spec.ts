@@ -4,7 +4,7 @@ import {
   SequelizeWithModels,
 } from '../../../util/db/jest-db'
 import { PostService } from '../post.service'
-import { SortType } from '../../../types/sort-type'
+import { SortType } from '@/types/sort-type'
 import { mockPost } from '../../../util/db/data/post'
 import { POST_ID } from '../../../util/db/constants'
 import { Post, PostStatus } from '~shared/types/base'

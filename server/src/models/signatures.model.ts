@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes, Model } from 'sequelize'
-import { ModelDef } from '../types/sequelize'
+import { ModelDef } from '@/types/sequelize'
 import { Post, Signature as SignatureBaseDto } from '~shared/types/base'
 
 // TODO (#225): Remove this and replace ModelCtor below with ModelDefined

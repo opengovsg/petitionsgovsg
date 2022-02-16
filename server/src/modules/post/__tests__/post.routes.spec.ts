@@ -6,7 +6,7 @@ import {
   resetAndSetupDb,
   SequelizeWithModels,
 } from '../../../util/db/jest-db'
-import { ControllerHandler } from '../../../types/response-handler'
+import { ControllerHandler } from '@/types/response-handler'
 import { mockUser, mockUserJWT } from '../../../util/db/data/user'
 import { POST_ID } from '../../../util/db/constants'
 import { routePosts } from '../post.routes'

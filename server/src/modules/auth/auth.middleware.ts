@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { ControllerHandler } from '../../types/response-handler'
+import { ControllerHandler } from '@/types/response-handler'
 import { decodeUserJWT } from '../../util/jwt'
 export class AuthMiddleware {
   /**

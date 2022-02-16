@@ -1,6 +1,6 @@
 import { DataTypes, Model, Sequelize } from 'sequelize'
 import { Post as PostBaseDto, PostStatus, Addressee } from '~shared/types/base'
-import { ModelDef } from '../types/sequelize'
+import { ModelDef } from '@/types/sequelize'
 
 export interface Post extends Model, PostBaseDto {}
 

@@ -1,5 +1,5 @@
 import { DataTypes, Model, Sequelize } from 'sequelize'
-import { ModelDef } from '../types/sequelize'
+import { ModelDef } from '@/types/sequelize'
 import { Addressee as AddresseeBaseDto } from '~shared/types/base'
 
 export interface Addressee extends Model, AddresseeBaseDto {}

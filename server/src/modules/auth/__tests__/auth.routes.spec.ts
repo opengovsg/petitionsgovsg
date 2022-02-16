@@ -3,7 +3,7 @@ import express from 'express'
 import { StatusCodes } from 'http-status-codes'
 import supertest from 'supertest'
 import { PostService } from '@/modules/post/post.service'
-import { ControllerHandler } from '../../../types/response-handler'
+import { ControllerHandler } from '@/types/response-handler'
 import { POST_ID } from '../../../util/db/constants'
 import {
   mockOtherUserJWT,
