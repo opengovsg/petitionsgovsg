@@ -14,14 +14,11 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
 import PageTitle from '@/components/PageTitle/PageTitle.component'
 import Spinner from '@/components/Spinner/Spinner.component'
-import {
-  getPostById,
-  GET_POST_BY_ID_QUERY_KEY,
-} from '../../services/PostService'
+import { getPostById, GET_POST_BY_ID_QUERY_KEY } from '@/services/PostService'
 import {
   getUserSignatureForPost,
   GET_USER_SIGNATURE_FOR_POST_QUERY_KEY,
-} from '../../services/SignatureService'
+} from '@/services/SignatureService'
 import { useAuth } from '@/contexts/AuthContext'
 import PostSection from './PostSection/PostSection.component'
 import { PreviewBanner } from '@/components/PreviewBanner/PreviewBanner.component'
@@ -39,7 +36,7 @@ import { SuccessBanner } from '@/components/SuccessBanner/SuccessBanner.componen
 import {
   verifyPetitionOwner,
   VERIFY_PETITION_OWNER,
-} from '../../services/AuthService'
+} from '@/services/AuthService'
 import { EndorserModal } from '@/components/EndorserModal/EndorserModal.component'
 import SignForm from '@/components/SignForm/SignForm.component'
 import { PostWithAddresseeAndSignatures } from '~shared/types/api'

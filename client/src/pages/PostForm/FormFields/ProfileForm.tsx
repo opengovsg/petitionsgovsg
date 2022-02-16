@@ -14,7 +14,7 @@ import { useFormContext } from 'react-hook-form'
 
 import { useQuery } from 'react-query'
 import { InfoBox } from '@/components/InfoBox/InfoBox.component'
-import { getUserName, GET_USER_NAME } from '../../../services/AuthService'
+import { getUserName, GET_USER_NAME } from '@/services/AuthService'
 
 const Profile = (): JSX.Element => {
   const styles = useMultiStyleConfig('FormFields', {})
