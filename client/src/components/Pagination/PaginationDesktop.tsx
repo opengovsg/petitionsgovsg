@@ -13,7 +13,7 @@ import {
   useMultiStyleConfig,
 } from '@chakra-ui/react'
 
-import { PAGINATION_THEME_KEY } from '../../theme/components/Pagination'
+import { PAGINATION_THEME_KEY } from '@/theme/components/Pagination'
 import { usePaginationRange } from '@/hooks/usePaginationRange'
 
 import { PaginationProps } from './Pagination'
