@@ -6,8 +6,8 @@ import {
   LoadUserNameDto,
   UserAuthType,
 } from '~shared/types/api'
-import { formCallbackRedirectURL } from '../../bootstrap/config/auth'
-import { createLogger } from '../../bootstrap/logging'
+import { formCallbackRedirectURL } from '@/bootstrap/config/auth'
+import { createLogger } from '@/bootstrap/logging'
 import { ControllerHandler } from '../../types/response-handler'
 import { hashData } from '../../util/hash'
 import { decodeUserJWT, encodeUserJWT } from '../../util/jwt'

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { ErrorDto } from '~shared/types/api'
-import { createLogger } from '../../bootstrap/logging'
+import { createLogger } from '@/bootstrap/logging'
 import { ControllerHandler } from '../../types/response-handler'
 import { AddresseeDto, AddresseeService } from './addressee.service'
 

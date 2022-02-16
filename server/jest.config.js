@@ -4,5 +4,6 @@ module.exports = {
   moduleNameMapper: {
     '~shared/(.*)': '<rootDir>/../shared/build/$1',
     'jose/dist/types/(.*)': '<rootDir>/node_modules/jose/dist/node/cjs/$1',
+    '^@/(.*)': '<rootDir>/src/$1',
   },
 }

@@ -4,7 +4,7 @@ import {
   MissingCaptchaError,
   VerifyCaptchaError,
 } from './recaptcha.errors'
-import { createLogger } from '../../bootstrap/logging'
+import { createLogger } from '@/bootstrap/logging'
 
 const logger = createLogger(module)
 

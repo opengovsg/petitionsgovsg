@@ -10,7 +10,7 @@ import {
   UpdatePostReqDto,
   UpdatePostResDto,
 } from '~shared/types/api'
-import { createLogger } from '../../bootstrap/logging'
+import { createLogger } from '@/bootstrap/logging'
 import { ControllerHandler } from '../../types/response-handler'
 import { SortType } from '../../types/sort-type'
 import { generateSalt, hashData } from '../../util/hash'
