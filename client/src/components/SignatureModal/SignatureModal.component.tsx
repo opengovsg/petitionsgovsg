@@ -25,7 +25,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { BiLinkExternal } from 'react-icons/bi'
 import { Link as RouterLink } from 'react-router-dom'
 import { CreateSignatureReqDto } from '~shared/types/api'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext'
 
 const MAX_CHAR_COUNT = 200
 type FormValues = CreateSignatureReqDto

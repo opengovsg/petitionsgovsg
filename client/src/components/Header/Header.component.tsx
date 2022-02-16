@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Link as RouterLink, matchPath, useLocation } from 'react-router-dom'
-import { ReactComponent as Petition } from '../../assets/petitions-sg.svg'
-import { ReactComponent as PetitionMobile } from '../../assets/petitions-mobile.svg'
+import { ReactComponent as Petition } from '@/assets/petitions-sg.svg'
+import { ReactComponent as PetitionMobile } from '@/assets/petitions-mobile.svg'
 import Masthead from '../Masthead/Masthead.component'
 
 const Header = (): JSX.Element => {

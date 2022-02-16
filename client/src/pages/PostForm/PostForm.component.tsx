@@ -1,17 +1,17 @@
 import { Box, Spacer, Spinner, useMultiStyleConfig } from '@chakra-ui/react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getApiErrorMessage } from '../../api/ApiClient'
-import { useStyledToast } from '../../components/StyledToast/StyledToast'
-import * as PostService from '../../services/PostService'
+import { getApiErrorMessage } from '@/api/ApiClient'
+import { useStyledToast } from '@/components/StyledToast/StyledToast'
+import * as PostService from '@/services/PostService'
 import FormFields, { FormSubmission } from './FormFields/FormFields.component'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext'
 import {
   GET_ADDRESSEES_QUERY_KEY,
   getAddressees,
-} from '../../services/AddresseeService'
+} from '@/services/AddresseeService'
 import { useQuery } from 'react-query'
 import { Navigate } from 'react-router-dom'
-import { SGID_REDIRECT_URI } from '../../api/Sgid'
+import { SGID_REDIRECT_URI } from '@/api/Sgid'
 
 const PostForm = (): JSX.Element => {
   const { user, isLoading: isUserLoading } = useAuth()

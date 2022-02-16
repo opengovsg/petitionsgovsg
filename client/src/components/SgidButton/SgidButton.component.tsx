@@ -1,6 +1,6 @@
 import { Button } from '@chakra-ui/react'
 import { BiRightArrowAlt } from 'react-icons/bi'
-import { SGID_REDIRECT_URI } from '../../api/Sgid'
+import { SGID_REDIRECT_URI } from '@/api/Sgid'
 
 const onClick = async (redirect: string) => {
   window.location.href = `${SGID_REDIRECT_URI}?redirect=${redirect}&useName=true`

@@ -1,8 +1,8 @@
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
 import supertest from 'supertest'
-import { ControllerHandler } from '../../../types/response-handler'
-import { mockUserJWT } from '../../../util/db/data/user'
+import { ControllerHandler } from '@/types/response-handler'
+import { mockUserJWT } from '@/util/db/data/user'
 import { AuthMiddleware } from '../auth.middleware'
 
 describe('auth.middleware', () => {

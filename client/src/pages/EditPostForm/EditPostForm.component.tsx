@@ -1,27 +1,27 @@
 import { Box, Spacer, Spinner, useMultiStyleConfig } from '@chakra-ui/react'
 import { useMemo } from 'react'
 import { useNavigate, useParams, Navigate } from 'react-router-dom'
-import { getApiErrorMessage } from '../../api/ApiClient'
-import { useStyledToast } from '../../components/StyledToast/StyledToast'
-import * as PostService from '../../services/PostService'
+import { getApiErrorMessage } from '@/api/ApiClient'
+import { useStyledToast } from '@/components/StyledToast/StyledToast'
+import * as PostService from '@/services/PostService'
 import FormFields, {
   FormSubmission,
 } from '../PostForm/FormFields/FormFields.component'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuth } from '@/contexts/AuthContext'
 import {
   GET_ADDRESSEES_QUERY_KEY,
   getAddressees,
-} from '../../services/AddresseeService'
+} from '@/services/AddresseeService'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import {
   getPostById,
   GET_POST_BY_ID_QUERY_KEY,
   LIST_POSTS_QUERY_KEY,
-} from '../../services/PostService'
+} from '@/services/PostService'
 import {
   verifyPetitionOwner,
   VERIFY_PETITION_OWNER,
-} from '../../services/AuthService'
+} from '@/services/AuthService'
 
 const EditPostForm = (): JSX.Element => {
   const { user, isLoading: isUserLoading } = useAuth()

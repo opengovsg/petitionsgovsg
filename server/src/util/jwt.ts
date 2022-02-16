@@ -1,5 +1,5 @@
 import * as JWT from 'jsonwebtoken'
-import { authConfig } from '../bootstrap/config/auth'
+import { authConfig } from '@/bootstrap/config/auth'
 import { AuthUserDto } from '~shared/types/api'
 
 const JWT_SECRET = authConfig.jwtSecret

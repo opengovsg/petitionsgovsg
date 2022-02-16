@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
-import { ControllerHandler } from '../../types/response-handler'
-import { decodeUserJWT } from '../../util/jwt'
+import { ControllerHandler } from '@/types/response-handler'
+import { decodeUserJWT } from '@/util/jwt'
 export class AuthMiddleware {
   /**
    * Middleware that only allows authenticated users to pass through to the next

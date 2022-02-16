@@ -2,7 +2,7 @@ import { AuthMiddleware } from '../auth/auth.middleware'
 import express from 'express'
 import { body } from 'express-validator'
 import { SignatureController } from './signature.controller'
-import { limiter } from '../../middleware/limiter'
+import { limiter } from '@/middleware/limiter'
 
 export const routeSignatures = ({
   controller,

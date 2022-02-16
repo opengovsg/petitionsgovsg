@@ -1,5 +1,5 @@
 import { EnvironmentDto } from '~shared/types/api'
-import { ControllerHandler } from '../../types/response-handler'
+import { ControllerHandler } from '@/types/response-handler'
 
 export class EnvController {
   private bannerMessage: string

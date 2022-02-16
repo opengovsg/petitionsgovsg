@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react'
 import { PostWithAddresseeAndSignatures } from '~shared/types/api'
-import { filterSignaturesWithComments } from '../../services/SignatureService'
+import { filterSignaturesWithComments } from '@/services/SignatureService'
 import { PostSignature } from './PostSignature.component'
 
 export const PostSignatures = ({

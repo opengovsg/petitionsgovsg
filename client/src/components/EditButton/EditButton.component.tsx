@@ -11,12 +11,12 @@ import {
 import { BiChevronDown, BiTrash } from 'react-icons/bi'
 import { useMutation, useQueryClient } from 'react-query'
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
-import { getApiErrorMessage } from '../../api'
+import { getApiErrorMessage } from '@/api'
 import {
   deletePost,
   LIST_POSTS_QUERY_KEY,
   GET_POST_BY_ID_QUERY_KEY,
-} from '../../services/PostService'
+} from '@/services/PostService'
 import { ConfirmDialog } from '../ConfirmDialog/ConfirmDialog.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
 

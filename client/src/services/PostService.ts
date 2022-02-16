@@ -7,7 +7,7 @@ import {
   CreatePostResDto,
   UpdatePostResDto,
 } from '~shared/types/api'
-import { ApiClient } from '../api'
+import { ApiClient } from '@/api'
 
 const POST_API_BASE = '/posts'
 

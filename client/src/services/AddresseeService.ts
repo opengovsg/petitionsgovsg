@@ -1,4 +1,4 @@
-import { ApiClient } from '../api'
+import { ApiClient } from '@/api'
 
 export const getAddressees = async (): Promise<undefined> =>
   ApiClient.get<undefined>(`/addressees`).then(({ data }) => data)

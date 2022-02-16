@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize'
-import { Creation, ModelDef } from '../../types/sequelize'
-import { defineSignature, definePost, defineAddressee } from '../../models'
+import { Creation, ModelDef } from '@/types/sequelize'
+import { defineSignature, definePost, defineAddressee } from '@/models'
 import { mockPosts } from './data/post'
 import { mockAddressees } from './data/addressee'
 import { mockSignatures } from './data/signature'

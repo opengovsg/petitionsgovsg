@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { PostStatus } from '~shared/types/base'
-import { getDateDistance } from '../../util/date'
+import { getDateDistance } from '@/util/date'
 import { Link as RouterLink } from 'react-router-dom'
 import { PostWithAddresseeAndSignatures } from '~shared/types/api'
 

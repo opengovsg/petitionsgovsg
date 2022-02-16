@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { ApplicationError } from '../core/core.errors'
+import { ApplicationError } from '@/modules/core/core.errors'
 
 export class MissingPublicPostError extends ApplicationError {
   constructor(

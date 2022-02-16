@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios'
 import { createContext, useContext, useEffect, useState } from 'react'
-import { ApiClient } from '../api'
+import { ApiClient } from '@/api'
 import { LoadPublicUserDto } from '~shared/types/api'
 import { useLocation } from 'react-router-dom'
 

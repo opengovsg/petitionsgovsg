@@ -1,5 +1,5 @@
 import { AxiosStatic } from 'axios'
-import { createLogger } from '../../bootstrap/logging'
+import { createLogger } from '@/bootstrap/logging'
 import { errAsync, okAsync, ResultAsync } from 'neverthrow'
 
 import {

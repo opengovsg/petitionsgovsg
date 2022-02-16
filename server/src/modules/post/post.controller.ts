@@ -10,10 +10,10 @@ import {
   UpdatePostReqDto,
   UpdatePostResDto,
 } from '~shared/types/api'
-import { createLogger } from '../../bootstrap/logging'
-import { ControllerHandler } from '../../types/response-handler'
-import { SortType } from '../../types/sort-type'
-import { generateSalt, hashData } from '../../util/hash'
+import { createLogger } from '@/bootstrap/logging'
+import { ControllerHandler } from '@/types/response-handler'
+import { SortType } from '@/types/sort-type'
+import { generateSalt, hashData } from '@/util/hash'
 import { AuthService } from '../auth/auth.service'
 import { MIN_ENDORSER_COUNT } from '../signatures/signature.controller'
 import { PostService } from './post.service'

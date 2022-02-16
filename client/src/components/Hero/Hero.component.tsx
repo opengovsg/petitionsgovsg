@@ -1,5 +1,5 @@
 import { Text, Box, useMultiStyleConfig, Flex, Grid } from '@chakra-ui/react'
-import { ReactComponent as HeroImage } from '../../assets/hero.svg'
+import { ReactComponent as HeroImage } from '@/assets/hero.svg'
 import { SgidButtonWithArrow } from '../SgidButton/SgidButton.component'
 
 const Hero = (): JSX.Element => {

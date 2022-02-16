@@ -5,9 +5,9 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
-import { POST_ID } from '../../../util/db/constants'
-import { ControllerHandler } from '../../../types/response-handler'
+} from '@/util/db/jest-db'
+import { POST_ID } from '@/util/db/constants'
+import { ControllerHandler } from '@/types/response-handler'
 import {
   mockAnonUser,
   mockAnonUserJWT,
@@ -15,9 +15,9 @@ import {
   mockOtherUserJWT,
   mockUser,
   mockUserJWT,
-} from '../../../util/db/data/user'
+} from '@/util/db/data/user'
 import { AuthController } from '../auth.controller'
-import { mockPost } from '../../../util/db/data/post'
+import { mockPost } from '@/util/db/data/post'
 import SgidClient from '@opengovsg/sgid-client'
 
 describe('AuthController', () => {

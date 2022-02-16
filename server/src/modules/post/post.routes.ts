@@ -2,7 +2,7 @@ import { AuthMiddleware } from '../auth/auth.middleware'
 import express from 'express'
 import { check, param } from 'express-validator'
 import { PostController } from './post.controller'
-import { limiter } from '../../middleware/limiter'
+import { limiter } from '@/middleware/limiter'
 
 export const routePosts = ({
   controller,

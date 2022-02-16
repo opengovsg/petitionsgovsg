@@ -1,9 +1,9 @@
 import { Text, SimpleGrid, GridItem } from '@chakra-ui/react'
-import { ReactComponent as StepOne } from '../../assets/how-step-1.svg'
-import { ReactComponent as StepTwo } from '../../assets/how-step-2.svg'
-import { ReactComponent as StepThree } from '../../assets/how-step-3.svg'
-import { ReactComponent as StepFour } from '../../assets/how-step-4.svg'
-import { ReactComponent as StepFive } from '../../assets/how-step-5.svg'
+import { ReactComponent as StepOne } from '@/assets/how-step-1.svg'
+import { ReactComponent as StepTwo } from '@/assets/how-step-2.svg'
+import { ReactComponent as StepThree } from '@/assets/how-step-3.svg'
+import { ReactComponent as StepFour } from '@/assets/how-step-4.svg'
+import { ReactComponent as StepFive } from '@/assets/how-step-5.svg'
 
 interface HowItWorksBannerProps {
   isMaxThreeInGrid?: boolean

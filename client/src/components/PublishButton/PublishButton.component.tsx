@@ -1,11 +1,8 @@
 import { Button } from '@chakra-ui/react'
-import {
-  publishPost,
-  GET_POST_BY_ID_QUERY_KEY,
-} from '../../services/PostService'
+import { publishPost, GET_POST_BY_ID_QUERY_KEY } from '@/services/PostService'
 import { useMutation, useQueryClient } from 'react-query'
 import { useStyledToast } from '../StyledToast/StyledToast'
-import { getApiErrorMessage } from '../../api'
+import { getApiErrorMessage } from '@/api'
 
 interface PublishButtonProps {
   postId: string | undefined

@@ -6,7 +6,7 @@ import {
 } from '@chakra-ui/react'
 import PetitionCard from '../PetitionCard/PetitionCard.component'
 import { useQuery } from 'react-query'
-import { listPosts, LIST_POSTS_QUERY_KEY } from '../../services/PostService'
+import { listPosts, LIST_POSTS_QUERY_KEY } from '@/services/PostService'
 
 interface PetitionGridProps {
   sort: string

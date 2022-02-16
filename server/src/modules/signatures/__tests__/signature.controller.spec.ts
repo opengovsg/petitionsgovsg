@@ -5,17 +5,17 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { SignatureController } from '../signature.controller'
-import { POST_ID } from '../../../util/db/constants'
-import { mockSignatures, mockSignature } from '../../../util/db/data/signature'
-import { ControllerHandler } from '../../../types/response-handler'
-import { mockUser, mockUserJWT } from '../../../util/db/data/user'
+import { POST_ID } from '@/util/db/constants'
+import { mockSignatures, mockSignature } from '@/util/db/data/signature'
+import { ControllerHandler } from '@/types/response-handler'
+import { mockUser, mockUserJWT } from '@/util/db/data/user'
 import { Model } from 'sequelize'
 import { Post } from '~shared/types/base/post'
-import { Creation } from '../../../types/sequelize'
+import { Creation } from '@/types/sequelize'
 import { errAsync } from 'neverthrow'
-import { DatabaseError } from '../../core/core.errors'
+import { DatabaseError } from '@/modules/core/core.errors'
 
 describe('SignatureController', () => {
   let db: SequelizeWithModels

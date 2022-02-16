@@ -7,8 +7,8 @@ import {
   Flex,
 } from '@chakra-ui/react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { RichTextEditor } from '../../../components/RichText/RichTextEditor.component'
-import { InfoBox } from '../../../components/InfoBox/InfoBox.component'
+import { RichTextEditor } from '@/components/RichText/RichTextEditor.component'
+import { InfoBox } from '@/components/InfoBox/InfoBox.component'
 
 const Profile = (): JSX.Element => {
   const styles = useMultiStyleConfig('FormFields', {})
