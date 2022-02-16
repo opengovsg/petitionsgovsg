@@ -4,7 +4,7 @@ import { CreateSignatureReqDto, ErrorDto } from '~shared/types/api'
 import { Signature } from '~shared/types/base'
 import { createLogger } from '@/bootstrap/logging'
 import { ControllerHandler } from '@/types/response-handler'
-import { hashData } from '../../util/hash'
+import { hashData } from '@/util/hash'
 import { PostService } from '../post/post.service'
 import { SignatureService } from './signature.service'
 

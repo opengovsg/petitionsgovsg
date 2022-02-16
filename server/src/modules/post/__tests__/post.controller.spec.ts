@@ -5,16 +5,16 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
-import { POST_ID } from '../../../util/db/constants'
+} from '@/util/db/jest-db'
+import { POST_ID } from '@/util/db/constants'
 import { ControllerHandler } from '@/types/response-handler'
-import { mockUser, mockUserJWT } from '../../../util/db/data/user'
+import { mockUser, mockUserJWT } from '@/util/db/data/user'
 import { errAsync } from 'neverthrow'
 import { DatabaseError } from '@/modules/core/core.errors'
 import { PostController } from '../post.controller'
-import { mockPost, mockPosts } from '../../../util/db/data/post'
+import { mockPost, mockPosts } from '@/util/db/data/post'
 import { UserCannotViewPostError } from '../post.errors'
-import { mockSignature, mockSignatures } from '../../../util/db/data/signature'
+import { mockSignature, mockSignatures } from '@/util/db/data/signature'
 
 describe('PostController', () => {
   let db: SequelizeWithModels

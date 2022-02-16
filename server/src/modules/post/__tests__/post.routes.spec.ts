@@ -5,14 +5,14 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { ControllerHandler } from '@/types/response-handler'
-import { mockUser, mockUserJWT } from '../../../util/db/data/user'
-import { POST_ID } from '../../../util/db/constants'
+import { mockUser, mockUserJWT } from '@/util/db/data/user'
+import { POST_ID } from '@/util/db/constants'
 import { routePosts } from '../post.routes'
 import { PostController } from '../post.controller'
 import { PostService } from '../post.service'
-import { mockPost } from '../../../util/db/data/post'
+import { mockPost } from '@/util/db/data/post'
 
 describe('/posts', () => {
   let db: SequelizeWithModels

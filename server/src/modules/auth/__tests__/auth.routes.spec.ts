@@ -4,17 +4,13 @@ import { StatusCodes } from 'http-status-codes'
 import supertest from 'supertest'
 import { PostService } from '@/modules/post/post.service'
 import { ControllerHandler } from '@/types/response-handler'
-import { POST_ID } from '../../../util/db/constants'
-import {
-  mockOtherUserJWT,
-  mockUser,
-  mockUserJWT,
-} from '../../../util/db/data/user'
+import { POST_ID } from '@/util/db/constants'
+import { mockOtherUserJWT, mockUser, mockUserJWT } from '@/util/db/data/user'
 import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { AuthController } from '../auth.controller'
 import { AuthMiddleware } from '../auth.middleware'
 import { routeAuth } from '../auth.routes'

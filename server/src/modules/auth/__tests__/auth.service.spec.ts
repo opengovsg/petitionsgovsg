@@ -1,4 +1,4 @@
-import { mockPost } from '../../../util/db/data/post'
+import { mockPost } from '@/util/db/data/post'
 import { PostStatus } from '~shared/types/base'
 import { AuthService } from '../auth.service'
 

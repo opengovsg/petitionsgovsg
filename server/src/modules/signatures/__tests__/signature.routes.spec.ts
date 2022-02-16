@@ -5,7 +5,7 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { Model } from 'sequelize'
 import { Post } from '~shared/types/base'
 import { Creation } from '@/types/sequelize'
@@ -13,8 +13,8 @@ import { routeSignatures } from '../signature.routes'
 import { SignatureService } from '../signature.service'
 import { SignatureController } from '../signature.controller'
 import { ControllerHandler } from '@/types/response-handler'
-import { mockUser, mockUserJWT } from '../../../util/db/data/user'
-import { POST_ID } from '../../../util/db/constants'
+import { mockUser, mockUserJWT } from '@/util/db/data/user'
+import { POST_ID } from '@/util/db/constants'
 
 describe('/signatures', () => {
   let post: Model<Post, Creation<Post>> | null

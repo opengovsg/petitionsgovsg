@@ -1,10 +1,10 @@
-import { mockSignature } from '../../../util/db/data/signature'
-import { POST_ID } from '../../../util/db/constants'
+import { mockSignature } from '@/util/db/data/signature'
+import { POST_ID } from '@/util/db/constants'
 import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { SignatureService } from '../signature.service'
 
 describe('SignatureService', () => {

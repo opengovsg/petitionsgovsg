@@ -5,7 +5,7 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { routeAddressees } from '../addressee.routes'
 import { AddresseeController } from '../addressee.controller'
 import { AddresseeService } from '../addressee.service'

@@ -2,11 +2,11 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { PostService } from '../post.service'
 import { SortType } from '@/types/sort-type'
-import { mockPost } from '../../../util/db/data/post'
-import { POST_ID } from '../../../util/db/constants'
+import { mockPost } from '@/util/db/data/post'
+import { POST_ID } from '@/util/db/constants'
 import { Post, PostStatus } from '~shared/types/base'
 import {
   MissingPublicPostError,

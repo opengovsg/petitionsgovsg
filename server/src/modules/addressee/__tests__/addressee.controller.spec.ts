@@ -5,11 +5,11 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { errAsync } from 'neverthrow'
 import { DatabaseError } from '@/modules/core/core.errors'
 import { AddresseeController } from '../addressee.controller'
-import { mockAddressees } from '../../../util/db/data/addressee'
+import { mockAddressees } from '@/util/db/data/addressee'
 
 describe('AddresseeController', () => {
   let db: SequelizeWithModels

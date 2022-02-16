@@ -2,7 +2,7 @@ import {
   createTestDatabase,
   resetAndSetupDb,
   SequelizeWithModels,
-} from '../../../util/db/jest-db'
+} from '@/util/db/jest-db'
 import { AddresseeService } from '../addressee.service'
 
 describe('AddresseeService', () => {
