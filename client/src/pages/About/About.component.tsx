@@ -1,7 +1,8 @@
-import { useMultiStyleConfig, Text, Box, Link } from '@chakra-ui/react'
+import { Box, Link, Text, useMultiStyleConfig } from '@chakra-ui/react'
+
+import HowItWorksBanner from '@/components/HowItWorks/HowItWorksBanner.component'
 import { InfoBox } from '@/components/InfoBox/InfoBox.component'
 import { Link as RouterLink } from 'react-router-dom'
-import HowItWorksBanner from '@/components/HowItWorks/HowItWorksBanner.component'
 
 const About = (): JSX.Element => {
   const styles = useMultiStyleConfig('About', {})
@@ -16,8 +17,12 @@ const About = (): JSX.Element => {
         <Box sx={styles.sectionBox}>
           <Text sx={styles.text}>
             PetitionsSG is a collaborative initiative by{' '}
-            <b>Open Government Products</b> and the{' '}
-            <b>Ministry of Culture, Community, and Youth</b>.
+            <b>Open Government Products</b> and{' '}
+            <b>
+              Reach Singapore under the Ministry of Communications and
+              Information
+            </b>
+            .
           </Text>
           <Text sx={styles.text}>
             The aim is to give you – the residents of Singapore – a platform to
