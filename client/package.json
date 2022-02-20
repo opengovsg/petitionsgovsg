@@ -6,7 +6,7 @@
     "@chakra-ui/react": "^1.8.3",
     "@chakra-ui/storybook-addon": "^1.0.2",
     "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.6.0",
+    "@emotion/styled": "^11.8.1",
     "@fullstory/browser": "^1.5.0",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
