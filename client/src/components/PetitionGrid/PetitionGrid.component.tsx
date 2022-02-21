@@ -30,7 +30,7 @@ const PetitionGrid = ({ sort }: PetitionGridProps): JSX.Element => {
     <SimpleGrid sx={styles.grid}>
       {data
         ? data.posts.map((post) => {
-            return <PetitionCard post={post} />
+            return <PetitionCard post={post} key={post.id} />
           })
         : undefined}
     </SimpleGrid>
