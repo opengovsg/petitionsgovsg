@@ -14,7 +14,7 @@
     "forceConsistentCasingInFileNames": true,       /* Disallow inconsistently-cased references to the same file. */
     "paths": {
       "~shared/*": ["../shared/build/*"],
-      "@/*": ["src/*"]
+      "@/*": ["src/*", "build/*"]
     }
   },
   "include": [
