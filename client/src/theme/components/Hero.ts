@@ -6,7 +6,7 @@ export const Hero = makeMultiStyleConfig({
     mt: '102px',
   },
   heading: {
-    'grid-column-start': '1',
+    gridColumnStart: '1',
     textStyle: { base: 'display-1-mobile', md: 'display-1' },
     color: 'secondary.500',
   },

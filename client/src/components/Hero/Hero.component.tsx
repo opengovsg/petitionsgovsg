@@ -21,7 +21,7 @@ const Hero = (): JSX.Element => {
         </Box>
       </Box>
       <Flex mt={{ base: '32px', md: '88px' }} mr="-24px">
-        <HeroImage width="100%" height="auto" />
+        <HeroImage width="100%" height="100%" />
       </Flex>
     </Grid>
   )
