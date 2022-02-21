@@ -45,6 +45,14 @@ export const routeAuth = ({
   router.get('/sgid/login', limiter, controller.handleSgidLogin)
 
   /**
+   * Logout
+   * @route   POST /api/auth/logout
+   * @returns 200 on successful logout
+   * @access  private
+   */
+  router.post('/logout', controller.handleLogout)
+
+  /**
    * Sgid Callback
    * @route   GET /api/auth/callback
    * @returns 302 to home page if successful login

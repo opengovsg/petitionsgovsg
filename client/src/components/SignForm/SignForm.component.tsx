@@ -19,7 +19,6 @@ import {
 } from '../SubscriptionModal/SubscriptionModal.component'
 
 type FormValues = CreateSignatureReqDto
-const refreshPage = async () => window.location.reload()
 
 const SignForm = ({
   post,
@@ -29,9 +28,29 @@ const SignForm = ({
   postId: string | undefined
 }): JSX.Element => {
   const toast = useStyledToast()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const [searchParams] = useSearchParams()
   const openSignatureModal = searchParams.has('sign')
+
+  const refreshPage = async () => {
+    window.location.reload()
+  }
+
+  // Event listener to clear user data when navigating away from the page
+  useEffect(() => {
+    window.addEventListener('beforeunload', logout)
+    return () => window.removeEventListener('beforeunload', logout)
+  }, [])
+
+  // Event listener to refresh page when page is loaded using back/forward navigation
+  useEffect(() => {
+    if (
+      window.performance?.getEntriesByType('navigation')[0].type ===
+      'back_forward'
+    ) {
+      refreshPage()
+    }
+  }, [])
 
   // Init PreSignModal
   const {
@@ -81,6 +100,11 @@ const SignForm = ({
     refreshPage()
   }
 
+  const onSignatureModalCloseAndLogout = () => {
+    onSignatureModalClose()
+    logout()
+  }
+
   useEffect(() => {
     if (openSignatureModal && user) {
       onSignatureModalOpen()
@@ -114,7 +138,7 @@ const SignForm = ({
       />
       <SignatureModal
         isOpen={isSignatureModalOpen}
-        onClose={onSignatureModalClose}
+        onClose={onSignatureModalCloseAndLogout}
         onConfirm={onSignatureConfirm}
         postTitle={post?.title ?? ''}
         useFullname={post?.status === PostStatus.Draft}

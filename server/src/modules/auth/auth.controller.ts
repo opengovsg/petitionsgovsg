@@ -61,6 +61,24 @@ export class AuthController {
     }
   }
 
+  /**
+   * Logout
+   * @returns 200 if logged out
+   */
+  handleLogout: ControllerHandler = (req, res) => {
+    if (!req.cookies.jwt) {
+      logger.error({
+        message: 'Attempted to sign out without a token',
+        meta: {
+          function: 'handleLogout',
+        },
+      })
+      return res.sendStatus(StatusCodes.BAD_REQUEST)
+    }
+    res.clearCookie('jwt')
+    return res.status(StatusCodes.OK).json({ message: 'Sign out successful' })
+  }
+
   handleSgidLogin: ControllerHandler<
     never,
     undefined,
