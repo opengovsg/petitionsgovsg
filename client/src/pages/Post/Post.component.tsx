@@ -110,7 +110,7 @@ const Post = (): JSX.Element => {
           .reverse()
           .slice(0, 10)
           .map((signature) => (
-            <Box>
+            <Box key={signature.id}>
               <Text sx={styles.signature}>
                 {signature.fullname ?? 'Anonymous'} signed this petition
               </Text>
@@ -131,7 +131,7 @@ const Post = (): JSX.Element => {
     isPetitionOwnerLoading
 
   return isLoading ? (
-    <Spinner centerHeight={`${styles.spinner.height}`} />
+    <Spinner centerheight={`${styles.spinner.height}`} />
   ) : (
     <Flex direction="column" sx={styles.container}>
       {post?.status === PostStatus.Draft && (

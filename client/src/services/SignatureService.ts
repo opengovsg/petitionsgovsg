@@ -21,7 +21,7 @@ export const createSignature = async (
   ).then(({ data }) => data)
 
 export const filterSignaturesWithComments = (
-  signatures: Pick<Signature, 'comment' | 'createdAt' | 'fullname'>[],
+  signatures: Pick<Signature, 'comment' | 'createdAt' | 'fullname' | 'id'>[],
 ) => {
   return signatures.filter((signature) => signature.comment !== '')
 }
