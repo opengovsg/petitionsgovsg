@@ -16,15 +16,18 @@ import HowItWorks from '@/components/HowItWorks/HowItWorks.component'
 import { AnonymityBanner } from '@/components/AnonymityBanner/AnonymityBanner.component'
 import { useState } from 'react'
 import { BiChevronDown } from 'react-icons/bi'
+import { SortType } from '~shared/types/base'
 
 const HomePage = (): JSX.Element => {
   // dropdown options
   const options = [
-    { value: 'basic', label: 'Newest petitions' },
-    { value: 'top', label: 'Popular' },
+    { value: SortType.MostSignatures, label: 'Most signatures' },
+    { value: SortType.LeastSignatures, label: 'Least signatures' },
+    { value: SortType.Newest, label: 'Newest petitions' },
+    { value: SortType.Oldest, label: 'Oldest petitions' },
   ]
   // dropdown state, default popular
-  const [sortState, setSortState] = useState(options[1])
+  const [sortState, setSortState] = useState(options[0])
 
   return (
     <Flex direction="column" height="100%" id="home-page" mb="88px" px="24px">

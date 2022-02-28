@@ -7,7 +7,7 @@ import {
 } from '~shared/types/api'
 import { Addressee, Post, PostStatus, Signature } from '~shared/types/base'
 import { ModelDef } from '@/types/sequelize'
-import { SortType } from '@/types/sort-type'
+import { SortType } from '~shared/types/base/post'
 import {
   AddresseeDoesNotExistError,
   MissingPublicPostError,
@@ -48,10 +48,14 @@ export class PostService {
   ]
 
   private sortFunction = (sortType: SortType): OrderItem => {
-    if (sortType === SortType.Basic) {
-      return ['createdAt', 'DESC']
+    const sortDict = {
+      [SortType.Newest]: ['createdAt', 'DESC'],
+      [SortType.Oldest]: ['createdAt', 'ASC'],
+      [SortType.MostSignatures]: [Sequelize.literal('signatureCount'), 'DESC'],
+      [SortType.LeastSignatures]: [Sequelize.literal('signatureCount'), 'ASC'],
     }
-    return [Sequelize.literal('signatureCount'), 'DESC']
+
+    return sortDict[sortType] as OrderItem
   }
   /**
    * Return the paginated posts

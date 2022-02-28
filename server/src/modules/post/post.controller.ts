@@ -12,7 +12,7 @@ import {
 } from '~shared/types/api'
 import { createLogger } from '@/bootstrap/logging'
 import { ControllerHandler } from '@/types/response-handler'
-import { SortType } from '@/types/sort-type'
+import { SortType } from '~shared/types/base'
 import { generateSalt, hashData } from '@/util/hash'
 import { AuthService } from '../auth/auth.service'
 import { MIN_ENDORSER_COUNT } from '../signatures/signature.controller'
@@ -53,7 +53,7 @@ export class PostController {
       sort?: SortType
     }
   > = async (req, res) => {
-    const { page, size, sort = SortType.Top } = req.query
+    const { page, size, sort = SortType.MostSignatures } = req.query
     try {
       const data = await this.postService.listPosts({
         sort: sort as SortType,
