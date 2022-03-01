@@ -42,10 +42,6 @@ const styles = {
     textStyle: 'body-2',
     color: 'neutral.700',
   },
-  anonymityButton: {
-    color: 'primary.500',
-    mr: '8px',
-  },
   cancelButton: {
     bg: 'transparent',
     mx: '8px',

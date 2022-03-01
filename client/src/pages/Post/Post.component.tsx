@@ -130,6 +130,8 @@ const Post = (): JSX.Element => {
     isUserLoading ||
     isPetitionOwnerLoading
 
+  const showSignForm = !(PostStatus.Draft && isPetitionOwner)
+
   return isLoading ? (
     <Spinner centerheight={`${styles.spinner.height}`} />
   ) : (
@@ -197,11 +199,7 @@ const Post = (): JSX.Element => {
                 have signed this petition
               </Text>
             </Box>
-            {((post?.status === PostStatus.Draft &&
-              !userSignature &&
-              !isPetitionOwner) ||
-              (post?.status === PostStatus.Open && !userSignature) ||
-              !user) && <SignForm post={post} postId={postId} />}
+            {showSignForm && <SignForm post={post} postId={postId} />}
 
             {post?.status === PostStatus.Draft && isPetitionOwner && (
               <Button
@@ -214,9 +212,6 @@ const Post = (): JSX.Element => {
               >
                 Share private link
               </Button>
-            )}
-            {user && userSignature && (
-              <Center sx={styles.signed}>You have signed this petition.</Center>
             )}
             {(user && !userSignature) ||
               (!user && (

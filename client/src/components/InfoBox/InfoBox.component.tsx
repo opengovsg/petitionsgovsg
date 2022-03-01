@@ -1,18 +1,20 @@
 import { Box, HStack } from '@chakra-ui/layout'
 import { Icon, useMultiStyleConfig } from '@chakra-ui/react'
-import { BiInfoCircle } from 'react-icons/bi'
+import { BiErrorCircle, BiInfoCircle } from 'react-icons/bi'
 
 export const InfoBox = ({
   children,
+  variant,
 }: {
   children: JSX.Element
+  variant?: string
 }): JSX.Element | null => {
-  const styles = useMultiStyleConfig('InfoBox', {})
+  const styles = useMultiStyleConfig('InfoBox', { variant })
   return (
     <Box sx={styles.infoBox}>
       <HStack sx={styles.infoStack}>
         <Icon
-          as={BiInfoCircle}
+          as={variant === 'danger' ? BiErrorCircle : BiInfoCircle}
           color="primary.500"
           w="20px"
           h="20px"

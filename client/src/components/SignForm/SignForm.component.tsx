@@ -17,6 +17,8 @@ import {
   SubscriptionFormValues,
   SubscriptionModal,
 } from '../SubscriptionModal/SubscriptionModal.component'
+import { useQuery } from 'react-query'
+import { SignedModal } from '../SignedModal/SignedModal.component'
 
 type FormValues = CreateSignatureReqDto
 
@@ -31,6 +33,11 @@ const SignForm = ({
   const { user, logout } = useAuth()
   const [searchParams] = useSearchParams()
   const openSignatureModal = searchParams.has('sign')
+  const { data: userSignature } = useQuery(
+    [SignatureService.GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
+    () => SignatureService.getUserSignatureForPost(Number(postId)),
+    { enabled: !!postId && !!user },
+  )
 
   const refreshPage = async () => {
     window.location.reload()
@@ -105,11 +112,26 @@ const SignForm = ({
     logout()
   }
 
+  // Init Signed Modal
+  const {
+    onOpen: onSignedModalOpen,
+    onClose: onSignedModalClose,
+    isOpen: isSignedModalOpen,
+  } = useDisclosure()
+
+  // Open signed modal if user is logged in and user has signed
   useEffect(() => {
-    if (openSignatureModal && user) {
+    if (user && userSignature) {
+      onSignedModalOpen()
+    }
+  }, [user, userSignature])
+
+  // Open signature modal if user is logged in and user has not signed
+  useEffect(() => {
+    if (openSignatureModal && user && !userSignature) {
       onSignatureModalOpen()
     }
-  }, [])
+  }, [user, userSignature])
 
   return (
     <>
@@ -151,6 +173,7 @@ const SignForm = ({
         post={post}
         postId={postId}
       />
+      <SignedModal isOpen={isSignedModalOpen} onClose={onSignedModalClose} />
     </>
   )
 }
