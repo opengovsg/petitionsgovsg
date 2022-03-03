@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/subscriptions Post /:id returns BAD REQUEST on bad email 1`] = `
+Object {
+  "message": "email should be a valid format",
+}
+`;
+
+exports[`/subscriptions Post /:id returns OK on valid submission 1`] = `1`;
+
+exports[`/subscriptions Post /:id returns UNAUTHORIZED on no user 1`] = `
+Object {
+  "message": "User not signed in",
+}
+`;

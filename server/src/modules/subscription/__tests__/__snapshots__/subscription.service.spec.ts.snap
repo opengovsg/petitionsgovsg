@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SubscriptionService createSuscription creates subscription for specified post id 1`] = `
+Object {
+  "createdAt": Any<Date>,
+  "email": "test@email.com",
+  "id": 1,
+  "postId": 1,
+  "updatedAt": Any<Date>,
+}
+`;

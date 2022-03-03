@@ -20,13 +20,21 @@ import { api } from '@/routes'
 import { baseConfig, Environment } from './config/base'
 import { helmetOptions } from './helmet-options'
 import { requestLoggingMiddleware } from './logging/request-logging'
-import { Addressee, Post, sequelize, Signature } from './sequelize'
+import {
+  Addressee,
+  Post,
+  sequelize,
+  Signature,
+  Subscription,
+} from './sequelize'
 import { bannerConfig } from './config/banner'
 import { googleAnalyticsConfig } from './config/googleAnalytics'
 import cookieParser from 'cookie-parser'
 import csrf from 'csurf'
 import SgidClient from '@opengovsg/sgid-client'
 import { sgidConfig } from './config/sgid'
+import { SubscriptionService } from '@/modules/subscription/subscription.service'
+import { SubscriptionController } from '@/modules/subscription/subscription.controller'
 
 export { sequelize } from './sequelize'
 export const app = express()
@@ -89,6 +97,10 @@ const signatureService = new SignatureService({
 const addresseeService = new AddresseeService({
   Addressee,
 })
+const subscriptionService = new SubscriptionService({
+  Subscription,
+  sequelize,
+})
 const apiOptions = {
   signature: {
     controller: new SignatureController({
@@ -112,6 +124,10 @@ const apiOptions = {
   },
   addressee: {
     controller: new AddresseeController({ addresseeService }),
+  },
+  subscription: {
+    controller: new SubscriptionController({ subscriptionService }),
+    authMiddleware,
   },
 }
 
