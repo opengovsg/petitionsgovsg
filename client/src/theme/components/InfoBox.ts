@@ -18,4 +18,24 @@ export const InfoBox: ComponentMultiStyleConfig = {
       alignItems: 'flex-start',
     },
   }),
+  variants: {
+    danger: {
+      infoBox: {
+        bg: 'danger.100',
+      },
+    },
+    info: {
+      infoBox: {
+        bg: 'primary.100',
+      },
+    },
+    default: {
+      infoBox: {
+        bg: 'none',
+      },
+    },
+  },
+  defaultProps: {
+    variant: 'solid',
+  },
 }

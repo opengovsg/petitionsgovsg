@@ -12,7 +12,9 @@ export const PostSignatures = ({
   const showAllComments = signatures
     .reverse()
     .slice(0, 10)
-    .map((signature) => <PostSignature signature={signature} />)
+    .map((signature) => (
+      <PostSignature signature={signature} key={signature.id} />
+    ))
 
   return (
     <>

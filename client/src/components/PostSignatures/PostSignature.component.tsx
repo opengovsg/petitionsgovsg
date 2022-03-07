@@ -5,7 +5,7 @@ import { Signature } from '~shared/types/base'
 export const PostSignature = ({
   signature,
 }: {
-  signature: Pick<Signature, 'comment' | 'createdAt' | 'fullname'>
+  signature: Pick<Signature, 'comment' | 'createdAt' | 'fullname' | 'id'>
 }): JSX.Element => {
   return (
     <Box my="16px">

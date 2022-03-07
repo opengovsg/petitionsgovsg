@@ -22,8 +22,6 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { BiLinkExternal } from 'react-icons/bi'
-import { Link as RouterLink } from 'react-router-dom'
 import { CreateSignatureReqDto } from '~shared/types/api'
 import { useAuth } from '@/contexts/AuthContext'
 
@@ -45,13 +43,14 @@ export const SignatureModal = ({
   const [count, setCount] = useState(MAX_CHAR_COUNT)
   const styles = useMultiStyleConfig('SignatureModal', {})
   const { register, handleSubmit, reset } = useForm<FormValues>()
-  const [showDisclaimer, toggleShowDisclaimer] = useState(false)
+  const [showDisclaimer, toggleShowDisclaimer] = useState(true)
   const onSubmit: SubmitHandler<CreateSignatureReqDto> = async ({
     comment,
     useName,
   }) => {
     await onConfirm({ comment: comment, useName: useName || useFullname })
     reset()
+    onClose()
   }
 
   const { user, isLoading: isUserLoading } = useAuth()
@@ -102,6 +101,7 @@ export const SignatureModal = ({
       {user?.fullname && (
         <Flex ms="auto">
           <Switch
+            defaultChecked={true}
             alignSelf="flex-end"
             colorScheme="green"
             {...register('useName', {})}
@@ -147,24 +147,6 @@ export const SignatureModal = ({
             </Flex>
             {signatureComponent}
             {useFullname ? endorserNameComponent : useNameComponent}
-            {!useFullname && (
-              <RouterLink to="/anonymity">
-                <Flex alignItems="center" mt="20px">
-                  <Text
-                    _hover={{
-                      color: 'primary.600',
-                    }}
-                    sx={styles.anonymityButton}
-                    as="u"
-                  >
-                    Read more about how we ensure anonymity
-                  </Text>
-                  <Box color="primary.500">
-                    <BiLinkExternal />
-                  </Box>
-                </Flex>
-              </RouterLink>
-            )}
           </ModalBody>
           <ModalFooter>
             <Button
@@ -178,7 +160,7 @@ export const SignatureModal = ({
             </Button>
             <Button
               type="submit"
-              onClick={onClose}
+              onClick={() => onSubmit}
               _hover={{
                 bg: 'secondary.600',
               }}

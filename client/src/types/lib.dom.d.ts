@@ -1,0 +1,3 @@
+interface PerformanceEntry {
+  type: string
+}

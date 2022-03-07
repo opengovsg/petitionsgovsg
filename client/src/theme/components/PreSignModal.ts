@@ -27,4 +27,11 @@ export const PreSignModal = makeMultiStyleConfig({
     fontWeight: '400',
     color: 'secondary.400',
   },
+  disclaimerContainer: {
+    mt: '24px',
+  },
+  anonymityButton: {
+    color: 'primary.500',
+    mr: '8px',
+  },
 })

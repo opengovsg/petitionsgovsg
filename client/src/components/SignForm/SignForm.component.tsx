@@ -17,9 +17,10 @@ import {
   SubscriptionFormValues,
   SubscriptionModal,
 } from '../SubscriptionModal/SubscriptionModal.component'
+import { useQuery } from 'react-query'
+import { SignedModal } from '../SignedModal/SignedModal.component'
 
 type FormValues = CreateSignatureReqDto
-const refreshPage = async () => window.location.reload()
 
 const SignForm = ({
   post,
@@ -29,9 +30,34 @@ const SignForm = ({
   postId: string | undefined
 }): JSX.Element => {
   const toast = useStyledToast()
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
   const [searchParams] = useSearchParams()
   const openSignatureModal = searchParams.has('sign')
+  const { data: userSignature } = useQuery(
+    [SignatureService.GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
+    () => SignatureService.getUserSignatureForPost(Number(postId)),
+    { enabled: !!postId && !!user },
+  )
+
+  const refreshPage = async () => {
+    window.location.reload()
+  }
+
+  // Event listener to clear user data when navigating away from the page
+  useEffect(() => {
+    window.addEventListener('beforeunload', logout)
+    return () => window.removeEventListener('beforeunload', logout)
+  }, [])
+
+  // Event listener to refresh page when page is loaded using back/forward navigation
+  useEffect(() => {
+    if (
+      window.performance?.getEntriesByType('navigation')[0].type ===
+      'back_forward'
+    ) {
+      refreshPage()
+    }
+  }, [])
 
   // Init PreSignModal
   const {
@@ -81,11 +107,31 @@ const SignForm = ({
     refreshPage()
   }
 
+  const onSignatureModalCloseAndLogout = () => {
+    onSignatureModalClose()
+    logout()
+  }
+
+  // Init Signed Modal
+  const {
+    onOpen: onSignedModalOpen,
+    onClose: onSignedModalClose,
+    isOpen: isSignedModalOpen,
+  } = useDisclosure()
+
+  // Open signed modal if user is logged in and user has signed
   useEffect(() => {
-    if (openSignatureModal && user) {
+    if (user && userSignature) {
+      onSignedModalOpen()
+    }
+  }, [user, userSignature])
+
+  // Open signature modal if user is logged in and user has not signed
+  useEffect(() => {
+    if (openSignatureModal && user && !userSignature) {
       onSignatureModalOpen()
     }
-  }, [])
+  }, [user, userSignature])
 
   return (
     <>
@@ -114,7 +160,7 @@ const SignForm = ({
       />
       <SignatureModal
         isOpen={isSignatureModalOpen}
-        onClose={onSignatureModalClose}
+        onClose={onSignatureModalCloseAndLogout}
         onConfirm={onSignatureConfirm}
         postTitle={post?.title ?? ''}
         useFullname={post?.status === PostStatus.Draft}
@@ -127,6 +173,7 @@ const SignForm = ({
         post={post}
         postId={postId}
       />
+      <SignedModal isOpen={isSignedModalOpen} onClose={onSignedModalClose} />
     </>
   )
 }

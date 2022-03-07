@@ -5,13 +5,13 @@ import {
 } from '@chakra-ui/react'
 
 interface SpinnerProps extends ChakraSpinnerProps {
-  centerWidth?: string | number
-  centerHeight?: string | number
+  centerwidth?: string | number
+  centerheight?: string | number
 }
 
 const Spinner = (props: SpinnerProps): JSX.Element => {
   return (
-    <Center w={props.centerWidth} h={props.centerHeight}>
+    <Center w={props.centerwidth} h={props.centerheight}>
       <ChakraSpinner {...props} />
     </Center>
   )

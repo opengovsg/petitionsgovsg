@@ -110,7 +110,7 @@ const Post = (): JSX.Element => {
           .reverse()
           .slice(0, 10)
           .map((signature) => (
-            <Box>
+            <Box key={signature.id}>
               <Text sx={styles.signature}>
                 {signature.fullname ?? 'Anonymous'} signed this petition
               </Text>
@@ -130,8 +130,10 @@ const Post = (): JSX.Element => {
     isUserLoading ||
     isPetitionOwnerLoading
 
+  const showSignForm = !(PostStatus.Draft && isPetitionOwner)
+
   return isLoading ? (
-    <Spinner centerHeight={`${styles.spinner.height}`} />
+    <Spinner centerheight={`${styles.spinner.height}`} />
   ) : (
     <Flex direction="column" sx={styles.container}>
       {post?.status === PostStatus.Draft && (
@@ -197,11 +199,7 @@ const Post = (): JSX.Element => {
                 have signed this petition
               </Text>
             </Box>
-            {((post?.status === PostStatus.Draft &&
-              !userSignature &&
-              !isPetitionOwner) ||
-              (post?.status === PostStatus.Open && !userSignature) ||
-              !user) && <SignForm post={post} postId={postId} />}
+            {showSignForm && <SignForm post={post} postId={postId} />}
 
             {post?.status === PostStatus.Draft && isPetitionOwner && (
               <Button
@@ -214,9 +212,6 @@ const Post = (): JSX.Element => {
               >
                 Share private link
               </Button>
-            )}
-            {user && userSignature && (
-              <Center sx={styles.signed}>You have signed this petition.</Center>
             )}
             {(user && !userSignature) ||
               (!user && (
