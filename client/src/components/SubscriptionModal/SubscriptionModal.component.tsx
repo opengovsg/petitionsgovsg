@@ -28,6 +28,8 @@ interface SubscriptionModalProps
   onConfirm: (subscriptionReq: FormValues) => Promise<void>
 }
 
+const refreshPage = async () => window.location.reload()
+
 export const SubscriptionModal = ({
   isOpen,
   onClose,
@@ -35,8 +37,14 @@ export const SubscriptionModal = ({
 }: SubscriptionModalProps): JSX.Element => {
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const onSubmit: SubmitHandler<FormValues> = async ({ email }) => {
-    await onConfirm({ email: email })
-    reset()
+    if (email) {
+      await onConfirm({ email: email })
+      reset()
+      setTimeout(() => refreshPage(), 3000)
+    } else {
+      onClose()
+      refreshPage()
+    }
   }
   const [copied, setCopied] = useState(false)
   const receiveEmailUpdatesComponent = (
@@ -113,7 +121,7 @@ export const SubscriptionModal = ({
               bg="secondary.500"
               fontStyle={'subhead-1'}
               color="white"
-              onClick={onClose}
+              onClick={handleSubmit(onSubmit)}
               _hover={{
                 bg: 'secondary.600',
               }}

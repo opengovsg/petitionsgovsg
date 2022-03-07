@@ -11,6 +11,7 @@ import { PostStatus } from '~shared/types/base'
 import { PreSignModal } from '@/components/PreSignModal/PreSignModal.component'
 import { useAuth } from '@/contexts/AuthContext'
 import * as SignatureService from '@/services/SignatureService'
+import * as SubscriptionService from '@/services/SubscriptionService'
 import { SignatureModal } from '../SignatureModal/SignatureModal.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
 import {
@@ -99,12 +100,16 @@ const SignForm = ({
     isOpen: isSubscriptionModalOpen,
   } = useDisclosure()
 
-  const onSubscriptionConfim: SubmitHandler<SubscriptionFormValues> = async ({
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const onSubscriptionConfirm: SubmitHandler<SubscriptionFormValues> = async ({
     email,
   }: SubscriptionFormValues): Promise<void> => {
-    //TODO: Implement subscription
-    refreshPage()
+    await SubscriptionService.createSubscription(Number(postId), {
+      email: email,
+    })
+    toast({
+      status: 'success',
+      description: 'You have successfully subscribed to this petition!',
+    })
   }
 
   const onSignatureModalCloseAndLogout = () => {
@@ -156,7 +161,7 @@ const SignForm = ({
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
         onClose={onSubscriptionModalClose}
-        onConfirm={onSubscriptionConfim}
+        onConfirm={onSubscriptionConfirm}
       />
       <SignatureModal
         isOpen={isSignatureModalOpen}

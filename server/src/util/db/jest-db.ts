@@ -1,6 +1,11 @@
 import { Sequelize } from 'sequelize'
 import { Creation, ModelDef } from '@/types/sequelize'
-import { defineSignature, definePost, defineAddressee } from '@/models'
+import {
+  defineSignature,
+  definePost,
+  defineAddressee,
+  defineSubscription,
+} from '@/models'
 import { mockPosts } from './data/post'
 import { mockAddressees } from './data/addressee'
 import { mockSignatures } from './data/signature'
@@ -8,6 +13,7 @@ import {
   Signature as SignatureModel,
   Addressee as AddresseeModel,
   Post as PostModel,
+  Subscription as SubscriptionModel,
 } from '~shared/types/base'
 
 export enum ModelName {
@@ -15,6 +21,7 @@ export enum ModelName {
   Post = 'post',
   User = 'user',
   Addressee = 'addressee',
+  Subscription = 'subscription',
 }
 
 export type SequelizeWithModels = {
@@ -22,6 +29,7 @@ export type SequelizeWithModels = {
   Addressee: ModelDef<AddresseeModel, Creation<AddresseeModel>>
   Post: ModelDef<PostModel, Creation<PostModel>>
   Signature: ModelDef<SignatureModel, Creation<SignatureModel>>
+  Subscription: ModelDef<SubscriptionModel, Creation<SubscriptionModel>>
 }
 
 /**
@@ -33,11 +41,13 @@ export const createTestDatabase = async (): Promise<SequelizeWithModels> => {
   const { Addressee } = defineAddressee(sequelize)
   const { Post } = definePost(sequelize, { Addressee })
   const Signature = defineSignature(sequelize, { Post })
+  const Subscription = defineSubscription(sequelize, { Post })
 
   const models = {
     Addressee,
     Post,
     Signature,
+    Subscription,
   }
 
   const db = { ...models, sequelize }

@@ -3,6 +3,11 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('subscriptions', {
+      id: {
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -13,7 +18,6 @@ module.exports = {
       },
       postId: {
         allowNull: false,
-        primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'posts', // name of Target model

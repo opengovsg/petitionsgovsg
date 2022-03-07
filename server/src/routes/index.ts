@@ -10,6 +10,8 @@ import { PostController } from '@/modules/post/post.controller'
 import { routePosts } from '@/modules/post/post.routes'
 import { SignatureController } from '@/modules/signatures/signature.controller'
 import { routeSignatures } from '@/modules/signatures/signature.routes'
+import { SubscriptionController } from '@/modules/subscription/subscription.controller'
+import { routeSubscriptions } from '@/modules/subscription/subscription.routes'
 
 type ApiRouterOptions = {
   signature: {
@@ -28,6 +30,10 @@ type ApiRouterOptions = {
   addressee: {
     controller: AddresseeController
   }
+  subscription: {
+    controller: SubscriptionController
+    authMiddleware: AuthMiddleware
+  }
 }
 
 export const api = (options: ApiRouterOptions): express.Router => {
@@ -38,6 +44,7 @@ export const api = (options: ApiRouterOptions): express.Router => {
   router.use('/environment', routeEnv({ controller: options.env }))
   router.use('/posts/signatures', routeSignatures(options.signature))
   router.use('/addressees', routeAddressees(options.addressee))
+  router.use('/subscriptions', routeSubscriptions(options.subscription))
 
   return router
 }

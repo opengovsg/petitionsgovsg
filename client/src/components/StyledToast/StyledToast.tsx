@@ -30,7 +30,7 @@ export const useStyledToast = (): ((
     }
     return toast({
       position: 'top',
-      duration: 6000, // 6 seconds
+      duration: 3000, // 3 seconds
       render: (renderProps: RenderProps) => (
         <Box
           sx={styles.toastBox}
