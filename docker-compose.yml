@@ -20,6 +20,13 @@ services:
       - '1080:80'
       - '1025:25'
 
+  mockpass:
+    build: https://github.com/opengovsg/mockpass.git
+    environment:
+      - SHOW_LOGIN_PAGE=true
+    ports:
+      - '5156:5156'
+
   db:
     platform: linux/x86_64
     image: mysql
