@@ -28,6 +28,7 @@ import { useAuth } from '@/contexts/AuthContext'
 const MAX_CHAR_COUNT = 200
 type FormValues = CreateSignatureReqDto
 interface SignatureModalProps extends Pick<ModalProps, 'isOpen' | 'onClose'> {
+  onNext: () => void
   onConfirm: (signatureReq: CreateSignatureReqDto) => Promise<void>
   postTitle: string
   useFullname: boolean
@@ -36,6 +37,7 @@ interface SignatureModalProps extends Pick<ModalProps, 'isOpen' | 'onClose'> {
 export const SignatureModal = ({
   isOpen,
   onClose,
+  onNext,
   onConfirm,
   postTitle,
   useFullname,
@@ -50,7 +52,8 @@ export const SignatureModal = ({
   }) => {
     await onConfirm({ comment: comment, useName: useName || useFullname })
     reset()
-    onClose()
+    // Closes modal without logging out, so that user continues to subscription.
+    onNext()
   }
 
   const { user, isLoading: isUserLoading } = useAuth()
