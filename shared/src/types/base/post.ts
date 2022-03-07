@@ -23,3 +23,10 @@ export const Post = BaseModel.extend({
 })
 
 export type Post = z.infer<typeof Post>
+
+export enum SortType {
+  Newest = 'newest',
+  Oldest = 'oldest',
+  MostSignatures = 'most signatures',
+  LeastSignatures = 'least signatures',
+}

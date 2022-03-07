@@ -4,7 +4,7 @@ import {
   SequelizeWithModels,
 } from '@/util/db/jest-db'
 import { PostService } from '../post.service'
-import { SortType } from '@/types/sort-type'
+import { SortType } from '~shared/types/base'
 import { mockPost } from '@/util/db/data/post'
 import { POST_ID } from '@/util/db/constants'
 import { Post, PostStatus } from '~shared/types/base'
@@ -48,13 +48,25 @@ describe('PostService', () => {
     })
 
     it('returns posts ordered by date created', async () => {
-      const post = await service.listPosts({ sort: SortType.Basic })
+      const post = await service.listPosts({ sort: SortType.Newest })
+
+      expect(post).toMatchSnapshot()
+    })
+
+    it('returns posts ordered by date created (oldest)', async () => {
+      const post = await service.listPosts({ sort: SortType.Oldest })
 
       expect(post).toMatchSnapshot()
     })
 
     it('returns posts ordered by signature count', async () => {
-      const post = await service.listPosts({ sort: SortType.Top })
+      const post = await service.listPosts({ sort: SortType.MostSignatures })
+
+      expect(post).toMatchSnapshot()
+    })
+
+    it('returns posts ordered by signature count (least)', async () => {
+      const post = await service.listPosts({ sort: SortType.LeastSignatures })
 
       expect(post).toMatchSnapshot()
     })
