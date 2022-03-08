@@ -117,6 +117,11 @@ const SignForm = ({
     logout()
   }
 
+  const onSubscriptionModalCloseAndLogout = () => {
+    onSubscriptionModalClose()
+    logout()
+  }
+
   // Init Signed Modal
   const {
     onOpen: onSignedModalOpen,
@@ -160,11 +165,12 @@ const SignForm = ({
 
       <SubscriptionModal
         isOpen={isSubscriptionModalOpen}
-        onClose={onSubscriptionModalClose}
+        onClose={onSubscriptionModalCloseAndLogout}
         onConfirm={onSubscriptionConfirm}
       />
       <SignatureModal
         isOpen={isSignatureModalOpen}
+        onNext={onSignatureModalClose}
         onClose={onSignatureModalCloseAndLogout}
         onConfirm={onSignatureConfirm}
         postTitle={post?.title ?? ''}

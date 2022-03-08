@@ -36,14 +36,19 @@ export const SubscriptionModal = ({
   onConfirm,
 }: SubscriptionModalProps): JSX.Element => {
   const { register, handleSubmit, reset } = useForm<FormValues>()
+  const closeModalAndRefreshPage = () => {
+    onClose()
+    refreshPage()
+  }
   const onSubmit: SubmitHandler<FormValues> = async ({ email }) => {
     if (email) {
       await onConfirm({ email: email })
       reset()
-      setTimeout(() => refreshPage(), 3000)
+      setTimeout(() => {
+        closeModalAndRefreshPage()
+      }, 3000)
     } else {
-      onClose()
-      refreshPage()
+      closeModalAndRefreshPage()
     }
   }
   const [copied, setCopied] = useState(false)
