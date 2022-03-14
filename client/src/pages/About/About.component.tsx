@@ -17,12 +17,7 @@ const About = (): JSX.Element => {
         <Box sx={styles.sectionBox}>
           <Text sx={styles.text}>
             PetitionsSG is a collaborative initiative by{' '}
-            <b>Open Government Products</b> and{' '}
-            <b>
-              Reach Singapore under the Ministry of Communications and
-              Information
-            </b>
-            .
+            <b>Open Government Products, Govtech</b>.
           </Text>
           <Text sx={styles.text}>
             The aim is to give you – the residents of Singapore – a platform to
@@ -33,7 +28,7 @@ const About = (): JSX.Element => {
           </Text>
           <Text sx={styles.text}>
             Petitions with 10,000 or more signatures will be brought to the
-            relevant ministry by REACH Singapore for a government response.
+            relevant ministry for a government response.
           </Text>
         </Box>
         <Box sx={styles.sectionBox}>
@@ -77,15 +72,13 @@ const About = (): JSX.Element => {
             What happens when a petition reaches 10,000 signatures?
           </Text>
           <Text sx={styles.text}>
-            Petitions will be brought to the relevant ministry by REACH
-            Singapore within 30 days of it gathering 10,000 signatures. Once
-            submitted, the relevant ministry will have 90 days to respond to the
-            petition.
+            Petitions will be brought to the relevant ministry within 30 days of
+            it gathering 10,000 signatures. Once submitted, the relevant
+            ministry will have 90 days to respond to the petition.
           </Text>
           <Text sx={styles.text}>
             The petitioner’s and endorsers’ names and email addresses will be
-            provided to the ministry and REACH Singapore for any follow-ups that
-            may be required.
+            provided to the ministry for any follow-ups that may be required.
           </Text>
         </Box>
         <Box sx={styles.sectionBox}>
