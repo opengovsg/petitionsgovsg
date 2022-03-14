@@ -1,9 +1,10 @@
-import { Text, SimpleGrid, GridItem } from '@chakra-ui/react'
-import { ReactComponent as StepOne } from '@/assets/how-step-1.svg'
-import { ReactComponent as StepTwo } from '@/assets/how-step-2.svg'
-import { ReactComponent as StepThree } from '@/assets/how-step-3.svg'
-import { ReactComponent as StepFour } from '@/assets/how-step-4.svg'
+import { GridItem, SimpleGrid, Text } from '@chakra-ui/react'
+
 import { ReactComponent as StepFive } from '@/assets/how-step-5.svg'
+import { ReactComponent as StepFour } from '@/assets/how-step-4.svg'
+import { ReactComponent as StepOne } from '@/assets/how-step-1.svg'
+import { ReactComponent as StepThree } from '@/assets/how-step-3.svg'
+import { ReactComponent as StepTwo } from '@/assets/how-step-2.svg'
 
 interface HowItWorksBannerProps {
   isMaxThreeInGrid?: boolean
@@ -73,8 +74,8 @@ const HowItWorksBanner = ({
           Ministry responds
         </Text>
         <Text textStyle="body1" color="secondary.500">
-          REACH Singapore will submit the petition to the relevant ministry, who
-          will then have 90 days to respond.
+          The petition will be submitted to the relevant ministry, who will then
+          have 90 days to respond.
         </Text>
       </GridItem>
     </SimpleGrid>
