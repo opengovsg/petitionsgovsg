@@ -1,5 +1,6 @@
 import { Box, HStack, Icon } from '@chakra-ui/react'
 import { BiInfoCircle } from 'react-icons/bi'
+import sanitizeHtml from 'sanitize-html'
 
 type bannerDataType =
   | {
@@ -26,9 +27,14 @@ export const EnvBanner = ({
       className="banner"
     >
       <HStack justifyContent="space-between" flexWrap="wrap">
-        <HStack alignItems="flex-start" mx="8" my="2">
+        <HStack alignItems="flex-start" mx="8" my="4">
           <Icon as={BiInfoCircle} />
-          <Box dangerouslySetInnerHTML={{ __html: data.bannerMessage }} />
+          <Box
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(data.bannerMessage),
+            }}
+          />
+          <Box></Box>
         </HStack>
       </HStack>
     </Box>
