@@ -12,7 +12,7 @@
     "lint": "eslint . --quiet --fix --ext '.ts'",
     "lint-ci": "eslint . --quiet --ext '.ts'",
     "lint-staged": "lint-staged",
-    "seq-cli": "sequelize --url \"mysql://$DB_USER:$DB_PASSWORD@$DB_HOST/$DB_NAME\""
+    "seq-cli": "sequelize --url \"postgres://$DB_USER:$DB_PASSWORD@$DB_HOST/$DB_NAME\""
   },
   "license": "MIT",
   "dependencies": {
@@ -56,6 +56,7 @@
     "passport": "^0.5.2",
     "passport-custom": "^1.1.1",
     "passport-local": "^1.0.0",
+    "pg": "^8.7.3",
     "sanitize-html": "^2.7.0",
     "sequelize": "^6.17.0",
     "triple-beam": "^1.3.0",
