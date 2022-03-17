@@ -41,6 +41,7 @@ module.exports = {
       type: {
         allowNull: false,
         type: Sequelize.STRING, // e.g. support, oppose
+        defaultValue: 'support',
       },
     })
   },

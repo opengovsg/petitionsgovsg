@@ -24,7 +24,7 @@ export const routeSubscriptions = ({
    * @access  Private
    */
   router.post(
-    '/:id([0-9]+$)',
+    '/:id',
     [
       authenticate,
       limiter,

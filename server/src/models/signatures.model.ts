@@ -23,6 +23,11 @@ export const defineSignature = (
       type: DataTypes.STRING,
       allowNull: false,
     },
+    type: {
+      allowNull: false,
+      defaultValue: 'support',
+      type: DataTypes.STRING, // e.g. support, oppose
+    },
   })
 
   // Define associations for Signature

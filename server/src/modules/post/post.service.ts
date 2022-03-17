@@ -44,7 +44,7 @@ export class PostService {
       WHERE
         signature."postId" = post.id
     )`),
-    'signature_count',
+    'signatureCount',
   ]
 
   private sortFunction = (sortType: SortType): OrderItem => {
@@ -231,7 +231,7 @@ export class PostService {
    * @param id Post to be deleted
    * @returns void if successful
    */
-  deletePost = async (id: number): Promise<void> => {
+  deletePost = async (id: string): Promise<void> => {
     try {
       await this.sequelize.transaction(async (transaction) => {
         const [dbUpdate] = await this.Post.update(

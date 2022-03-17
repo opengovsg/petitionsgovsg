@@ -5,7 +5,7 @@ Object {
   "createdAt": Any<Date>,
   "email": "test@email.com",
   "id": 1,
-  "postId": 1,
+  "postId": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
   "updatedAt": Any<Date>,
 }
 `;

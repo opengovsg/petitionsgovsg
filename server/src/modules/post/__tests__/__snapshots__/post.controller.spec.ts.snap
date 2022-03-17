@@ -10,7 +10,7 @@ Object {
 
 exports[`PostController createPost returns OK on valid submission 1`] = `
 Object {
-  "data": 3,
+  "data": "395ac6ec-dea2-4f78-8dc4-1234cafaff87",
 }
 `;
 
@@ -27,7 +27,7 @@ Object {
   "email": "John@email.com",
   "fullname": "John Doe",
   "hashedUserSgid": "wxyz",
-  "id": 3,
+  "id": "395ac6ec-dea2-4f78-8dc4-1234cafaff87",
   "profile": null,
   "reason": "reason for",
   "references": null,
@@ -62,7 +62,7 @@ Array [
     "email": "John@email.com",
     "fullname": "John Doe",
     "hashedUserSgid": "$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW",
-    "id": 1,
+    "id": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
     "profile": null,
     "reason": "reason for",
     "references": null,
@@ -79,7 +79,7 @@ Array [
     "email": "John@email.com",
     "fullname": "John Doe",
     "hashedUserSgid": "wxyz",
-    "id": 2,
+    "id": "aaaaaaaa-dea2-4f78-8dc4-5542cafaff87",
     "profile": "OGP",
     "reason": "reason",
     "references": "wikipedia.com",

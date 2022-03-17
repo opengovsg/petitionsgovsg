@@ -32,7 +32,7 @@ export const routePosts = ({
    */
   router.get(
     '/:id',
-    [limiter, param('id').isInt().toInt()],
+    [limiter, param('id').isString()],
     controller.getSinglePost,
   )
 
@@ -79,7 +79,7 @@ export const routePosts = ({
    * @return 500 if database error
    */
   router.put(
-    '/:id([0-9]+$)',
+    '/:id',
     [
       authMiddleware.authenticate,
       limiter,
