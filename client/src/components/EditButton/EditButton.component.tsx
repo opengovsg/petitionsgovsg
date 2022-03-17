@@ -21,7 +21,7 @@ import { ConfirmDialog } from '../ConfirmDialog/ConfirmDialog.component'
 import { useStyledToast } from '../StyledToast/StyledToast'
 
 interface EditButtonProps {
-  postId: number
+  postId: string
   onDeleteLink?: string
 }
 

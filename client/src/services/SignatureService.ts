@@ -4,7 +4,7 @@ import { ApiClient } from '@/api'
 import { CreateSignatureReqDto } from '~shared/types/api'
 
 export const getUserSignatureForPost = async (
-  postId: number,
+  postId: string | undefined,
 ): Promise<undefined> =>
   ApiClient.get<undefined>(`/posts/signatures/check/${postId}`).then(
     ({ data }) => data,
@@ -12,7 +12,7 @@ export const getUserSignatureForPost = async (
 export const GET_USER_SIGNATURE_FOR_POST_QUERY_KEY = 'getUserSignatureForPost'
 
 export const createSignature = async (
-  postId: number,
+  postId: string | undefined,
   data: CreateSignatureReqDto,
 ): Promise<undefined> =>
   ApiClient.post<undefined, AxiosResponse<undefined>>(

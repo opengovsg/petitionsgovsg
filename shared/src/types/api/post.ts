@@ -24,7 +24,7 @@ export type CreatePostReqDto = Pick<
   | 'email'
 >
 
-export type CreatePostResDto = { data: number }
+export type CreatePostResDto = { data: string }
 
 export type UpdatePostReqDto = CreatePostReqDto
 

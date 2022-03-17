@@ -42,17 +42,23 @@ export class PostService {
       SELECT COUNT(*)
       FROM signatures AS signature
       WHERE
-        signature.postId = post.id
+        signature."postId" = post.id
     )`),
-    'signatureCount',
+    'signature_count',
   ]
 
   private sortFunction = (sortType: SortType): OrderItem => {
     const sortDict = {
       [SortType.Newest]: ['createdAt', 'DESC'],
       [SortType.Oldest]: ['createdAt', 'ASC'],
-      [SortType.MostSignatures]: [Sequelize.literal('signatureCount'), 'DESC'],
-      [SortType.LeastSignatures]: [Sequelize.literal('signatureCount'), 'ASC'],
+      [SortType.MostSignatures]: [
+        Sequelize.literal('"signatureCount"'),
+        'DESC',
+      ],
+      [SortType.LeastSignatures]: [
+        Sequelize.literal('"signatureCount"'),
+        'ASC',
+      ],
     }
 
     return sortDict[sortType] as OrderItem
@@ -147,7 +153,7 @@ export class PostService {
    * @param postId Id of the post
    */
   getSinglePost = async (
-    postId: number,
+    postId: string,
   ): Promise<PostWithAddresseeAndSignatures> => {
     const post = (await this.Post.findOne({
       where: {
@@ -204,7 +210,7 @@ export class PostService {
     profile: string | null
     email: string
     salt: string
-  }): Promise<number> => {
+  }): Promise<string> => {
     // Check if addresseeId is valid
     const addresseeExists = await this.Addressee.findByPk(newPost.addresseeId)
     if (!addresseeExists) {
@@ -256,7 +262,7 @@ export class PostService {
     addresseeId,
     profile,
     email,
-  }: UpdatePostReqDto & { id: number }): Promise<boolean> => {
+  }: UpdatePostReqDto & { id: string }): Promise<boolean> => {
     // Check if addresseeId is valid
     const addresseeExists = await this.Addressee.findByPk(addresseeId)
     if (!addresseeExists) {
@@ -290,7 +296,7 @@ export class PostService {
    * @param id Post to be published
    * @returns void if successful
    */
-  publishPost = async (id: number): Promise<void> => {
+  publishPost = async (id: string): Promise<void> => {
     await this.sequelize.transaction(async (transaction) => {
       const [dbUpdate] = await this.Post.update(
         { status: PostStatus.Open },

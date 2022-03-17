@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { BaseModel } from './common'
 
 export const Subscription = BaseModel.extend({
-  postId: z.number().nonnegative(),
+  postId: z.string(),
   email: z.string(),
 })
 

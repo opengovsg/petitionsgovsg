@@ -5,7 +5,7 @@ import { useStyledToast } from '../StyledToast/StyledToast'
 import { getApiErrorMessage } from '@/api'
 
 interface PublishButtonProps {
-  postId: string | undefined
+  postId: string
 }
 
 const PublishButton = ({ postId }: PublishButtonProps): JSX.Element => {
@@ -28,7 +28,7 @@ const PublishButton = ({ postId }: PublishButtonProps): JSX.Element => {
     },
   })
 
-  const onPublishConfirm = () => publishPostMutation.mutate(Number(postId))
+  const onPublishConfirm = () => publishPostMutation.mutate(postId)
 
   return (
     <>

@@ -8,7 +8,7 @@ export type DbConfig = {
   username: string
   password: string
   database: string
-  dialect: 'mysql'
+  dialect: 'postgres'
 }
 
 const dbSchema: Schema<DbConfig> = {
@@ -42,7 +42,7 @@ const dbSchema: Schema<DbConfig> = {
   dialect: {
     doc: 'Database dialect',
     format: String,
-    default: 'mysql',
+    default: 'postgres',
   },
 }
 

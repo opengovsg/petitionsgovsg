@@ -8,7 +8,9 @@ export const getUserName = async (): Promise<LoadUserNameDto> => {
 }
 export const GET_USER_NAME = 'getUserName'
 
-export const verifyPetitionOwner = async (postId: number): Promise<boolean> =>
+export const verifyPetitionOwner = async (
+  postId: string | undefined,
+): Promise<boolean> =>
   ApiClient.get<boolean>(`/auth/checkpetitionowner/${postId}`).then(
     ({ data }) => data,
   )

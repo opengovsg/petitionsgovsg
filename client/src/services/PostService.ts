@@ -12,7 +12,7 @@ import { ApiClient } from '@/api'
 const POST_API_BASE = '/posts'
 
 export const getPostById = async (
-  id: number,
+  id: string | undefined,
 ): Promise<PostWithAddresseeAndSignatures> => {
   return ApiClient.get<PostWithAddresseeAndSignatures>(
     `${POST_API_BASE}/${id}`,
@@ -38,7 +38,7 @@ export const LIST_POSTS_QUERY_KEY = 'listPosts'
 export const LIST_POSTS_FOR_SEARCH_QUERY_KEY = 'listPostsForSearch'
 
 export const updatePost = async (
-  id: number,
+  id: string | undefined,
   update: UpdatePostReqDto,
 ): Promise<UpdatePostResDto> => {
   return ApiClient.put<UpdatePostReqDto, AxiosResponse<UpdatePostResDto>>(
@@ -56,10 +56,10 @@ export const createPost = async (
   ).then(({ data }) => data)
 }
 
-export const deletePost = async (postId: number): Promise<unknown> => {
+export const deletePost = async (postId: string): Promise<unknown> => {
   return ApiClient.delete(`${POST_API_BASE}/${postId}`).then(({ data }) => data)
 }
 
-export const publishPost = async (postId: number): Promise<unknown> => {
+export const publishPost = async (postId: string): Promise<unknown> => {
   return ApiClient.put(`${POST_API_BASE}/${postId}`).then(({ data }) => data)
 }

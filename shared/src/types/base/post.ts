@@ -8,6 +8,7 @@ export enum PostStatus {
 }
 
 export const Post = BaseModel.extend({
+  id: z.string(),
   title: z.string(),
   summary: z.string().nullable(),
   reason: z.string(),

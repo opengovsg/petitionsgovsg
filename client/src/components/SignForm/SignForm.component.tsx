@@ -36,7 +36,7 @@ const SignForm = ({
   const openSignatureModal = searchParams.has('sign')
   const { data: userSignature } = useQuery(
     [SignatureService.GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
-    () => SignatureService.getUserSignatureForPost(Number(postId)),
+    () => SignatureService.getUserSignatureForPost(postId),
     { enabled: !!postId && !!user },
   )
 
@@ -82,7 +82,7 @@ const SignForm = ({
     comment,
     useName,
   }: CreateSignatureReqDto): Promise<void> => {
-    await SignatureService.createSignature(Number(postId), {
+    await SignatureService.createSignature(postId, {
       comment: comment ?? null,
       useName: useName,
     })
@@ -103,7 +103,7 @@ const SignForm = ({
   const onSubscriptionConfirm: SubmitHandler<SubscriptionFormValues> = async ({
     email,
   }: SubscriptionFormValues): Promise<void> => {
-    await SubscriptionService.createSubscription(Number(postId), {
+    await SubscriptionService.createSubscription(postId, {
       email: email,
     })
     toast({

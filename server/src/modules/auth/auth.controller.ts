@@ -179,7 +179,7 @@ export class AuthController {
   > = async (req, res) => {
     try {
       const { id } = decodeUserJWT(req)
-      const post = await this.postService.getSinglePost(Number(req.params.id))
+      const post = await this.postService.getSinglePost(req.params.id)
       const hashedUserSgid = await hashData(id, post.salt)
       const petitionOwnerCheck = this.authService.verifyPetitionOwner(
         post,

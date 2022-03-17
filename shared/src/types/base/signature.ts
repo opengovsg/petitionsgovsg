@@ -4,7 +4,7 @@ import { BaseModel } from './common'
 export const Signature = BaseModel.extend({
   comment: z.string().nullable(),
   hashedUserSgid: z.string(),
-  postId: z.number().nonnegative(),
+  postId: z.string(),
   fullname: z.string().nullable(),
 })
 

@@ -1,7 +1,7 @@
 import { PostStatus } from '~shared/types/base'
 
 export const mockPost = {
-  id: 3,
+  id: '3',
   title: 'Basic petition without optional items',
   reason: 'reason for',
   request: 'request',
@@ -20,7 +20,7 @@ export const mockPost = {
 
 export const mockPosts = [
   {
-    id: 1,
+    id: '1',
     title: 'Basic petition without optional items',
     reason: 'reason for',
     request: 'request',
@@ -38,7 +38,7 @@ export const mockPosts = [
     updatedAt: '2022-01-01T00:00:00+00:00',
   },
   {
-    id: 2,
+    id: '2',
     title: 'Petition with summary, references, profile',
     reason: 'reason',
     request: 'request',

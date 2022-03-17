@@ -36,13 +36,13 @@ const EditPostForm = (): JSX.Element => {
   )
   const { isLoading: isPostLoading, data: post } = useQuery(
     [GET_POST_BY_ID_QUERY_KEY, postId],
-    () => getPostById(Number(postId)),
+    () => getPostById(postId),
     { enabled: !!postId },
   )
 
   const { isLoading: isPetitionOwnerLoading, data: petitionOwner } = useQuery(
     [VERIFY_PETITION_OWNER, postId],
-    () => verifyPetitionOwner(Number(postId)),
+    () => verifyPetitionOwner(postId),
     { enabled: !!postId && !!user },
   )
 
@@ -50,7 +50,7 @@ const EditPostForm = (): JSX.Element => {
     return <Navigate replace to="/" />
   } else {
     const updatePost = async (data: FormSubmission) => {
-      await PostService.updatePost(Number(postId), {
+      await PostService.updatePost(postId, {
         title: data.postData.title,
         summary: data.postData.summary,
         reason: data.postData.reason,

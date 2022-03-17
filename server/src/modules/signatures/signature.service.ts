@@ -26,7 +26,7 @@ export class SignatureService {
    * @param postId id of the post
    * @returns an array of signatures
    */
-  listSignatures = async (postId: number): Promise<Signature[]> => {
+  listSignatures = async (postId: string): Promise<Signature[]> => {
     const signatures = await this.Signature.findAll({
       where: { postId },
     })
@@ -72,7 +72,7 @@ export class SignatureService {
    * @param hashedUserSgid of user against petition's salt
    */
   checkUserHasSigned = async (
-    postId: number,
+    postId: string,
     hashedUserSgid: string,
   ): Promise<Signature | null> => {
     // Hash user id / sgid with salt
