@@ -14,6 +14,7 @@ export const mockPost = {
   summary: null,
   references: null,
   profile: null,
+  signatureOptions: ['support', 'oppose'],
   createdAt: '2022-01-01T00:00:00+00:00',
   updatedAt: '2022-01-01T00:00:00+00:00',
 }
@@ -34,6 +35,7 @@ export const mockPosts = [
     summary: null,
     references: null,
     profile: null,
+    signatureOptions: ['support', 'oppose'],
     createdAt: '2022-01-01T00:00:00+00:00',
     updatedAt: '2022-01-01T00:00:00+00:00',
   },
@@ -51,6 +53,7 @@ export const mockPosts = [
     summary: 'petition summary',
     references: 'wikipedia.com',
     profile: 'OGP',
+    signatureOptions: ['support', 'oppose'],
     createdAt: '2022-01-01T00:00:00+00:00',
     updatedAt: '2022-01-01T00:00:00+00:00',
   },

@@ -6,6 +6,7 @@ export const Signature = BaseModel.extend({
   hashedUserSgid: z.string(),
   postId: z.string(),
   fullname: z.string().nullable(),
+  type: z.string(),
 })
 
 export type Signature = z.infer<typeof Signature>

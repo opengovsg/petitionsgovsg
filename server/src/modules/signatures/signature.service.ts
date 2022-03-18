@@ -45,9 +45,10 @@ export class SignatureService {
     comment,
     hashedUserSgid,
     fullname,
+    type,
   }: Pick<
     Signature,
-    'comment' | 'postId' | 'hashedUserSgid' | 'fullname'
+    'comment' | 'postId' | 'hashedUserSgid' | 'fullname' | 'type'
   >): Promise<number> => {
     const signatureId = await this.sequelize.transaction(
       async (transaction) => {
@@ -57,6 +58,7 @@ export class SignatureService {
             comment: comment,
             hashedUserSgid: hashedUserSgid,
             fullname: fullname,
+            type: type,
           },
           { transaction },
         )

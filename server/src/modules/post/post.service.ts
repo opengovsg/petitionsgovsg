@@ -218,7 +218,11 @@ export class PostService {
     }
     const postId = await this.sequelize.transaction(async (transaction) => {
       const post = await this.Post.create(
-        { ...newPost, status: PostStatus.Draft },
+        {
+          ...newPost,
+          status: PostStatus.Draft,
+          signatureOptions: ['support', 'oppose'],
+        },
         { transaction },
       )
       return post.id

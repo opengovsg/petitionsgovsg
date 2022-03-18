@@ -33,6 +33,10 @@ Object {
   "references": null,
   "request": "request",
   "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+  "signatureOptions": Array [
+    "support",
+    "oppose",
+  ],
   "status": "OPEN",
   "summary": null,
   "title": "Basic petition without optional items",
@@ -68,6 +72,10 @@ Array [
     "references": null,
     "request": "request",
     "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tW.",
+    "signatureOptions": Array [
+      "support",
+      "oppose",
+    ],
     "status": "OPEN",
     "summary": null,
     "title": "Basic petition without optional items",
@@ -85,6 +93,10 @@ Array [
     "references": "wikipedia.com",
     "request": "request",
     "salt": "$2b$10$72TKINiR4.ZMaJZmuN5tX.",
+    "signatureOptions": Array [
+      "support",
+      "oppose",
+    ],
     "status": "OPEN",
     "summary": "petition summary",
     "title": "Petition with summary, references, profile",

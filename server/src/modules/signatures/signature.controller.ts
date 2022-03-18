@@ -108,6 +108,7 @@ export class SignatureController {
         hashedUserSgid,
         postId: req.params.id,
         fullname: name,
+        type: req.body.type ?? 'support',
       })
       // Publish post publicly when signature count hits threshold
       if (post.signatures.length >= MIN_ENDORSER_COUNT) {

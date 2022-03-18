@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BaseModel } from './common'
+import { HasSequelizeTimestamps } from './common'
 
 export enum PostStatus {
   Open = 'OPEN',
@@ -7,7 +7,7 @@ export enum PostStatus {
   Draft = 'DRAFT',
 }
 
-export const Post = BaseModel.extend({
+export const Post = HasSequelizeTimestamps.extend({
   id: z.string(),
   title: z.string(),
   summary: z.string().nullable(),
@@ -21,6 +21,8 @@ export const Post = BaseModel.extend({
   addresseeId: z.number(),
   profile: z.string().nullable(),
   email: z.string(),
+  signatureOptions: z.array(z.string()),
+  auditTrail: z.any(),
 })
 
 export type Post = z.infer<typeof Post>
