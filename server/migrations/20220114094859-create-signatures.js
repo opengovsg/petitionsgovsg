@@ -10,7 +10,7 @@ module.exports = {
       },
       comment: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       hashedUserSgid: {
         allowNull: false,

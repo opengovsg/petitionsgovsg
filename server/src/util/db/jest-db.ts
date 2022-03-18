@@ -15,6 +15,7 @@ import {
   Post as PostModel,
   Subscription as SubscriptionModel,
 } from '~shared/types/base'
+import { dbConfig } from '@/bootstrap/config/database'
 
 export enum ModelName {
   Signature = 'signature',
@@ -36,7 +37,7 @@ export type SequelizeWithModels = {
  * Connect to a in-memory database
  */
 export const createTestDatabase = async (): Promise<SequelizeWithModels> => {
-  const sequelize = new Sequelize('sqlite::memory:', { logging: false })
+  const sequelize = new Sequelize({ ...dbConfig, logging: false })
 
   const { Addressee } = defineAddressee(sequelize)
   const { Post } = definePost(sequelize, { Addressee })
@@ -85,6 +86,10 @@ const populateTestDb = async (
   await db.Addressee.bulkCreate(mockAddressees)
   await db.Post.bulkCreate(mockPosts)
   await db.Signature.bulkCreate(mockSignatures)
+  // Id auto-increment issue: https://stackoverflow.com/a/44708862/16093716
+  await db.sequelize.query(
+    `SELECT setval('signatures_id_seq', max(id)) FROM signatures;`,
+  )
   return db
 }
 

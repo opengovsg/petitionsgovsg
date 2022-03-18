@@ -76,7 +76,7 @@ module.exports = {
       },
       signatureOptions: {
         allowNull: false,
-        type: Sequelize.JSONB,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: ['support', 'oppose'],
       },
       auditTrail: {

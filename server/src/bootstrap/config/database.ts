@@ -9,6 +9,7 @@ export type DbConfig = {
   password: string
   database: string
   dialect: 'postgres'
+  port: number
 }
 
 const dbSchema: Schema<DbConfig> = {
@@ -43,6 +44,12 @@ const dbSchema: Schema<DbConfig> = {
     doc: 'Database dialect',
     format: String,
     default: 'postgres',
+  },
+  port: {
+    doc: 'Database port',
+    format: Number,
+    default: 5432,
+    env: 'DB_PORT',
   },
 }
 

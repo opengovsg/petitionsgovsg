@@ -66,7 +66,7 @@ export const definePost = (
     },
     signatureOptions: {
       allowNull: false,
-      type: DataTypes.JSONB,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: ['support', 'oppose'],
     },
     auditTrail: {

@@ -39,7 +39,7 @@ export class PostService {
 
   private signatureCountLiteral: ProjectionAlias = [
     Sequelize.literal(`(
-      SELECT COUNT(*)
+      SELECT COUNT(*)::int
       FROM signatures AS signature
       WHERE
         signature."postId" = post.id

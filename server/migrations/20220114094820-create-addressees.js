@@ -31,7 +31,7 @@ module.exports = {
       },
       officerEmails: {
         allowNull: true,
-        type: Sequelize.JSONB,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         defaultValue: [],
       },
     })

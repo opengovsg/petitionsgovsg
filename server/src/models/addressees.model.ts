@@ -24,7 +24,7 @@ export const defineAddressee = (
     },
     officerEmails: {
       allowNull: true,
-      type: DataTypes.JSONB,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       defaultValue: [],
     },
   })
