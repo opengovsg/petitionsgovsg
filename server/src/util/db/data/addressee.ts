@@ -10,6 +10,8 @@ export const mockAddressees = [
     shortName: 'MoE',
     createdAt: '2022-01-01T00:00:00+00:00',
     updatedAt: '2022-01-01T00:00:00+00:00',
+    openToPublic: false,
+    officerEmails: [],
   },
   {
     id: 2,
@@ -17,5 +19,7 @@ export const mockAddressees = [
     shortName: 'MoL',
     createdAt: '2022-01-01T00:00:00+00:00',
     updatedAt: '2022-01-01T00:00:00+00:00',
+    openToPublic: false,
+    officerEmails: [],
   },
 ]

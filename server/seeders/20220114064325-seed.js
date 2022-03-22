@@ -131,7 +131,6 @@ module.exports = {
       'posts',
       [
         {
-          id: 1,
           title:
             'Petition to Reverse the Decision to Close Down Yale-NUS and #NoMoreTopDown',
           summary:
@@ -152,7 +151,6 @@ module.exports = {
           email: 'tanahwee@petitions.gov.sg',
         },
         {
-          id: 2,
           title: 'Petition for 4 day work week',
           summary:
             'I would like three days of rest. Work life balance is important.',
@@ -169,32 +167,6 @@ module.exports = {
           salt: '$2b$10$6fmiowNimP6XWg4siTzYVO',
           addresseeId: 1,
           profile: 'OGP',
-          email: 'tanahwee@petitions.gov.sg',
-        },
-      ],
-      {},
-    )
-    await queryInterface.bulkInsert(
-      'signatures',
-      [
-        {
-          postId: 2,
-          hashedUserSgid: '1',
-          comment: 'I support this petition!',
-          fullname: null,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      ],
-      {},
-    )
-    await queryInterface.bulkInsert(
-      'subscriptions',
-      [
-        {
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          postId: 2,
           email: 'tanahwee@petitions.gov.sg',
         },
       ],

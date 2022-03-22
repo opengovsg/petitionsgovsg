@@ -50,7 +50,7 @@ export class SubscriptionController {
       // Save Subscription in the database
       const subscriptionId = await this.subscriptionService.createSubscription({
         email: req.body.email,
-        postId: Number(req.params.id),
+        postId: req.params.id,
       })
       return res.status(StatusCodes.OK).json(subscriptionId)
     } catch (error) {

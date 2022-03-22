@@ -7,7 +7,8 @@ Object {
   "fullname": null,
   "hashedUserSgid": "hashedUserSgid",
   "id": 4,
-  "postId": 1,
+  "postId": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
+  "type": "support",
   "updatedAt": Any<Date>,
 }
 `;
@@ -21,7 +22,8 @@ Object {
   "fullname": null,
   "hashedUserSgid": "$2b$10$72TKINiR4.ZMaJZmuN5tW.uCuGZcA0TzLUo4qly55GyDndAYG8BSW",
   "id": 4,
-  "postId": 1,
+  "postId": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
+  "type": "support",
   "updatedAt": Any<Date>,
 }
 `;
@@ -34,7 +36,8 @@ Array [
     "fullname": null,
     "hashedUserSgid": "1234",
     "id": 1,
-    "postId": 1,
+    "postId": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
+    "type": "support",
     "updatedAt": 2022-01-01T00:00:00.000Z,
   },
   Object {
@@ -43,7 +46,8 @@ Array [
     "fullname": "John Doe",
     "hashedUserSgid": "5678",
     "id": 2,
-    "postId": 1,
+    "postId": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
+    "type": "support",
     "updatedAt": 2022-01-01T00:00:00.000Z,
   },
   Object {
@@ -52,7 +56,8 @@ Array [
     "fullname": null,
     "hashedUserSgid": "8765",
     "id": 3,
-    "postId": 1,
+    "postId": "af7b6aa9-7c6e-4ea5-b536-4e55bc506847",
+    "type": "support",
     "updatedAt": 2022-01-01T00:00:00.000Z,
   },
 ]

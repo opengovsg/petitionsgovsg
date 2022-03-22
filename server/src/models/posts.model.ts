@@ -10,6 +10,12 @@ export const definePost = (
   { Addressee }: { Addressee: ModelDef<Addressee> },
 ): { Post: ModelDef<Post> } => {
   const Post: ModelDef<Post> = sequelize.define('post', {
+    id: {
+      primaryKey: true,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+    },
     title: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -57,6 +63,16 @@ export const definePost = (
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    signatureOptions: {
+      allowNull: false,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: ['support', 'oppose'],
+    },
+    auditTrail: {
+      allowNull: false,
+      type: DataTypes.JSONB,
+      defaultValue: {},
     },
   })
 

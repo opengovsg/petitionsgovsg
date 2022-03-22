@@ -103,7 +103,9 @@ describe('/posts', () => {
       const post = await db.Post.findByPk(postId)
       expect(response.status).toEqual(StatusCodes.OK)
       expect(post).toMatchObject(postAttributes)
-      expect(response.body).toMatchSnapshot()
+      expect(response.body).toMatchSnapshot({
+        data: expect.any(String),
+      })
     })
 
     it('returns UNAUTHORIZED on no user', async () => {

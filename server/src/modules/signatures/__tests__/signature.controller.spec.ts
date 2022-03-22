@@ -180,6 +180,7 @@ describe('SignatureController', () => {
         hashedUserSgid: mockSignature.hashedUserSgid,
         postId: mockSignature.postId,
         fullname: authUser?.fullname,
+        type: mockSignature.type,
       }
 
       const response = await request
@@ -205,6 +206,7 @@ describe('SignatureController', () => {
         hashedUserSgid: mockSignature.hashedUserSgid,
         postId: mockSignature.postId,
         fullname: null,
+        type: mockSignature.type,
       }
 
       const response = await request
@@ -230,6 +232,7 @@ describe('SignatureController', () => {
         hashedUserSgid: mockSignature.hashedUserSgid,
         postId: mockSignature.postId,
         fullname: authUser?.fullname,
+        type: mockSignature.type,
       }
 
       const response = await request
@@ -258,6 +261,7 @@ describe('SignatureController', () => {
         hashedUserSgid: mockSignature.hashedUserSgid,
         postId: mockSignature.postId,
         fullname: authUser?.fullname,
+        type: mockSignature.type,
       }
 
       const response = await request

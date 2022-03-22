@@ -2,11 +2,14 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`,
+    )
     await queryInterface.createTable('posts', {
       id: {
-        autoIncrement: true,
+        type: Sequelize.UUID,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        defaultValue: Sequelize.literal('uuid_generate_v4()'),
       },
       title: {
         type: Sequelize.STRING,
@@ -70,6 +73,16 @@ module.exports = {
       email: {
         allowNull: false,
         type: Sequelize.STRING,
+      },
+      signatureOptions: {
+        allowNull: false,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: ['support', 'oppose'],
+      },
+      auditTrail: {
+        allowNull: false,
+        type: Sequelize.JSONB,
+        defaultValue: {},
       },
     })
   },

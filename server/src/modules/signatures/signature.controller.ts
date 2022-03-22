@@ -37,7 +37,7 @@ export class SignatureController {
     async (req, res) => {
       try {
         const signatures = await this.signatureService.listSignatures(
-          Number(req.params.id),
+          req.params.id,
         )
         return res.status(StatusCodes.OK).json(signatures)
       } catch (error) {
@@ -84,10 +84,10 @@ export class SignatureController {
         .json({ message: 'User not signed in' })
     }
 
-    const post = await this.postService.getSinglePost(Number(req.params.id))
+    const post = await this.postService.getSinglePost(req.params.id)
     const hashedUserSgid = await hashData(req.user.id, post.salt)
     const signed = await this.signatureService.checkUserHasSigned(
-      Number(req.params.id),
+      req.params.id,
       hashedUserSgid,
     )
     if (signed) {
@@ -106,12 +106,13 @@ export class SignatureController {
       const signatureId = await this.signatureService.createSignature({
         comment: req.body.comment,
         hashedUserSgid,
-        postId: Number(req.params.id),
+        postId: req.params.id,
         fullname: name,
+        type: req.body.type ?? 'support',
       })
       // Publish post publicly when signature count hits threshold
       if (post.signatures.length >= MIN_ENDORSER_COUNT) {
-        await this.postService.publishPost(Number(req.params.id))
+        await this.postService.publishPost(req.params.id)
       }
 
       return res.status(StatusCodes.OK).json(signatureId)
@@ -142,10 +143,10 @@ export class SignatureController {
           .json({ message: 'User not signed in' })
       }
 
-      const post = await this.postService.getSinglePost(Number(req.params.id))
+      const post = await this.postService.getSinglePost(req.params.id)
       const hashedUserSgid = await hashData(req.user.id, post.salt)
       const hasUserSigned = await this.signatureService.checkUserHasSigned(
-        Number(req.params.id),
+        req.params.id,
         hashedUserSgid,
       )
       return res.status(StatusCodes.OK).json(hasUserSigned)

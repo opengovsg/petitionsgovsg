@@ -95,7 +95,7 @@ export class PostController {
     }
     let post
     try {
-      post = await this.postService.getSinglePost(Number(req.params.id))
+      post = await this.postService.getSinglePost(req.params.id)
     } catch (error) {
       logger.error({
         message: 'Error while retrieving single post',
@@ -208,7 +208,7 @@ export class PostController {
     UpdatePostReqDto,
     undefined
   > = async (req, res) => {
-    const postId = Number(req.params.id)
+    const postId = req.params.id
     try {
       const errors = validationResult(req)
       if (!errors.isEmpty()) {
@@ -220,7 +220,7 @@ export class PostController {
           .json({ message: 'You must be logged in to update posts.' })
       }
       // Check that user is owner of petition
-      const post = await this.postService.getSinglePost(Number(req.params.id))
+      const post = await this.postService.getSinglePost(req.params.id)
       const hashedUserSgid = await hashData(req.user.id, post.salt)
       const hasPermission = this.authService.verifyPetitionOwner(
         post,
@@ -288,7 +288,7 @@ export class PostController {
         .status(StatusCodes.UNAUTHORIZED)
         .json({ message: 'You must be logged in to publish posts.' })
     }
-    const postId = Number(req.params.id)
+    const postId = req.params.id
     try {
       // Check that user is owner of petition
       const post = await this.postService.getSinglePost(postId)

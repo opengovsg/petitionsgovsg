@@ -24,6 +24,16 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
+      openToPublic: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+      officerEmails: {
+        allowNull: true,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        defaultValue: [],
+      },
     })
   },
 

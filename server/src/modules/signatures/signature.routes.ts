@@ -21,7 +21,7 @@ export const routeSignatures = ({
    * @returns 500 if database error occurs
    * @access  Public
    */
-  router.get('/:id([0-9]+$)', controller.listSignatures)
+  router.get('/:id', controller.listSignatures)
 
   /**
    * Create an signature attached to a post
@@ -33,7 +33,7 @@ export const routeSignatures = ({
    * @access  Private
    */
   router.post(
-    '/:id([0-9]+$)',
+    '/:id',
     [
       authenticate,
       limiter,
@@ -50,11 +50,6 @@ export const routeSignatures = ({
    * @returns 500 if database error
    * @access  Private
    */
-  router.get(
-    '/check/:id([0-9]+$)',
-    authenticate,
-    limiter,
-    controller.checkUserHasSigned,
-  )
+  router.get('/check/:id', authenticate, limiter, controller.checkUserHasSigned)
   return router
 }

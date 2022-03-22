@@ -6,7 +6,7 @@ import {
 import { PostService } from '../post.service'
 import { SortType } from '~shared/types/base'
 import { mockPost } from '@/util/db/data/post'
-import { POST_ID } from '@/util/db/constants'
+import { INVALID_POST_ID, POST_ID } from '@/util/db/constants'
 import { Post, PostStatus } from '~shared/types/base'
 import {
   MissingPublicPostError,
@@ -118,6 +118,7 @@ describe('PostService', () => {
       const post = await db.Post.findByPk(postId)
       expect(post).toBeDefined()
       expect(post?.get()).toMatchSnapshot({
+        id: expect.any(String),
         createdAt: expect.any(Date),
         updatedAt: expect.any(Date),
       })
@@ -208,7 +209,7 @@ describe('PostService', () => {
     })
 
     it('throws an error on invalid id', async () => {
-      const archiveError = service.deletePost(-1)
+      const archiveError = service.deletePost(INVALID_POST_ID)
 
       await expect(archiveError).rejects.toStrictEqual(new PostUpdateError())
       await expect(archiveError).rejects.toThrowErrorMatchingSnapshot()
@@ -236,7 +237,7 @@ describe('PostService', () => {
     })
 
     it('throws an error on invalid id', async () => {
-      const publishError = service.publishPost(-1)
+      const publishError = service.publishPost(INVALID_POST_ID)
 
       await expect(publishError).rejects.toStrictEqual(new PostUpdateError())
       await expect(publishError).rejects.toThrowErrorMatchingSnapshot()

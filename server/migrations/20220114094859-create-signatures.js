@@ -10,7 +10,7 @@ module.exports = {
       },
       comment: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       hashedUserSgid: {
         allowNull: false,
@@ -18,7 +18,7 @@ module.exports = {
       },
       postId: {
         allowNull: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'posts', // name of Target model
           key: 'id', // key in Target model that we're referencing
@@ -37,6 +37,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+      },
+      type: {
+        allowNull: false,
+        type: Sequelize.STRING, // e.g. support, oppose
+        defaultValue: 'support',
       },
     })
   },

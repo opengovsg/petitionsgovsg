@@ -10,7 +10,7 @@
 #### Back-end
 
 - For handling server requests: `Node.js with Express.js Framework`
-- Database: `MySQL`
+- Database: `POSTGRES`
 
 ## Prerequisites
 
@@ -62,11 +62,11 @@ Optionally [DBeaver](https://dbeaver.io/download/) to view database with GUI
   npm run seq-cli db:seed:all
   ```
 
-- Optional: Use Dbeaver to connect to the local MySQL server at `127.0.0.1:3306`, using the username and password in `.env`
+- Optional: Use Dbeaver to connect to the local MySQL server at `127.0.0.1:5432`, using the username and password in `.env`
 
 - Check that your Database ER Diagram looks like this:
 
-![image](https://user-images.githubusercontent.com/56983748/150075819-ba15f7be-28ba-4df9-8119-a8e8182a3e7f.png)
+![image](https://user-images.githubusercontent.com/41635847/158958722-962831f2-cc7d-439c-a0c9-2086646d9b43.png)
 
 - Stop docker compose (`npm run dev` will spin it up again):
 

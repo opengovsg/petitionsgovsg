@@ -46,7 +46,7 @@ const Post = (): JSX.Element => {
   const { id: postId } = useParams()
   const { isLoading: isPostLoading, data: post } = useQuery(
     [GET_POST_BY_ID_QUERY_KEY, postId],
-    () => getPostById(Number(postId)),
+    () => getPostById(postId),
     { enabled: !!postId },
   )
 
@@ -60,13 +60,13 @@ const Post = (): JSX.Element => {
 
   const { isLoading: isPetitionOwnerLoading, data: isPetitionOwner } = useQuery(
     [VERIFY_PETITION_OWNER, postId],
-    () => verifyPetitionOwner(Number(postId)),
+    () => verifyPetitionOwner(postId),
     { enabled: !!postId && !!user },
   )
 
   const { isLoading: isSignatureLoading, data: userSignature } = useQuery(
     [GET_USER_SIGNATURE_FOR_POST_QUERY_KEY, postId],
-    () => getUserSignatureForPost(Number(postId)),
+    () => getUserSignatureForPost(postId),
     { enabled: !!postId && !!user },
   )
 

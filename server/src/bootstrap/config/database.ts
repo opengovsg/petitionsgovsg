@@ -8,7 +8,8 @@ export type DbConfig = {
   username: string
   password: string
   database: string
-  dialect: 'mysql'
+  dialect: 'postgres'
+  port: number
 }
 
 const dbSchema: Schema<DbConfig> = {
@@ -42,7 +43,13 @@ const dbSchema: Schema<DbConfig> = {
   dialect: {
     doc: 'Database dialect',
     format: String,
-    default: 'mysql',
+    default: 'postgres',
+  },
+  port: {
+    doc: 'Database port',
+    format: Number,
+    default: 5432,
+    env: 'DB_PORT',
   },
 }
 

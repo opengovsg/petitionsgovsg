@@ -69,7 +69,7 @@ export const routeAuth = ({
    * @returns 500 on service error
    */
   router.get(
-    '/checkpetitionowner/:id([0-9]+$)',
+    '/checkpetitionowner/:id',
     [authMiddleware.authenticate, limiter],
     controller.verifyPetitionOwner,
   )

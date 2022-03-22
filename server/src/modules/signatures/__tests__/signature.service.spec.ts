@@ -53,6 +53,7 @@ describe('SignatureService', () => {
         hashedUserSgid: 'hashedUserSgid',
         comment: null,
         fullname: null,
+        type: 'support',
       }
       await service.createSignature(attributes)
 

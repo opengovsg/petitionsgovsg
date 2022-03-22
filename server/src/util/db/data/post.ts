@@ -1,7 +1,7 @@
 import { PostStatus } from '~shared/types/base'
 
 export const mockPost = {
-  id: 3,
+  id: '395ac6ec-dea2-4f78-8dc4-1234cafaff87',
   title: 'Basic petition without optional items',
   reason: 'reason for',
   request: 'request',
@@ -14,13 +14,14 @@ export const mockPost = {
   summary: null,
   references: null,
   profile: null,
+  signatureOptions: ['support', 'oppose'],
   createdAt: '2022-01-01T00:00:00+00:00',
   updatedAt: '2022-01-01T00:00:00+00:00',
 }
 
 export const mockPosts = [
   {
-    id: 1,
+    id: 'af7b6aa9-7c6e-4ea5-b536-4e55bc506847',
     title: 'Basic petition without optional items',
     reason: 'reason for',
     request: 'request',
@@ -34,11 +35,12 @@ export const mockPosts = [
     summary: null,
     references: null,
     profile: null,
+    signatureOptions: ['support', 'oppose'],
     createdAt: '2022-01-01T00:00:00+00:00',
     updatedAt: '2022-01-01T00:00:00+00:00',
   },
   {
-    id: 2,
+    id: 'aaaaaaaa-dea2-4f78-8dc4-5542cafaff87',
     title: 'Petition with summary, references, profile',
     reason: 'reason',
     request: 'request',
@@ -51,6 +53,7 @@ export const mockPosts = [
     summary: 'petition summary',
     references: 'wikipedia.com',
     profile: 'OGP',
+    signatureOptions: ['support', 'oppose'],
     createdAt: '2022-01-01T00:00:00+00:00',
     updatedAt: '2022-01-01T00:00:00+00:00',
   },

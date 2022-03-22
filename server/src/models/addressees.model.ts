@@ -17,6 +17,16 @@ export const defineAddressee = (
       type: DataTypes.STRING,
       allowNull: true,
     },
+    openToPublic: {
+      allowNull: false,
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
+    officerEmails: {
+      allowNull: true,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
   })
 
   return { Addressee }
