@@ -9,7 +9,7 @@
     "@emotion/styled": "^11.8.1",
     "@fullstory/browser": "^1.5.1",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^12.1.4",
+    "@testing-library/react": "^12.1.5",
     "@testing-library/user-event": "^14.1.0",
     "axios": "^0.26.1",
     "date-fns": "^2.28.0",
