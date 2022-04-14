@@ -50,7 +50,7 @@
     "nanoid": "^3.3.2",
     "neverthrow": "^4.3.1",
     "nodemailer": "^6.7.3",
-    "openid-client": "^5.1.4",
+    "openid-client": "^5.1.5",
     "passport": "^0.5.2",
     "passport-custom": "^1.1.1",
     "passport-local": "^1.0.0",
