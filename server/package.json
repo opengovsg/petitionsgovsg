@@ -68,7 +68,7 @@
     "@types/connect-datadog": "0.0.6",
     "@types/convict": "^6.1.1",
     "@types/convict-format-with-validator": "^6.0.2",
-    "@types/cookie-parser": "^1.4.2",
+    "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.10",
     "@types/csurf": "^1.11.2",
     "@types/datadog-winston": "^1.0.5",
