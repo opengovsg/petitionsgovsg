@@ -3,7 +3,10 @@ import { BiRightArrowAlt } from 'react-icons/bi'
 import { SGID_REDIRECT_URI } from '@/api/Sgid'
 
 const onClick = async (redirect: string) => {
-  window.location.href = `${SGID_REDIRECT_URI}?redirect=${redirect}&useName=true`
+  // Don't redirect user until more confident of going forward
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const target = `${SGID_REDIRECT_URI}?redirect=${redirect}&useName=true`
+  // window.location.href = target
 }
 
 const SgidButtonWithArrow = ({
